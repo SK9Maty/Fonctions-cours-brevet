@@ -1,0 +1,2527 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Fonctions — Brevet Complet</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0f;
+    --surface: #16161a;
+    --surface2: #1e1e24;
+    --surface3: #242430;
+    --border: #2a2a35;
+    --accent: #f0c040;
+    --accent2: #5b8fff;
+    --accent3: #ff6b6b;
+    --accent4: #4ecdc4;
+    --accent5: #b57bee;
+    --text: #e8e8f0;
+    --text-muted: #7a7a90;
+    --green: #6bcb77;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  .header {
+    background: var(--surface);
+    border-bottom: 2px solid var(--accent);
+    padding: 18px 18px 14px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-tag { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 3px; }
+  .header h1 { font-family: 'Space Mono', monospace; font-size: 19px; font-weight: 700; }
+  .header h1 span { color: var(--accent); }
+  .header-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+  .nav-scroll { display: flex; gap: 5px; padding: 10px 16px; overflow-x: auto; scrollbar-width: none; background: var(--surface); border-bottom: 1px solid var(--border); }
+  .nav-scroll::-webkit-scrollbar { display: none; }
+  .nav-tab { flex-shrink: 0; padding: 6px 13px; border-radius: 20px; font-family: 'Space Mono', monospace; font-size: 11px; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--text-muted); transition: all 0.2s; white-space: nowrap; }
+  .nav-tab.active { background: var(--accent); color: #0d0d0f; border-color: var(--accent); font-weight: 700; }
+
+  .section { display: none; padding: 16px; }
+  .section.active { display: block; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin-bottom: 15px; }
+  .card-title { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--accent); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .card-title::before { content: ''; width: 3px; height: 14px; background: var(--accent); border-radius: 2px; }
+  .card-title.blue { color: var(--accent2); }
+  .card-title.blue::before { background: var(--accent2); }
+  .card-title.green { color: var(--green); }
+  .card-title.green::before { background: var(--green); }
+  .card-title.red { color: var(--accent3); }
+  .card-title.red::before { background: var(--accent3); }
+  .card-title.purple { color: var(--accent5); }
+  .card-title.purple::before { background: var(--accent5); }
+
+  .formula { background: var(--surface2); border: 1px solid var(--accent); border-left: 4px solid var(--accent); border-radius: 8px; padding: 12px 16px; margin: 10px 0; font-family: 'Space Mono', monospace; font-size: 15px; color: var(--accent); text-align: center; }
+  .formula.blue { border-color: var(--accent2); border-left-color: var(--accent2); color: var(--accent2); }
+  .formula.green { border-color: var(--green); border-left-color: var(--green); color: var(--green); }
+  .formula.red { border-color: var(--accent3); border-left-color: var(--accent3); color: var(--accent3); }
+  .formula.purple { border-color: var(--accent5); border-left-color: var(--accent5); color: var(--accent5); }
+
+  .vocab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+  .vocab-item { background: var(--surface2); border-radius: 8px; padding: 10px 12px; border-left: 3px solid var(--accent2); }
+  .vocab-term { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent2); font-weight: 700; margin-bottom: 3px; }
+  .vocab-def { font-size: 12px; color: var(--text-muted); }
+
+  .val-table { width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 13px; margin: 12px 0; }
+  .val-table th { background: var(--surface2); color: var(--accent); padding: 8px 6px; text-align: center; border: 1px solid var(--border); font-size: 11px; }
+  .val-table td { padding: 8px 6px; text-align: center; border: 1px solid var(--border); color: var(--text); }
+  .val-table tr:hover td { background: var(--surface2); }
+  .val-table .hl { color: var(--accent); font-weight: 700; }
+  .val-table .hl-blue { color: var(--accent2); font-weight: 700; }
+
+  .graph-wrap { position: relative; width: 100%; aspect-ratio: 1; background: var(--surface2); border-radius: 10px; overflow: hidden; margin: 12px 0; border: 1px solid var(--border); }
+  canvas { width: 100% !important; height: 100% !important; display: block; }
+  .graph-label { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 4px; margin-bottom: 8px; }
+
+  .steps { margin: 10px 0; }
+  .step { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 10px; }
+  .step-num { flex-shrink: 0; width: 26px; height: 26px; background: var(--accent); color: #0d0d0f; border-radius: 50%; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .step-num.blue { background: var(--accent2); color: white; }
+  .step-num.green { background: var(--green); color: #0d0d0f; }
+  .step-num.red { background: var(--accent3); color: white; }
+  .step-text { font-size: 14px; padding-top: 3px; }
+
+  .alert { background: rgba(255,107,107,0.1); border: 1px solid var(--accent3); border-radius: 8px; padding: 12px 14px; margin: 10px 0; font-size: 13px; color: var(--accent3); }
+  .alert-title { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; margin-bottom: 4px; letter-spacing: 1px; }
+  .tip { background: rgba(78,205,196,0.1); border: 1px solid var(--accent4); border-radius: 8px; padding: 12px 14px; margin: 10px 0; font-size: 13px; color: var(--accent4); }
+  .tip-title { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; margin-bottom: 4px; letter-spacing: 1px; }
+  .info { background: rgba(91,143,255,0.1); border: 1px solid var(--accent2); border-radius: 8px; padding: 12px 14px; margin: 10px 0; font-size: 13px; color: var(--accent2); }
+  .info-title { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; margin-bottom: 4px; letter-spacing: 1px; }
+  .success { background: rgba(107,203,119,0.1); border: 1px solid var(--green); border-radius: 8px; padding: 12px 14px; margin: 10px 0; font-size: 13px; color: var(--green); }
+
+  .exo-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+  .exo-header { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; gap: 8px; }
+  .exo-header:hover { background: var(--surface2); }
+  .exo-badge { font-family: 'Space Mono', monospace; font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: 700; flex-shrink: 0; }
+  .badge-easy { background: rgba(107,203,119,0.2); color: var(--green); }
+  .badge-med { background: rgba(240,192,64,0.2); color: var(--accent); }
+  .badge-hard { background: rgba(255,107,107,0.2); color: var(--accent3); }
+  .exo-num { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-muted); flex-shrink: 0; }
+  .exo-title { font-size: 14px; font-weight: 500; flex: 1; }
+  .exo-arrow { color: var(--text-muted); font-size: 18px; transition: transform 0.2s; flex-shrink: 0; }
+  .exo-arrow.open { transform: rotate(90deg); }
+  .exo-body { display: none; padding: 0 16px 16px; border-top: 1px solid var(--border); padding-top: 14px; }
+  .exo-body.open { display: block; }
+  .exo-question { font-size: 14px; margin-bottom: 14px; color: var(--text); line-height: 1.7; }
+  .exo-hint { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; background: var(--surface2); border-radius: 6px; padding: 8px 12px; }
+
+  .answer-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; color: var(--text); font-family: 'Space Mono', monospace; font-size: 14px; outline: none; transition: border-color 0.2s; margin-bottom: 10px; }
+  .answer-input:focus { border-color: var(--accent2); }
+
+  .btn { display: inline-block; padding: 10px 20px; border-radius: 8px; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; cursor: pointer; border: none; transition: all 0.15s; letter-spacing: 0.5px; }
+  .btn-primary { background: var(--accent); color: #0d0d0f; }
+  .btn-primary:active { transform: scale(0.97); }
+  .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-show { background: rgba(91,143,255,0.15); color: var(--accent2); border: 1px solid var(--accent2); margin-left: 8px; }
+
+  .feedback { margin-top: 10px; padding: 10px 14px; border-radius: 8px; font-size: 13px; font-family: 'Space Mono', monospace; display: none; }
+  .feedback.correct { background: rgba(107,203,119,0.15); color: var(--green); border: 1px solid var(--green); }
+  .feedback.wrong { background: rgba(255,107,107,0.15); color: var(--accent3); border: 1px solid var(--accent3); }
+
+  .solution-box { margin-top: 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-size: 13px; display: none; }
+  .solution-box.visible { display: block; }
+  .solution-title { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent2); margin-bottom: 8px; letter-spacing: 1px; }
+
+  .graph-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+  .ctrl-btn { padding: 6px 12px; border-radius: 6px; font-family: 'Space Mono', monospace; font-size: 11px; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text-muted); transition: all 0.15s; }
+  .ctrl-btn.active { background: var(--accent2); color: white; border-color: var(--accent2); }
+
+  .slider-row { display: flex; align-items: center; gap: 12px; margin: 8px 0; }
+  .slider-label { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--text-muted); width: 60px; flex-shrink: 0; }
+  input[type=range] { flex: 1; accent-color: var(--accent); }
+  .slider-val { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--accent); width: 35px; text-align: right; }
+
+  .summary-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+  .summary-table th { background: var(--accent); color: #0d0d0f; padding: 8px 10px; font-family: 'Space Mono', monospace; font-size: 11px; text-align: left; }
+  .summary-table td { padding: 10px; border: 1px solid var(--border); vertical-align: top; font-size: 13px; }
+  .summary-table tr:nth-child(even) td { background: var(--surface2); }
+
+  .progress-bar-wrap { background: var(--surface2); border-radius: 10px; height: 8px; margin: 8px 0 16px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent)); border-radius: 10px; transition: width 0.4s ease; }
+  .progress-label { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text-muted); display: flex; justify-content: space-between; margin-bottom: 4px; }
+
+  /* FILTER TABS */
+  .filter-tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+  .filter-tab { padding: 6px 14px; border-radius: 20px; font-family: 'Space Mono', monospace; font-size: 11px; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text-muted); transition: all 0.15s; }
+  .filter-tab.active-all { background: var(--surface3); color: var(--text); border-color: var(--text-muted); }
+  .filter-tab.active-easy { background: rgba(107,203,119,0.2); color: var(--green); border-color: var(--green); }
+  .filter-tab.active-med { background: rgba(240,192,64,0.2); color: var(--accent); border-color: var(--accent); }
+  .filter-tab.active-hard { background: rgba(255,107,107,0.2); color: var(--accent3); border-color: var(--accent3); }
+
+  /* MCQ BUTTONS */
+  .mcq-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+  .mcq-btn { padding: 10px 16px; border-radius: 8px; font-family: 'Space Mono', monospace; font-size: 13px; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text); text-align: left; transition: all 0.15s; }
+  .mcq-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+  .mcq-btn.correct { background: rgba(107,203,119,0.15); color: var(--green); border-color: var(--green); }
+  .mcq-btn.wrong { background: rgba(255,107,107,0.15); color: var(--accent3); border-color: var(--accent3); }
+
+  /* VARIATION TABLE */
+  .var-table { width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 13px; margin: 12px 0; }
+  .var-table td { padding: 12px 8px; text-align: center; border: 1px solid var(--border); }
+  .var-table .row-label { background: var(--surface2); color: var(--accent); font-size: 11px; text-align: left; padding-left: 12px; }
+  .var-table .arrow-up { color: var(--green); font-size: 20px; }
+  .var-table .arrow-down { color: var(--accent3); font-size: 20px; }
+
+  /* PROBLEM CONTEXT */
+  .problem-ctx { background: var(--surface2); border-left: 4px solid var(--accent5); border-radius: 0 8px 8px 0; padding: 14px 16px; margin: 12px 0; font-size: 14px; }
+  .problem-ctx-title { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent5); letter-spacing: 1px; margin-bottom: 6px; }
+
+  /* NUMBER LINE */
+  .chip { display: inline-block; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; font-family: 'Space Mono', monospace; font-size: 12px; margin: 2px; }
+
+  p { margin-bottom: 8px; }
+  p:last-child { margin-bottom: 0; }
+  strong { color: var(--text); font-weight: 700; }
+  .highlight { color: var(--accent); font-family: 'Space Mono', monospace; }
+  .hl-blue { color: var(--accent2); font-family: 'Space Mono', monospace; }
+  .hl-green { color: var(--green); font-family: 'Space Mono', monospace; }
+  .hl-red { color: var(--accent3); font-family: 'Space Mono', monospace; }
+  .hl-purple { color: var(--accent5); font-family: 'Space Mono', monospace; }
+  small { font-size: 12px; color: var(--text-muted); }
+  hr { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+  .section-divider { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; margin: 20px 0 10px; padding: 0 4px; }
+
+  /* ===================== DESKTOP LAYOUT ===================== */
+  @media (min-width: 768px) {
+    body { font-size: 16px; }
+
+    /* Layout global avec sidebar nav */
+    .page-wrapper { display: flex; min-height: 100vh; }
+
+    /* HEADER desktop */
+    .header {
+      padding: 20px 40px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .header-content { flex: 1; }
+    .header-tag { font-size: 11px; }
+    .header h1 { font-size: 26px; }
+    .header-sub { font-size: 13px; }
+
+    /* NAV devient sidebar verticale sur desktop */
+    .nav-scroll {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding: 24px 14px;
+      overflow-x: visible;
+      overflow-y: auto;
+      width: 200px;
+      min-width: 200px;
+      height: calc(100vh - 80px);
+      position: sticky;
+      top: 80px;
+      border-bottom: none;
+      border-right: 1px solid var(--border);
+      background: var(--surface);
+      align-self: flex-start;
+    }
+    .nav-tab {
+      width: 100%;
+      text-align: left;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 12px;
+      white-space: normal;
+    }
+    .nav-tab.active {
+      border-radius: 8px;
+    }
+
+    /* MAIN CONTENT zone */
+    .main-content {
+      flex: 1;
+      min-width: 0;
+      padding: 0;
+    }
+
+    /* SECTIONS padding plus généreux */
+    .section {
+      padding: 28px 36px;
+      width: 100%;
+    }
+
+    /* CARDS en grille 2 colonnes quand possible */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .cards-grid .card { margin-bottom: 0; }
+
+    /* CARD styles */
+    .card {
+      padding: 24px;
+      margin-bottom: 20px;
+      border-radius: 14px;
+    }
+    .card-title { font-size: 13px; margin-bottom: 16px; }
+
+    /* FORMULAS plus grandes */
+    .formula { font-size: 17px; padding: 14px 20px; }
+
+    /* VOCAB GRID 3 colonnes */
+    .vocab-grid { grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .vocab-def { font-size: 13px; }
+
+    /* TABLES */
+    .val-table { font-size: 14px; }
+    .val-table th, .val-table td { padding: 10px 12px; }
+
+    /* GRAPHS plus grands */
+    .graph-wrap { aspect-ratio: 16/9 !important; max-height: 400px; }
+
+    /* STEPS */
+    .step-text { font-size: 15px; }
+
+    /* EXERCICES en 2 colonnes */
+    .exo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .exo-grid .exo-card { margin-bottom: 0; }
+    .exo-title { font-size: 15px; }
+    .exo-question { font-size: 15px; }
+    .answer-input { font-size: 15px; padding: 12px 16px; }
+
+    /* BTN hover effects desktop */
+    .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-primary:active { transform: scale(0.97) translateY(0); }
+
+    /* SUMMARY TABLE */
+    .summary-table td { font-size: 14px; padding: 12px 14px; }
+
+    /* MCQ buttons en grille */
+    .mcq-options { flex-direction: row; flex-wrap: wrap; }
+    .mcq-btn { flex: 1 1 40%; }
+
+    /* FILTER TABS */
+    .filter-tabs { gap: 10px; margin-bottom: 20px; }
+    .filter-tab { padding: 8px 18px; font-size: 12px; }
+
+    /* PROGRESS */
+    .progress-bar-wrap { height: 10px; }
+
+    /* SECTION DIVIDER */
+    .section-divider { font-size: 11px; margin: 28px 0 14px; }
+
+    /* SLIDER row */
+    .slider-row { gap: 16px; }
+    .slider-label { width: 80px; font-size: 13px; }
+    .slider-val { font-size: 14px; width: 40px; }
+
+    /* GRAPH controls */
+    .graph-controls { gap: 12px; }
+    .ctrl-btn { padding: 8px 16px; font-size: 12px; }
+  }
+
+  /* Large desktop */
+  @media (min-width: 1200px) {
+    .nav-scroll { width: 220px; min-width: 220px; }
+    .section { padding: 32px 48px; width: 100%; }
+    .card { padding: 28px; }
+    .formula { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-tag">3ème — Brevet Mathématiques</div>
+  <h1>Les <span>Fonctions</span> — Cours Complet</h1>
+  <div class="header-sub">Cours · Exercices · L'intégrale pour le brevet by Maty !</div>
+</div>
+
+<div class="page-wrapper">
+<div class="nav-scroll">
+  <button class="nav-tab active" onclick="showSection('cours')">Cours</button>
+  <button class="nav-tab" onclick="showSection('lineaire')">Linéaire</button>
+  <button class="nav-tab" onclick="showSection('affine')">Affine</button>
+  <button class="nav-tab" onclick="showSection('variations')">Variations</button>
+  <button class="nav-tab" onclick="showSection('graphe')">Graphique</button>
+  <button class="nav-tab" onclick="showSection('intersection')">Intersection</button>
+  <button class="nav-tab" onclick="showSection('problemes')">Problèmes</button>
+  <button class="nav-tab" onclick="showSection('exercices')">50 Exos</button>
+  <button class="nav-tab" onclick="showSection('recap')">Récap</button>
+</div>
+<div class="main-content">
+
+<!-- ============================================================ -->
+<!-- COURS                                                         -->
+<!-- ============================================================ -->
+<div class="section active" id="section-cours">
+
+  <div class="section-divider">1 — Qu'est-ce qu'une fonction ?</div>
+
+  <div class="card">
+    <div class="card-title">Définition fondamentale</div>
+    <p>Une <strong>fonction</strong> est un processus mathématique qui associe à chaque nombre <strong>x</strong> (qu'on appelle la <em>variable</em>) <strong>un seul et unique résultat</strong>.</p>
+    <div class="formula">f : x ↦ f(x)</div>
+    <p>On dit que <span class="highlight">f</span> est une fonction, et que <span class="highlight">f(x)</span> est <em>"l'image de x par f"</em>.</p>
+    <div class="tip">
+      <div class="tip-title">⚡ Analogie</div>
+      Une fonction, c'est comme une machine : on glisse un nombre dans l'entrée (x), et une seule valeur sort de la machine (f(x)). La même entrée donne TOUJOURS la même sortie.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Vocabulaire fondamental</div>
+    <div class="vocab-grid">
+      <div class="vocab-item">
+        <div class="vocab-term">Antécédent</div>
+        <div class="vocab-def">Le x qu'on donne en entrée. Ce qu'on connaît.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-term">Image</div>
+        <div class="vocab-def">Le f(x) qu'on obtient en sortie. Ce qu'on cherche.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-term">f(x)</div>
+        <div class="vocab-def">Se lit "f de x". C'est l'image de x par f.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-term">Variable</div>
+        <div class="vocab-def">Le x, le nombre qui peut changer de valeur.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-term">Domaine de f</div>
+        <div class="vocab-def">L'ensemble des x acceptés par f (au brevet : souvent tous les réels).</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-term">Repère (O, x, y)</div>
+        <div class="vocab-def">Axes perpendiculaires avec une origine O pour représenter f.</div>
+      </div>
+    </div>
+    <div class="alert" style="margin-top:12px">
+      <div class="alert-title">⚠ Piège n°1 du brevet</div>
+      "Calcule l'image de 3" → tu calcules f(3). "Trouve l'antécédent de 5" → tu résous f(x) = 5. Ne jamais confondre les deux !
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Calculer une image — méthode</div>
+    <p>Soit <span class="highlight">f(x) = 2x + 3</span>. Calcule l'image de 4.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">On remplace x par 4 dans l'expression : <span class="highlight">f(4) = 2 × 4 + 3</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">On calcule : <span class="highlight">= 8 + 3 = 11</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Conclusion : <strong>L'image de 4 par f est 11</strong>, et l'antécédent de 11 par f est 4.</div>
+      </div>
+    </div>
+    <div class="info">
+      <div class="info-title">⚡ Remarque</div>
+      On peut aussi noter : f(4) = 11, ce qui se lit "f de 4 égale 11".
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Trouver un antécédent — méthode</div>
+    <p>Soit <span class="highlight">f(x) = 2x + 3</span>. Quel est l'antécédent de 11 par f ?</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">On pose l'équation : <span class="highlight">f(x) = 11</span>, soit <span class="highlight">2x + 3 = 11</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">On résout : <span class="highlight">2x = 11 − 3 = 8</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><span class="highlight">x = 8 ÷ 2 = 4</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">Conclusion : <strong>L'antécédent de 11 par f est 4.</strong></div>
+      </div>
+    </div>
+    <div class="tip">Un antécédent peut ne pas exister, ou il peut y en avoir plusieurs selon la fonction (par exemple pour une parabole). Pour une droite, il y en a exactement 1 (sauf si a = 0).</div>
+  </div>
+
+  <div class="section-divider">2 — Tableau de valeurs</div>
+
+  <div class="card">
+    <div class="card-title">Construire un tableau de valeurs</div>
+    <p>Pour <span class="highlight">f(x) = 3x − 1</span>, on calcule f(x) pour plusieurs valeurs de x :</p>
+    <table class="val-table">
+      <tr>
+        <th>x</th><th>−2</th><th>−1</th><th>0</th><th>1</th><th>2</th><th>3</th>
+      </tr>
+      <tr>
+        <td><strong>f(x)</strong></td>
+        <td class="hl-red">−7</td><td>−4</td><td class="hl-blue">−1</td><td>2</td><td>5</td><td class="hl">8</td>
+      </tr>
+    </table>
+    <p>Détail des calculs :</p>
+    <p>f(−2) = 3×(−2) − 1 = −6 − 1 = <span class="hl-red">−7</span> &nbsp;|&nbsp; f(0) = 0 − 1 = <span class="hl-blue">−1</span> &nbsp;|&nbsp; f(3) = 9 − 1 = <span class="highlight">8</span></p>
+    <div class="graph-wrap" style="aspect-ratio: 1.2;">
+      <canvas id="canvas-cours"></canvas>
+    </div>
+    <div class="graph-label">Représentation de f(x) = 3x − 1 dans le repère</div>
+    <div class="tip">
+      <div class="tip-title">📐 Comment tracer la droite</div>
+      On place au moins 2 points du tableau dans le repère, puis on les relie avec une RÈGLE. Au brevet, toujours utiliser une règle.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Lire un graphique</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num" style="background:var(--accent2);color:white">→</div>
+        <div class="step-text"><strong>Lire l'image de x = 3</strong> : depuis x = 3 sur l'axe horizontal, monter verticalement jusqu'à la courbe, puis lire la valeur sur l'axe y. C'est f(3).</div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--green);color:#0d0d0f">←</div>
+        <div class="step-text"><strong>Lire l'antécédent de y = 5</strong> : depuis y = 5 sur l'axe vertical, aller horizontalement jusqu'à la courbe, puis lire la valeur sur l'axe x. C'est l'antécédent.</div>
+      </div>
+    </div>
+    <div class="alert">
+      <div class="alert-title">⚠ Lecture graphique</div>
+      Au brevet, la lecture graphique doit être précise. Si l'échelle est 1 carreau = 0,5, fais bien attention ! Prends des points sur des intersections de la grille pour être sûr.
+    </div>
+  </div>
+
+  <div class="section-divider">3 — Fonction linéaire f(x) = ax</div>
+
+  <div class="card">
+    <div class="card-title">Définition et propriétés</div>
+    <div class="formula">f(x) = ax &nbsp;&nbsp; (a ≠ 0)</div>
+    <p><span class="highlight">a</span> est le <strong>coefficient directeur</strong> (aussi appelé "pente" ou "taux de variation").</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num" style="background:var(--green);color:#0d0d0f">✓</div>
+        <div class="step-text">Le graphique est une <strong>droite qui passe toujours par l'origine (0 ; 0)</strong>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--green);color:#0d0d0f">✓</div>
+        <div class="step-text">Si <span class="hl-green">a &gt; 0</span> → la droite est <strong>croissante</strong> (monte de gauche à droite).</div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--accent3);color:white">✓</div>
+        <div class="step-text">Si <span class="hl-red">a &lt; 0</span> → la droite est <strong>décroissante</strong> (descend de gauche à droite).</div>
+      </div>
+      <div class="step">
+        <div class="step-num">✓</div>
+        <div class="step-text">Plus |a| est grand, plus la droite est <strong>inclinée</strong>.</div>
+      </div>
+    </div>
+    <div class="alert">
+      <div class="alert-title">⚠ Règle absolue</div>
+      Une fonction linéaire PASSE TOUJOURS PAR (0;0). Si la droite ne passe pas par l'origine, ce n'est pas une fonction linéaire, c'est une fonction affine.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Trouver a depuis un graphique</div>
+    <p>Si la droite linéaire passe par l'origine et par un point <span class="highlight">(x ; y)</span> :</p>
+    <div class="formula">a = y ÷ x &nbsp;&nbsp; (avec x ≠ 0)</div>
+    <p><strong>Exemple 1 :</strong> la droite passe par (3 ; 6) → a = 6 ÷ 3 = <span class="highlight">2</span> → f(x) = 2x</p>
+    <p><strong>Exemple 2 :</strong> la droite passe par (4 ; −8) → a = −8 ÷ 4 = <span class="highlight">−2</span> → f(x) = −2x</p>
+    <div class="tip">Prendre le point graphique avec les coordonnées entières les plus faciles à lire sur la grille.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Lien avec la proportionnalité</div>
+    <p>Une fonction linéaire modélise une <strong>situation de proportionnalité</strong>.</p>
+    <div class="formula">y = ax &nbsp;⟺&nbsp; y est proportionnel à x avec coefficient a</div>
+    <p><strong>Exemple :</strong> Le prix P d'un produit vendu 3€ l'unité : P(x) = 3x. Pour 7 unités, P(7) = 21€.</p>
+    <table class="val-table">
+      <tr><th>Quantité x</th><th>0</th><th>1</th><th>4</th><th>7</th><th>10</th></tr>
+      <tr><td><strong>Prix P (€)</strong></td><td>0</td><td>3</td><td>12</td><td>21</td><td>30</td></tr>
+    </table>
+  </div>
+
+  <div class="section-divider">4 — Fonction affine f(x) = ax + b</div>
+
+  <div class="card">
+    <div class="card-title">Définition et paramètres</div>
+    <div class="formula blue">f(x) = ax + b</div>
+    <div class="vocab-grid">
+      <div class="vocab-item">
+        <div class="vocab-term" style="color:var(--accent)">a = coefficient directeur</div>
+        <div class="vocab-def">Détermine la pente (inclinaison) de la droite. a > 0 → monte. a < 0 → descend.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-term" style="color:var(--accent2)">b = ordonnée à l'origine</div>
+        <div class="vocab-def">Point où la droite coupe l'axe y. f(0) = b, donc le point (0 ; b) est sur la droite.</div>
+      </div>
+    </div>
+    <div class="tip">
+      <div class="tip-title">💡 Cas particuliers</div>
+      Si b = 0 → f(x) = ax → fonction linéaire (cas particulier d'affine).<br>
+      Si a = 0 → f(x) = b → droite horizontale, fonction constante.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Tracer une droite affine — méthode complète</div>
+    <p>Pour tracer <span class="highlight">f(x) = 2x + 1</span> :</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Calcule <span class="highlight">f(0) = 2×0 + 1 = 1</span> → Point A(0 ; 1) — c'est l'ordonnée à l'origine</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Calcule <span class="highlight">f(2) = 2×2 + 1 = 5</span> → Point B(2 ; 5)</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Place les deux points A et B dans le repère avec précision</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">Trace la droite avec une <strong>règle</strong> en passant exactement par A et B</div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text">Prolonge la droite dans les deux sens (mettre des flèches aux extrémités)</div>
+      </div>
+    </div>
+    <div class="alert">
+      <div class="alert-title">⚠ Vérification obligatoire</div>
+      Calcule un 3ème point (ex : f(4) = 9) et vérifie qu'il est bien sur ta droite. Si non, tu as fait une erreur.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Trouver a et b depuis 2 points</div>
+    <p>On connaît deux points de la droite : <span class="highlight">A(x₁ ; y₁)</span> et <span class="highlight">B(x₂ ; y₂)</span>.</p>
+    <div class="formula green">a = (y₂ − y₁) ÷ (x₂ − x₁)</div>
+    <p>Puis on trouve b avec : <span class="hl-blue">b = y₁ − a × x₁</span> (ou utilise f(0) si l'axe y est visible).</p>
+    <hr>
+    <p><strong>Exemple :</strong> la droite passe par (1 ; 5) et (3 ; 11).</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">a = (11 − 5) ÷ (3 − 1) = 6 ÷ 2 = <span class="highlight">3</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">b = 5 − 3 × 1 = 5 − 3 = <span class="hl-blue">2</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Donc <span class="highlight">f(x) = 3x + 2</span> ✓ (vérif : f(3) = 9+2 = 11 ✓)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider">5 — Taux de variation</div>
+
+  <div class="card">
+    <div class="card-title">Définition et formule</div>
+    <p>Le <strong>taux de variation</strong> de f entre x₁ et x₂ mesure de combien f(x) varie en moyenne par unité de x :</p>
+    <div class="formula green">(f(x₂) − f(x₁)) ÷ (x₂ − x₁)</div>
+    <div class="info">
+      <div class="info-title">💡 Propriété clé</div>
+      Pour une fonction <strong>affine</strong> f(x) = ax + b, le taux de variation est <strong>toujours égal à a</strong>, quelle que soient les valeurs x₁ et x₂ choisies. C'est la définition même d'une droite.
+    </div>
+    <p><strong>Exemple :</strong> f(x) = 3x − 2. Taux de variation entre x₁ = 1 et x₂ = 4 :</p>
+    <p>(f(4) − f(1)) ÷ (4 − 1) = (10 − 1) ÷ 3 = 9 ÷ 3 = <span class="highlight">3</span> = a ✓</p>
+    <div class="tip">Pour une courbe non-linéaire, le taux de variation change selon les valeurs choisies. C'est ce qui distingue une droite d'une courbe.</div>
+  </div>
+
+  <div class="section-divider">6 — Équation f(x) = k</div>
+
+  <div class="card">
+    <div class="card-title">Résoudre f(x) = k</div>
+    <p>Résoudre <span class="highlight">f(x) = k</span> signifie trouver le (ou les) antécédents de k par f.</p>
+    <p><strong>Exemple :</strong> f(x) = 4x − 3. Résous f(x) = 9.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">On écrit : <span class="highlight">4x − 3 = 9</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">On isole x : <span class="highlight">4x = 9 + 3 = 12</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><span class="highlight">x = 12 ÷ 4 = 3</span></div>
+      </div>
+    </div>
+    <p>→ L'antécédent de 9 par f est <span class="highlight">3</span>. Sur le graphique, c'est le point (3 ; 9) de la droite.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Droite et axe des abscisses — racine</div>
+    <p>La <strong>racine</strong> (ou zéro) d'une fonction affine est la valeur de x pour laquelle <span class="highlight">f(x) = 0</span>.</p>
+    <p>C'est l'abscisse du point d'intersection avec l'axe des x.</p>
+    <div class="formula">f(x) = 0 &nbsp;⟺&nbsp; ax + b = 0 &nbsp;⟺&nbsp; x = −b/a</div>
+    <p><strong>Exemple :</strong> f(x) = 2x − 6. f(x) = 0 → 2x − 6 = 0 → 2x = 6 → x = <span class="highlight">3</span>.</p>
+    <p>La droite coupe l'axe des x au point (3 ; 0).</p>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- LINÉAIRE                                                      -->
+<!-- ============================================================ -->
+<div class="section" id="section-lineaire">
+
+  <div class="card">
+    <div class="card-title">Fonction linéaire — Rappel complet</div>
+    <div class="formula">f(x) = ax &nbsp;&nbsp; (a ≠ 0)</div>
+    <p><span class="highlight">a</span> = coefficient directeur (= pente = taux de variation)</p>
+    <div class="steps">
+      <div class="step"><div class="step-num" style="background:var(--green);color:#0d0d0f">✓</div><div class="step-text">Graphique = droite passant par <strong>(0 ; 0)</strong> obligatoirement</div></div>
+      <div class="step"><div class="step-num" style="background:var(--green);color:#0d0d0f">↑</div><div class="step-text"><span class="hl-green">a &gt; 0</span> → droite croissante (monte)</div></div>
+      <div class="step"><div class="step-num" style="background:var(--accent3);color:white">↓</div><div class="step-text"><span class="hl-red">a &lt; 0</span> → droite décroissante (descend)</div></div>
+      <div class="step"><div class="step-num">≡</div><div class="step-text">Si on connaît un point (x ; y) sur la droite : <span class="highlight">a = y ÷ x</span></div></div>
+    </div>
+    <div class="alert">
+      <div class="alert-title">⚠ Règle absolue — brevet</div>
+      Une fonction linéaire PASSE TOUJOURS PAR (0 ; 0). Si la droite ne passe pas par l'origine, c'est une fonction AFFINE, pas linéaire.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title blue">Graphique interactif — f(x) = ax</div>
+    <div class="slider-row">
+      <div class="slider-label">a =</div>
+      <input type="range" min="-4" max="4" step="0.5" value="2" id="slider-a-lin" oninput="updateLinear()">
+      <div class="slider-val" id="val-a-lin">2</div>
+    </div>
+    <div class="graph-wrap">
+      <canvas id="canvas-linear"></canvas>
+    </div>
+    <div class="graph-label" id="label-linear">f(x) = 2x — passe par (0 ; 0)</div>
+    <div class="tip" id="tip-linear">La droite monte car a = 2 &gt; 0</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Propriété de proportionnalité</div>
+    <p>Pour une fonction linéaire f(x) = ax :</p>
+    <div class="formula">f(k × x) = k × f(x)</div>
+    <p><strong>Exemple :</strong> f(x) = 5x. On sait que f(3) = 15.</p>
+    <p>→ f(6) = f(2×3) = 2 × f(3) = 2 × 15 = <span class="highlight">30</span></p>
+    <p>→ f(9) = f(3×3) = 3 × 15 = <span class="highlight">45</span></p>
+    <table class="val-table">
+      <tr><th>x</th><th>−3</th><th>−1</th><th>0</th><th>1</th><th>3</th><th>6</th></tr>
+      <tr><td><strong>f(x)=5x</strong></td><td>−15</td><td>−5</td><td class="hl-blue">0</td><td>5</td><td>15</td><td class="hl">30</td></tr>
+    </table>
+    <div class="tip">Le point (0 ; 0) est toujours dans le tableau → signature de la fonction linéaire.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Trouver le coefficient a</div>
+    <p>Méthode 1 : si on connaît un point (x₀ ; y₀) avec x₀ ≠ 0 :</p>
+    <div class="formula">a = y₀ ÷ x₀</div>
+    <p>Méthode 2 : si on sait que f est linéaire et f(k) = m :</p>
+    <div class="formula">a = m ÷ k</div>
+    <p><strong>Exemple :</strong> f est linéaire et f(4) = −12 → a = −12 ÷ 4 = <span class="highlight">−3</span> → f(x) = −3x</p>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- AFFINE                                                        -->
+<!-- ============================================================ -->
+<div class="section" id="section-affine">
+
+  <div class="card">
+    <div class="card-title">Fonction affine — Rappel complet</div>
+    <div class="formula blue">f(x) = ax + b</div>
+    <div class="vocab-grid">
+      <div class="vocab-item">
+        <div class="vocab-term" style="color:var(--accent)">a = coefficient directeur</div>
+        <div class="vocab-def">Pente. Si a > 0 → croissante. Si a < 0 → décroissante. Si a = 0 → constante.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-term" style="color:var(--accent2)">b = ordonnée à l'origine</div>
+        <div class="vocab-def">La droite coupe l'axe y au point (0 ; b). On lit directement b sur le graphique.</div>
+      </div>
+    </div>
+    <div class="tip">La fonction linéaire f(x) = ax est un cas particulier d'affine avec b = 0.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title blue">Graphique interactif — f(x) = ax + b</div>
+    <div class="slider-row">
+      <div class="slider-label">a =</div>
+      <input type="range" min="-3" max="3" step="0.5" value="1" id="slider-a-aff" oninput="updateAffine()">
+      <div class="slider-val" id="val-a-aff">1</div>
+    </div>
+    <div class="slider-row">
+      <div class="slider-label">b =</div>
+      <input type="range" min="-4" max="4" step="1" value="2" id="slider-b-aff" oninput="updateAffine()">
+      <div class="slider-val" id="val-b-aff">2</div>
+    </div>
+    <div class="graph-wrap">
+      <canvas id="canvas-affine"></canvas>
+    </div>
+    <div class="graph-label" id="label-affine">f(x) = x + 2</div>
+    <div style="display:flex;gap:8px;margin-top:6px;font-family:'Space Mono',monospace;font-size:12px">
+      <div style="color:var(--accent2)">■ f(x) = ax+b</div>
+      <div style="color:var(--accent4)">■ point (0 ; b)</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Droites parallèles et sécantes</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num" style="background:var(--accent5);color:white">∥</div>
+        <div class="step-text"><strong>Droites parallèles</strong> : même coefficient directeur a, mais b différent. Ex : f(x) = 2x + 1 et g(x) = 2x − 3 sont parallèles car a = 2 pour les deux.</div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--accent4);color:#0d0d0f">×</div>
+        <div class="step-text"><strong>Droites sécantes</strong> : coefficients directeurs différents. Elles se coupent en un seul point. Ex : f(x) = 2x + 1 et g(x) = x + 3.</div>
+      </div>
+    </div>
+    <div class="formula purple">Deux droites sont parallèles ⟺ même coefficient a</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Trouver a et b depuis le graphique</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><strong>b</strong> : lire l'ordonnée à l'origine (où la droite coupe l'axe y). Valeur lue directement.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">Identifier un 2ème point (x₂ ; y₂) clairement sur la droite.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><span class="highlight">a = (y₂ − b) ÷ x₂</span> ou a = (y₂ − y₁) ÷ (x₂ − x₁) avec deux points quelconques.</div>
+      </div>
+    </div>
+    <p><strong>Exemple :</strong> La droite coupe l'axe y en (0 ; −2) et passe par (3 ; 4).</p>
+    <p>b = −2 &nbsp;|&nbsp; a = (4 − (−2)) ÷ 3 = 6 ÷ 3 = <span class="highlight">2</span> &nbsp;|&nbsp; Donc <span class="highlight">f(x) = 2x − 2</span></p>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- VARIATIONS                                                    -->
+<!-- ============================================================ -->
+<div class="section" id="section-variations">
+
+  <div class="card">
+    <div class="card-title">Sens de variation d'une fonction</div>
+    <p>On dit qu'une fonction est :</p>
+    <div class="vocab-grid" style="grid-template-columns:1fr 1fr;">
+      <div class="vocab-item" style="border-left-color:var(--green)">
+        <div class="vocab-term" style="color:var(--green)">📈 Croissante</div>
+        <div class="vocab-def">Quand x augmente, f(x) augmente aussi. La droite monte de gauche à droite.</div>
+      </div>
+      <div class="vocab-item" style="border-left-color:var(--accent3)">
+        <div class="vocab-term" style="color:var(--accent3)">📉 Décroissante</div>
+        <div class="vocab-def">Quand x augmente, f(x) diminue. La droite descend de gauche à droite.</div>
+      </div>
+    </div>
+    <div class="formula green">f croissante ⟺ a &gt; 0</div>
+    <div class="formula red">f décroissante ⟺ a &lt; 0</div>
+    <div class="tip">Pour une fonction affine f(x) = ax + b, c'est <strong>uniquement le signe de a</strong> qui détermine si f est croissante ou décroissante. b n'a aucun effet sur le sens de variation.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title blue">Graphique interactif — sens de variation</div>
+    <div class="slider-row">
+      <div class="slider-label">a =</div>
+      <input type="range" min="-4" max="4" step="0.5" value="2" id="slider-a-var" oninput="updateVar()">
+      <div class="slider-val" id="val-a-var">2</div>
+    </div>
+    <div class="slider-row">
+      <div class="slider-label">b =</div>
+      <input type="range" min="-3" max="3" step="1" value="0" id="slider-b-var" oninput="updateVar()">
+      <div class="slider-val" id="val-b-var">0</div>
+    </div>
+    <div class="graph-wrap">
+      <canvas id="canvas-var"></canvas>
+    </div>
+    <div class="graph-label" id="label-var">f(x) = 2x</div>
+    <div id="tip-var" class="success" style="text-align:center;font-family:'Space Mono',monospace;font-size:13px">📈 a = 2 &gt; 0 → f est CROISSANTE</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Tableau de valeurs et variation</div>
+    <p>Pour <span class="highlight">f(x) = −2x + 5</span> (a = −2 < 0 → décroissante) :</p>
+    <table class="val-table">
+      <tr><th>x</th><th>−2</th><th>−1</th><th>0</th><th>1</th><th>2</th><th>3</th></tr>
+      <tr><td><strong>f(x)</strong></td><td>9</td><td>7</td><td class="hl-blue">5</td><td>3</td><td>1</td><td class="hl-red">−1</td></tr>
+    </table>
+    <p>On vérifie : quand x passe de −2 à 3, f(x) passe de 9 à −1 : il <strong>diminue</strong>. ✓</p>
+    <div class="alert">
+      <div class="alert-title">⚠ Piège</div>
+      Ne pas confondre "la fonction croît" (f(x) augmente quand x augmente) avec "f(x) est positif". Une fonction peut être positive et décroissante en même temps.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Tableau de variation — comment le construire</div>
+    <p>Pour <span class="highlight">f(x) = 3x − 1</span> sur [−2 ; 4] :</p>
+    <p>a = 3 > 0 donc f est croissante sur tout son domaine.</p>
+    <table class="var-table">
+      <tr>
+        <td class="row-label">x</td>
+        <td>−2</td>
+        <td colspan="3" style="border-left:none"></td>
+        <td>4</td>
+      </tr>
+      <tr>
+        <td class="row-label">f(x) = 3x−1</td>
+        <td style="color:var(--accent3)">f(−2) = −7</td>
+        <td colspan="3" style="vertical-align:middle"><div class="arrow-up" style="color:var(--green);font-size:24px;text-align:center">↗</div></td>
+        <td style="color:var(--green)">f(4) = 11</td>
+      </tr>
+    </table>
+    <p>Pour <span class="highlight">g(x) = −x + 2</span> sur [−3 ; 3] :</p>
+    <p>a = −1 < 0 donc g est décroissante sur tout son domaine.</p>
+    <table class="var-table">
+      <tr>
+        <td class="row-label">x</td>
+        <td>−3</td>
+        <td colspan="3" style="border-left:none"></td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td class="row-label">g(x) = −x+2</td>
+        <td style="color:var(--green)">g(−3) = 5</td>
+        <td colspan="3" style="vertical-align:middle"><div style="color:var(--accent3);font-size:24px;text-align:center">↘</div></td>
+        <td style="color:var(--accent3)">g(3) = −1</td>
+      </tr>
+    </table>
+    <div class="tip">Dans un tableau de variation : si f est croissante, la plus petite valeur est à gauche et la plus grande à droite. C'est l'inverse si f est décroissante.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Maximum et minimum sur un intervalle</div>
+    <p>Sur un intervalle [a ; b], pour une fonction affine :</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num" style="background:var(--green);color:#0d0d0f">↑</div>
+        <div class="step-text">Si f est <strong>croissante</strong> : minimum = f(a), maximum = f(b)</div>
+      </div>
+      <div class="step">
+        <div class="step-num" style="background:var(--accent3);color:white">↓</div>
+        <div class="step-text">Si f est <strong>décroissante</strong> : minimum = f(b), maximum = f(a)</div>
+      </div>
+    </div>
+    <p><strong>Exemple :</strong> f(x) = 2x − 4 sur [−1 ; 5].</p>
+    <p>a = 2 > 0 → f croissante. Min = f(−1) = −6. Max = f(5) = 6.</p>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- GRAPHIQUE INTERACTIF                                          -->
+<!-- ============================================================ -->
+<div class="section" id="section-graphe">
+
+  <div class="card">
+    <div class="card-title">Comparaison des fonctions</div>
+    <div class="graph-controls">
+      <button class="ctrl-btn active" id="btn-comp-lin" onclick="toggleComp('lin')">Linéaire 2x</button>
+      <button class="ctrl-btn active" id="btn-comp-aff" onclick="toggleComp('aff')">Affine x+2</button>
+      <button class="ctrl-btn" id="btn-comp-par" onclick="toggleComp('par')">Quadratique x²</button>
+    </div>
+    <div class="graph-wrap" style="aspect-ratio:1.1">
+      <canvas id="canvas-comp"></canvas>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;margin-top:10px">
+      <div style="font-family:'Space Mono',monospace;font-size:12px;display:flex;gap:10px;align-items:center"><span style="color:var(--accent)">■</span><span>f(x) = 2x (linéaire)</span></div>
+      <div style="font-family:'Space Mono',monospace;font-size:12px;display:flex;gap:10px;align-items:center"><span style="color:var(--accent2)">■</span><span>g(x) = x + 2 (affine)</span></div>
+      <div style="font-family:'Space Mono',monospace;font-size:12px;display:flex;gap:10px;align-items:center" id="legend-par-row"><span style="color:var(--accent3)">■</span><span>h(x) = x² (quadratique)</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Lire les coordonnées — Clique sur le graphique !</div>
+    <p>Clique sur la droite jaune pour lire les coordonnées d'un point :</p>
+    <div class="graph-wrap" style="aspect-ratio:1">
+      <canvas id="canvas-read" style="cursor:crosshair"></canvas>
+    </div>
+    <div id="coord-display" style="font-family:'Space Mono',monospace;font-size:14px;color:var(--accent);text-align:center;margin-top:8px;padding:10px;background:var(--surface2);border-radius:8px;">
+      Clique sur le graphique pour lire un point →
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Exercice de lecture graphique</div>
+    <p>La droite affichée a pour équation <span class="highlight">f(x) = 1,5x − 1</span>.</p>
+    <div class="steps">
+      <div class="step"><div class="step-num">?</div><div class="step-text">f(2) = 1,5×2 − 1 = <span class="highlight">2</span></div></div>
+      <div class="step"><div class="step-num">?</div><div class="step-text">Antécédent de 2 : 1,5x − 1 = 2 → 1,5x = 3 → x = <span class="highlight">2</span></div></div>
+      <div class="step"><div class="step-num">?</div><div class="step-text">f(0) = <span class="hl-blue">−1</span> → la droite coupe l'axe y en (0 ; −1)</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- INTERSECTION                                                  -->
+<!-- ============================================================ -->
+<div class="section" id="section-intersection">
+
+  <div class="card">
+    <div class="card-title">Intersection de deux droites</div>
+    <p>L'<strong>intersection</strong> de deux droites f et g est le point où elles se croisent. En ce point, <span class="highlight">f(x) = g(x)</span>.</p>
+    <div class="formula purple">Résoudre f(x) = g(x) pour trouver l'abscisse du point d'intersection</div>
+    <p>Puis calculer l'ordonnée en substituant x trouvé dans f(x) (ou g(x), c'est la même valeur).</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Méthode algébrique — exemple complet</div>
+    <p>f(x) = <span class="highlight">2x + 1</span> et g(x) = <span class="hl-blue">x + 3</span>. Trouver le point d'intersection.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">On pose : <span class="highlight">2x + 1</span> = <span class="hl-blue">x + 3</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">On isole x : 2x − x = 3 − 1 → <span class="highlight">x = 2</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">On calcule l'ordonnée : f(2) = 2×2 + 1 = <span class="highlight">5</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">Vérification : g(2) = 2 + 3 = 5 ✓</div>
+      </div>
+      <div class="step">
+        <div class="step-num">✓</div>
+        <div class="step-text">Le point d'intersection est <span class="highlight">(2 ; 5)</span>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title blue">Graphique interactif — intersection</div>
+    <div class="graph-wrap" style="aspect-ratio:1.1">
+      <canvas id="canvas-inter"></canvas>
+    </div>
+    <div style="font-family:'Space Mono',monospace;font-size:12px;display:flex;flex-direction:column;gap:5px;margin-top:8px">
+      <div><span style="color:var(--accent)">■</span> f(x) = 2x + 1</div>
+      <div><span style="color:var(--accent2)">■</span> g(x) = x + 3</div>
+      <div><span style="color:var(--accent4)">●</span> Intersection en (2 ; 5)</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Comparer deux fonctions : f(x) &gt; g(x)</div>
+    <p>Après avoir trouvé l'intersection en x = x₀, on peut comparer f et g de chaque côté.</p>
+    <p><strong>Exemple :</strong> f(x) = 2x + 1 et g(x) = x + 3. Intersection en x = 2.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">?</div>
+        <div class="step-text">Pour x = 0 : f(0) = 1, g(0) = 3 → g &gt; f → <span class="hl-blue">g(x) &gt; f(x)</span> pour x &lt; 2</div>
+      </div>
+      <div class="step">
+        <div class="step-num">?</div>
+        <div class="step-text">Pour x = 4 : f(4) = 9, g(4) = 7 → f &gt; g → <span class="highlight">f(x) &gt; g(x)</span> pour x &gt; 2</div>
+      </div>
+    </div>
+    <div class="tip">En regardant les coefficients directeurs : f a a = 2, g a a = 1. Comme 2 &gt; 1, f "monte plus vite" que g, donc f dépasse g à partir de x = 2.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Autre exemple — tarifs téléphoniques</div>
+    <div class="problem-ctx">
+      <div class="problem-ctx-title">🧩 Contexte</div>
+      Forfait A : 0,10€/min + 5€ d'abonnement → A(t) = 0,1t + 5<br>
+      Forfait B : 0,05€/min + 8€ d'abonnement → B(t) = 0,05t + 8
+    </div>
+    <p>À partir de combien de minutes le forfait A est-il moins cher ?</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">On cherche t tel que A(t) = B(t) : 0,1t + 5 = 0,05t + 8</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">0,05t = 3 → t = <span class="highlight">60 minutes</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Pour t > 60 : A(70) = 12€ &lt; B(70) = 11,5€... vérifier : A(70) = 7+5=12, B(70) = 3,5+8=11,5. Donc B est moins cher au-delà de 60 min.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- PROBLÈMES CONCRETS                                            -->
+<!-- ============================================================ -->
+<div class="section" id="section-problemes">
+
+  <div class="card">
+    <div class="card-title purple">Pourquoi les problèmes concrets ?</div>
+    <p>Au brevet, les fonctions sont souvent présentées dans un <strong>contexte réel</strong> (tarifs, vitesse, distance, prix, températures...). Il faut savoir :</p>
+    <div class="steps">
+      <div class="step"><div class="step-num" style="background:var(--accent5);color:white">1</div><div class="step-text">Identifier la variable x et la fonction f(x)</div></div>
+      <div class="step"><div class="step-num" style="background:var(--accent5);color:white">2</div><div class="step-text">Traduire le texte en formule mathématique</div></div>
+      <div class="step"><div class="step-num" style="background:var(--accent5);color:white">3</div><div class="step-text">Répondre aux questions avec des calculs et des conclusions en français</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Problème 1 — Location de vélos</div>
+    <div class="problem-ctx">
+      <div class="problem-ctx-title">🚲 Énoncé</div>
+      Une boutique loue des vélos. L'abonnement coûte 10 € et chaque heure de location coûte 4 €.
+    </div>
+    <p><strong>Q1 :</strong> Exprimer le coût total C en fonction du nombre d'heures h.</p>
+    <div class="success" style="margin:8px 0">C(h) = 4h + 10</div>
+    <p><strong>Q2 :</strong> Combien coûte 3 heures de location ?</p>
+    <div class="success" style="margin:8px 0">C(3) = 4×3 + 10 = 12 + 10 = <span class="highlight">22 €</span></div>
+    <p><strong>Q3 :</strong> Pour quel nombre d'heures le coût atteint-il 50 € ?</p>
+    <div class="steps" style="margin-top:8px">
+      <div class="step"><div class="step-num">→</div><div class="step-text">4h + 10 = 50 → 4h = 40 → h = <span class="highlight">10 heures</span></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Problème 2 — Deux sociétés de taxi</div>
+    <div class="problem-ctx">
+      <div class="problem-ctx-title">🚕 Énoncé</div>
+      Taxi A : 2 € par km + 5 € de prise en charge → A(d) = 2d + 5<br>
+      Taxi B : 3 € par km + 2 € de prise en charge → B(d) = 3d + 2
+    </div>
+    <p><strong>Q1 :</strong> Prix pour 4 km avec chaque taxi.</p>
+    <div class="success" style="margin:8px 0">A(4) = 8 + 5 = <span class="highlight">13 €</span> &nbsp;|&nbsp; B(4) = 12 + 2 = <span class="highlight">14 €</span> → Taxi A moins cher</div>
+    <p><strong>Q2 :</strong> À partir de combien de km Taxi B devient moins cher ?</p>
+    <div class="steps" style="margin-top:8px">
+      <div class="step"><div class="step-num">→</div><div class="step-text">A(d) = B(d) → 2d + 5 = 3d + 2 → 3 = d → <span class="highlight">d = 3 km</span></div></div>
+      <div class="step"><div class="step-num">✓</div><div class="step-text">Pour d > 3 km : Taxi A est moins cher. Pour d < 3 km : Taxi B est moins cher.</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Problème 3 — Piscine qui se vide</div>
+    <div class="problem-ctx">
+      <div class="problem-ctx-title">🏊 Énoncé</div>
+      Une piscine contient 600 litres. On la vide au rythme de 30 litres par minute.
+    </div>
+    <p><strong>Q1 :</strong> Modéliser le volume V(t) en fonction du temps t (en minutes).</p>
+    <div class="success" style="margin:8px 0">V(t) = 600 − 30t &nbsp;(a = −30, b = 600)</div>
+    <p><strong>Q2 :</strong> Volume restant après 8 minutes.</p>
+    <div class="success" style="margin:8px 0">V(8) = 600 − 240 = <span class="highlight">360 litres</span></div>
+    <p><strong>Q3 :</strong> En combien de temps la piscine sera-t-elle vide ?</p>
+    <div class="steps" style="margin-top:8px">
+      <div class="step"><div class="step-num">→</div><div class="step-text">V(t) = 0 → 600 − 30t = 0 → 30t = 600 → t = <span class="highlight">20 minutes</span></div></div>
+    </div>
+    <p><strong>Q4 :</strong> La fonction est-elle croissante ou décroissante ? Pourquoi ?</p>
+    <div class="success" style="margin:8px 0">a = −30 &lt; 0 → V est <strong>décroissante</strong> : le volume diminue au fur et à mesure que le temps augmente. ✓</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Problème 4 — Économies</div>
+    <div class="problem-ctx">
+      <div class="problem-ctx-title">💰 Énoncé</div>
+      Lucas a 50 € d'économies. Il économise 15 € par semaine.
+    </div>
+    <p><strong>Q1 :</strong> Modéliser E(n) le montant d'économies après n semaines.</p>
+    <div class="success" style="margin:8px 0">E(n) = 15n + 50</div>
+    <p><strong>Q2 :</strong> Après combien de semaines Lucas aura-t-il 200 € ?</p>
+    <div class="steps" style="margin-top:8px">
+      <div class="step"><div class="step-num">→</div><div class="step-text">15n + 50 = 200 → 15n = 150 → n = <span class="highlight">10 semaines</span></div></div>
+    </div>
+    <p><strong>Q3 :</strong> Tom a 120 € et économise 5 € par semaine. T(n) = 5n + 120. À quelle semaine ont-ils la même somme ?</p>
+    <div class="steps" style="margin-top:8px">
+      <div class="step"><div class="step-num">→</div><div class="step-text">E(n) = T(n) → 15n + 50 = 5n + 120 → 10n = 70 → n = <span class="highlight">7 semaines</span></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Problème 5 — Thermomètre Celsius / Fahrenheit</div>
+    <div class="problem-ctx">
+      <div class="problem-ctx-title">🌡 Énoncé</div>
+      La conversion Celsius → Fahrenheit est : F(C) = (9/5) × C + 32
+    </div>
+    <p><strong>Q1 :</strong> Convertir 20°C en Fahrenheit.</p>
+    <div class="success" style="margin:8px 0">F(20) = (9/5)×20 + 32 = 36 + 32 = <span class="highlight">68°F</span></div>
+    <p><strong>Q2 :</strong> À quelle température Celsius correspond 32°F ?</p>
+    <div class="steps" style="margin-top:8px">
+      <div class="step"><div class="step-num">→</div><div class="step-text">(9/5)×C + 32 = 32 → (9/5)×C = 0 → C = <span class="highlight">0°C</span></div></div>
+    </div>
+    <p><strong>Q3 :</strong> Quelle température est identique en Celsius et Fahrenheit ?</p>
+    <div class="steps" style="margin-top:8px">
+      <div class="step"><div class="step-num">→</div><div class="step-text">F(C) = C → (9/5)C + 32 = C → 32 = C − (9/5)C = −(4/5)C → C = <span class="highlight">−40°</span></div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- 50 EXERCICES                                                  -->
+<!-- ============================================================ -->
+<div class="section" id="section-exercices">
+
+  <div class="card" style="background:linear-gradient(135deg,rgba(240,192,64,0.08),transparent)">
+    <div class="card-title">Progression — 50 exercices</div>
+    <div class="progress-label">
+      <span>Exercices réussis</span>
+      <span id="score-txt">0 / 50</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <div style="font-size:12px;color:var(--text-muted);font-family:'Space Mono',monospace">
+      <span style="color:var(--green)">■ Facile (1-15)</span> &nbsp;
+      <span style="color:var(--accent)">■ Moyen (16-35)</span> &nbsp;
+      <span style="color:var(--accent3)">■ Expert (36-50)</span>
+    </div>
+  </div>
+
+  <div class="filter-tabs">
+    <button class="filter-tab active-all" onclick="filterExos('all')">Tous (50)</button>
+    <button class="filter-tab" onclick="filterExos('easy')">Facile (15)</button>
+    <button class="filter-tab" onclick="filterExos('med')">Moyen (20)</button>
+    <button class="filter-tab" onclick="filterExos('hard')">Expert (15)</button>
+  </div>
+
+  <!-- ===== FACILE ===== -->
+  <div class="section-divider" id="div-easy">Niveau Facile — Calculer des images</div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e1')">
+      <span class="exo-badge badge-easy">Facile</span>
+      <span class="exo-title">Calculer une image</span>
+      <span class="exo-num">#01</span>
+      <span class="exo-arrow" id="arrow-e1">›</span>
+    </div>
+    <div class="exo-body" id="body-e1">
+      <div class="exo-question">Soit f(x) = 4x − 3.<br>Calcule f(5).</div>
+      <div class="exo-hint">Remplace x par 5 dans la formule.</div>
+      <input class="answer-input" id="inp-e1" type="number" placeholder="Ta réponse...">
+      <button class="btn btn-primary" onclick="check('e1', 17)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e1', 'f(5) = 4×5 − 3 = 20 − 3 = 17')">Corrigé</button>
+      <div class="feedback" id="fb-e1"></div>
+      <div class="solution-box" id="sol-e1"><div class="solution-title">CORRIGÉ</div>f(5) = 4×5 − 3 = 20 − 3 = <strong>17</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e2')">
+      <span class="exo-badge badge-easy">Facile</span>
+      <span class="exo-title">Image de 0</span>
+      <span class="exo-num">#02</span>
+      <span class="exo-arrow" id="arrow-e2">›</span>
+    </div>
+    <div class="exo-body" id="body-e2">
+      <div class="exo-question">Soit g(x) = −2x + 7.<br>Calcule g(0).</div>
+      <div class="exo-hint">Quand x = 0, le terme en x disparaît. f(0) = b toujours.</div>
+      <input class="answer-input" id="inp-e2" type="number" placeholder="Ta réponse...">
+      <button class="btn btn-primary" onclick="check('e2', 7)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e2', 'g(0) = −2×0 + 7 = 0 + 7 = 7')">Corrigé</button>
+      <div class="feedback" id="fb-e2"></div>
+      <div class="solution-box" id="sol-e2"><div class="solution-title">CORRIGÉ</div>g(0) = −2×0 + 7 = 0 + 7 = <strong>7</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e3')">
+      <span class="exo-badge badge-easy">Facile</span>
+      <span class="exo-title">Fonction linéaire</span>
+      <span class="exo-num">#03</span>
+      <span class="exo-arrow" id="arrow-e3">›</span>
+    </div>
+    <div class="exo-body" id="body-e3">
+      <div class="exo-question">f est une fonction linéaire telle que f(x) = 3x.<br>Calcule f(−4).</div>
+      <input class="answer-input" id="inp-e3" type="number" placeholder="Ta réponse...">
+      <button class="btn btn-primary" onclick="check('e3', -12)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e3', 'f(−4) = 3×(−4) = −12')">Corrigé</button>
+      <div class="feedback" id="fb-e3"></div>
+      <div class="solution-box" id="sol-e3"><div class="solution-title">CORRIGÉ</div>f(−4) = 3×(−4) = <strong>−12</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e4')">
+      <span class="exo-badge badge-easy">Facile</span>
+      <span class="exo-title">Calcul direct</span>
+      <span class="exo-num">#04</span>
+      <span class="exo-arrow" id="arrow-e4">›</span>
+    </div>
+    <div class="exo-body" id="body-e4">
+      <div class="exo-question">Soit f(x) = 5x − 2.<br>Calcule f(2).</div>
+      <input class="answer-input" id="inp-e4" type="number" placeholder="Ta réponse...">
+      <button class="btn btn-primary" onclick="check('e4', 8)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e4', 'f(2) = 5×2 − 2 = 10 − 2 = 8')">Corrigé</button>
+      <div class="feedback" id="fb-e4"></div>
+      <div class="solution-box" id="sol-e4"><div class="solution-title">CORRIGÉ</div>f(2) = 5×2 − 2 = 10 − 2 = <strong>8</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e5')">
+      <span class="exo-badge badge-easy">Facile</span>
+      <span class="exo-title">x négatif</span>
+      <span class="exo-num">#05</span>
+      <span class="exo-arrow" id="arrow-e5">›</span>
+    </div>
+    <div class="exo-body" id="body-e5">
+      <div class="exo-question">Soit f(x) = −3x + 1.<br>Calcule f(−1).</div>
+      <div class="exo-hint">Attention : −3 × (−1) = +3 (moins × moins = plus)</div>
+      <input class="answer-input" id="inp-e5" type="number" placeholder="Ta réponse...">
+      <button class="btn btn-primary" onclick="check('e5', 4)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e5', 'f(−1) = −3×(−1) + 1 = 3 + 1 = 4')">Corrigé</button>
+      <div class="feedback" id="fb-e5"></div>
+      <div class="solution-box" id="sol-e5"><div class="solution-title">CORRIGÉ</div>f(−1) = −3×(−1) + 1 = +3 + 1 = <strong>4</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e6')">
+      <span class="exo-badge badge-easy">Facile</span>
+      <span class="exo-title">Image d'un entier</span>
+      <span class="exo-num">#06</span>
+      <span class="exo-arrow" id="arrow-e6">›</span>
+    </div>
+    <div class="exo-body" id="body-e6">
+      <div class="exo-question">Soit f(x) = x + 8.<br>Calcule f(6).</div>
+      <input class="answer-input" id="inp-e6" type="number" placeholder="Ta réponse...">
+      <button class="btn btn-primary" onclick="check('e6', 14)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e6', 'f(6) = 6 + 8 = 14')">Corrigé</button>
+      <div class="feedback" id="fb-e6"></div>
+      <div class="solution-box" id="sol-e6"><div class="solution-title">CORRIGÉ</div>f(6) = 6 + 8 = <strong>14</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e7')">
+      <span class="exo-badge badge-easy">Facile</span>
+      <span class="exo-title">Linéaire simple</span>
+      <span class="exo-num">#07</span>
+      <span class="exo-arrow" id="arrow-e7">›</span>
+    </div>
+    <div class="exo-body" id="body-e7">
+      <div class="exo-question">Soit f(x) = 2x.<br>Calcule f(7).</div>
+      <input class="answer-input" id="inp-e7" type="number" placeholder="Ta réponse...">
+      <button class="btn btn-primary" onclick="check('e7', 14)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e7', 'f(7) = 2×7 = 14')">Corrigé</button>
+      <div class="feedback" id="fb-e7"></div>
+      <div class="solution-box" id="sol-e7"><div class="solution-title">CORRIGÉ</div>f(7) = 2×7 = <strong>14</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e8')">
+      <span class="exo-badge badge-easy">Facile</span>
+      <span class="exo-title">Coefficient négatif</span>
+      <span class="exo-num">#08</span>
+      <span class="exo-arrow" id="arrow-e8">›</span>
+    </div>
+    <div class="exo-body" id="body-e8">
+      <div class="exo-question">Soit f(x) = −4x.<br>Calcule f(3).</div>
+      <input class="answer-input" id="inp-e8" type="number" placeholder="Ta réponse...">
+      <button class="btn btn-primary" onclick="check('e8', -12)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e8', 'f(3) = −4×3 = −12')">Corrigé</button>
+      <div class="feedback" id="fb-e8"></div>
+      <div class="solution-box" id="sol-e8"><div class="solution-title">CORRIGÉ</div>f(3) = −4×3 = <strong>−12</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e9')">
+      <span class="exo-badge badge-easy">Facile</span>
+      <span class="exo-title">Image de 0 (b négatif)</span>
+      <span class="exo-num">#09</span>
+      <span class="exo-arrow" id="arrow-e9">›</span>
+    </div>
+    <div class="exo-body" id="body-e9">
+      <div class="exo-question">Soit f(x) = 6x − 5.<br>Calcule f(0).</div>
+      <input class="answer-input" id="inp-e9" type="number" placeholder="Ta réponse...">
+      <button class="btn btn-primary" onclick="check('e9', -5)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e9', 'f(0) = 6×0 − 5 = 0 − 5 = −5')">Corrigé</button>
+      <div class="feedback" id="fb-e9"></div>
+      <div class="solution-box" id="sol-e9"><div class="solution-title">CORRIGÉ</div>f(0) = 6×0 − 5 = 0 − 5 = <strong>−5</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e10')">
+      <span class="exo-badge badge-easy">Facile</span>
+      <span class="exo-title">Décroissante</span>
+      <span class="exo-num">#10</span>
+      <span class="exo-arrow" id="arrow-e10">›</span>
+    </div>
+    <div class="exo-body" id="body-e10">
+      <div class="exo-question">Soit f(x) = −x + 10.<br>Calcule f(4).</div>
+      <div class="exo-hint">−1 × 4 = −4</div>
+      <input class="answer-input" id="inp-e10" type="number" placeholder="Ta réponse...">
+      <button class="btn btn-primary" onclick="check('e10', 6)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e10', 'f(4) = −1×4 + 10 = −4 + 10 = 6')">Corrigé</button>
+      <div class="feedback" id="fb-e10"></div>
+      <div class="solution-box" id="sol-e10"><div class="solution-title">CORRIGÉ</div>f(4) = −1×4 + 10 = −4 + 10 = <strong>6</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e11')">
+      <span class="exo-badge badge-easy">Facile</span>
+      <span class="exo-title">Coefficient décimal</span>
+      <span class="exo-num">#11</span>
+      <span class="exo-arrow" id="arrow-e11">›</span>
+    </div>
+    <div class="exo-body" id="body-e11">
+      <div class="exo-question">Soit f(x) = 0,5x + 3.<br>Calcule f(8).</div>
+      <div class="exo-hint">0,5 × 8 = 4</div>
+      <input class="answer-input" id="inp-e11" type="number" placeholder="Ta réponse...">
+      <button class="btn btn-primary" onclick="check('e11', 7)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e11', 'f(8) = 0,5×8 + 3 = 4 + 3 = 7')">Corrigé</button>
+      <div class="feedback" id="fb-e11"></div>
+      <div class="solution-box" id="sol-e11"><div class="solution-title">CORRIGÉ</div>f(8) = 0,5×8 + 3 = 4 + 3 = <strong>7</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e12')">
+      <span class="exo-badge badge-easy">Facile</span>
+      <span class="exo-title">Image = 0</span>
+      <span class="exo-num">#12</span>
+      <span class="exo-arrow" id="arrow-e12">›</span>
+    </div>
+    <div class="exo-body" id="body-e12">
+      <div class="exo-question">Soit f(x) = 3x − 6.<br>Calcule f(2).</div>
+      <input class="answer-input" id="inp-e12" type="number" placeholder="Ta réponse...">
+      <button class="btn btn-primary" onclick="check('e12', 0)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e12', 'f(2) = 3×2 − 6 = 6 − 6 = 0')">Corrigé</button>
+      <div class="feedback" id="fb-e12"></div>
+      <div class="solution-box" id="sol-e12"><div class="solution-title">CORRIGÉ</div>f(2) = 3×2 − 6 = 6 − 6 = <strong>0</strong> (x=2 est la racine de f !)</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e13')">
+      <span class="exo-badge badge-easy">Facile</span>
+      <span class="exo-title">Deux négatifs</span>
+      <span class="exo-num">#13</span>
+      <span class="exo-arrow" id="arrow-e13">›</span>
+    </div>
+    <div class="exo-body" id="body-e13">
+      <div class="exo-question">Soit f(x) = −2x + 5.<br>Calcule f(−3).</div>
+      <div class="exo-hint">−2 × (−3) = +6</div>
+      <input class="answer-input" id="inp-e13" type="number" placeholder="Ta réponse...">
+      <button class="btn btn-primary" onclick="check('e13', 11)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e13', 'f(−3) = −2×(−3) + 5 = 6 + 5 = 11')">Corrigé</button>
+      <div class="feedback" id="fb-e13"></div>
+      <div class="solution-box" id="sol-e13"><div class="solution-title">CORRIGÉ</div>f(−3) = −2×(−3) + 5 = +6 + 5 = <strong>11</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e14')">
+      <span class="exo-badge badge-easy">Facile</span>
+      <span class="exo-title">Image négative</span>
+      <span class="exo-num">#14</span>
+      <span class="exo-arrow" id="arrow-e14">›</span>
+    </div>
+    <div class="exo-body" id="body-e14">
+      <div class="exo-question">Soit f(x) = 4x + 1.<br>Calcule f(−2).</div>
+      <input class="answer-input" id="inp-e14" type="number" placeholder="Ta réponse...">
+      <button class="btn btn-primary" onclick="check('e14', -7)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e14', 'f(−2) = 4×(−2) + 1 = −8 + 1 = −7')">Corrigé</button>
+      <div class="feedback" id="fb-e14"></div>
+      <div class="solution-box" id="sol-e14"><div class="solution-title">CORRIGÉ</div>f(−2) = 4×(−2) + 1 = −8 + 1 = <strong>−7</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e15')">
+      <span class="exo-badge badge-easy">Facile</span>
+      <span class="exo-title">Calcul pour x = 1</span>
+      <span class="exo-num">#15</span>
+      <span class="exo-arrow" id="arrow-e15">›</span>
+    </div>
+    <div class="exo-body" id="body-e15">
+      <div class="exo-question">Soit f(x) = 7x − 4.<br>Calcule f(1).</div>
+      <input class="answer-input" id="inp-e15" type="number" placeholder="Ta réponse...">
+      <button class="btn btn-primary" onclick="check('e15', 3)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e15', 'f(1) = 7×1 − 4 = 7 − 4 = 3')">Corrigé</button>
+      <div class="feedback" id="fb-e15"></div>
+      <div class="solution-box" id="sol-e15"><div class="solution-title">CORRIGÉ</div>f(1) = 7×1 − 4 = 7 − 4 = <strong>3</strong></div>
+    </div>
+  </div>
+
+  <!-- ===== MOYEN ===== -->
+  <div class="section-divider" id="div-med">Niveau Moyen — Antécédents, coefficients, taux de variation</div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e16')">
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-title">Trouver l'antécédent</span>
+      <span class="exo-num">#16</span>
+      <span class="exo-arrow" id="arrow-e16">›</span>
+    </div>
+    <div class="exo-body" id="body-e16">
+      <div class="exo-question">f(x) = 2x + 1.<br>Quel est l'antécédent de 9 par f ?<br><small>(résoudre : f(x) = 9)</small></div>
+      <div class="exo-hint">Pose l'équation 2x + 1 = 9, puis résous-la.</div>
+      <input class="answer-input" id="inp-e16" type="number" placeholder="x = ?">
+      <button class="btn btn-primary" onclick="check('e16', 4)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e16', '2x + 1 = 9 → 2x = 8 → x = 4')">Corrigé</button>
+      <div class="feedback" id="fb-e16"></div>
+      <div class="solution-box" id="sol-e16"><div class="solution-title">CORRIGÉ</div>2x + 1 = 9 → 2x = 8 → x = <strong>4</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e17')">
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-title">Trouver le coefficient a</span>
+      <span class="exo-num">#17</span>
+      <span class="exo-arrow" id="arrow-e17">›</span>
+    </div>
+    <div class="exo-body" id="body-e17">
+      <div class="exo-question">Une fonction linéaire f(x) = ax passe par le point (5 ; 15).<br>Quelle est la valeur de a ?</div>
+      <div class="exo-hint">f(5) = 15 → a × 5 = 15 → a = ?</div>
+      <input class="answer-input" id="inp-e17" type="number" placeholder="a = ?">
+      <button class="btn btn-primary" onclick="check('e17', 3)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e17', 'f(5) = a×5 = 15 → a = 15÷5 = 3')">Corrigé</button>
+      <div class="feedback" id="fb-e17"></div>
+      <div class="solution-box" id="sol-e17"><div class="solution-title">CORRIGÉ</div>a×5 = 15 → a = 15 ÷ 5 = <strong>3</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e18')">
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-title">Taux de variation</span>
+      <span class="exo-num">#18</span>
+      <span class="exo-arrow" id="arrow-e18">›</span>
+    </div>
+    <div class="exo-body" id="body-e18">
+      <div class="exo-question">f(x) = 3x − 2.<br>Calcule le taux de variation de f entre x₁ = 1 et x₂ = 4.</div>
+      <div class="exo-hint">Taux = (f(x₂) − f(x₁)) ÷ (x₂ − x₁)</div>
+      <input class="answer-input" id="inp-e18" type="number" placeholder="Taux = ?">
+      <button class="btn btn-primary" onclick="check('e18', 3)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e18', '(f(4)−f(1))÷(4−1) = (10−1)÷3 = 9÷3 = 3')">Corrigé</button>
+      <div class="feedback" id="fb-e18"></div>
+      <div class="solution-box" id="sol-e18"><div class="solution-title">CORRIGÉ</div>f(1)=1, f(4)=10 → (10−1)÷(4−1) = 9÷3 = <strong>3</strong> (= a ✓)</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e19')">
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-title">Coefficient directeur graphique</span>
+      <span class="exo-num">#19</span>
+      <span class="exo-arrow" id="arrow-e19">›</span>
+    </div>
+    <div class="exo-body" id="body-e19">
+      <div class="graph-wrap" style="aspect-ratio:1">
+        <canvas id="canvas-e19"></canvas>
+      </div>
+      <div class="exo-question" style="margin-top:12px">La droite passe par (0 ; −1) et (2 ; 3).<br>Trouve a (le coefficient directeur) :</div>
+      <div class="exo-hint">a = (y₂ − y₁) ÷ (x₂ − x₁)</div>
+      <input class="answer-input" id="inp-e19" type="number" placeholder="a = ?">
+      <button class="btn btn-primary" onclick="check('e19', 2)">Vérifier a</button>
+      <button class="btn btn-show" onclick="showSolution('e19', 'a = (3−(−1)) ÷ (2−0) = 4 ÷ 2 = 2')">Corrigé</button>
+      <div class="feedback" id="fb-e19"></div>
+      <div class="solution-box" id="sol-e19"><div class="solution-title">CORRIGÉ</div>a = (3−(−1)) ÷ (2−0) = 4 ÷ 2 = <strong>2</strong> → f(x) = 2x − 1</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e20')">
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-title">Tableau de valeurs</span>
+      <span class="exo-num">#20</span>
+      <span class="exo-arrow" id="arrow-e20">›</span>
+    </div>
+    <div class="exo-body" id="body-e20">
+      <div class="exo-question">f(x) = −x + 4.<br>Quelle est la valeur de f(−2) ?</div>
+      <input class="answer-input" id="inp-e20" type="number" placeholder="Ta réponse...">
+      <button class="btn btn-primary" onclick="check('e20', 6)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e20', 'f(−2) = −(−2) + 4 = 2 + 4 = 6')">Corrigé</button>
+      <div class="feedback" id="fb-e20"></div>
+      <div class="solution-box" id="sol-e20"><div class="solution-title">CORRIGÉ</div>f(−2) = −(−2) + 4 = +2 + 4 = <strong>6</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e21')">
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-title">Antécédent de 7</span>
+      <span class="exo-num">#21</span>
+      <span class="exo-arrow" id="arrow-e21">›</span>
+    </div>
+    <div class="exo-body" id="body-e21">
+      <div class="exo-question">f(x) = 5x − 3.<br>Quel est l'antécédent de 7 par f ?</div>
+      <div class="exo-hint">Résous 5x − 3 = 7</div>
+      <input class="answer-input" id="inp-e21" type="number" placeholder="x = ?">
+      <button class="btn btn-primary" onclick="check('e21', 2)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e21', '5x − 3 = 7 → 5x = 10 → x = 2')">Corrigé</button>
+      <div class="feedback" id="fb-e21"></div>
+      <div class="solution-box" id="sol-e21"><div class="solution-title">CORRIGÉ</div>5x − 3 = 7 → 5x = 10 → x = <strong>2</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e22')">
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-title">Trouver a depuis deux images</span>
+      <span class="exo-num">#22</span>
+      <span class="exo-arrow" id="arrow-e22">›</span>
+    </div>
+    <div class="exo-body" id="body-e22">
+      <div class="exo-question">f(x) = ax + b, avec f(0) = −2 et f(1) = 1.<br>Quelle est la valeur de a ?</div>
+      <div class="exo-hint">f(0) = b, donc b = −2. Puis f(1) = a + b = 1.</div>
+      <input class="answer-input" id="inp-e22" type="number" placeholder="a = ?">
+      <button class="btn btn-primary" onclick="check('e22', 3)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e22', 'b = f(0) = −2. f(1) = a + (−2) = 1 → a = 3')">Corrigé</button>
+      <div class="feedback" id="fb-e22"></div>
+      <div class="solution-box" id="sol-e22"><div class="solution-title">CORRIGÉ</div>b = −2. a + (−2) = 1 → a = <strong>3</strong> → f(x) = 3x − 2</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e23')">
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-title">Coefficient directeur négatif</span>
+      <span class="exo-num">#23</span>
+      <span class="exo-arrow" id="arrow-e23">›</span>
+    </div>
+    <div class="exo-body" id="body-e23">
+      <div class="exo-question">f(x) = ax + b, avec f(0) = 4 et f(2) = 0.<br>Quelle est la valeur de a ?</div>
+      <div class="exo-hint">b = 4. f(2) = 2a + 4 = 0 → 2a = ?</div>
+      <input class="answer-input" id="inp-e23" type="number" placeholder="a = ?">
+      <button class="btn btn-primary" onclick="check('e23', -2)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e23', 'b = 4. 2a + 4 = 0 → 2a = −4 → a = −2')">Corrigé</button>
+      <div class="feedback" id="fb-e23"></div>
+      <div class="solution-box" id="sol-e23"><div class="solution-title">CORRIGÉ</div>b = 4. 2a + 4 = 0 → 2a = −4 → a = <strong>−2</strong> → f(x) = −2x + 4</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e24')">
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-title">Racine de la fonction</span>
+      <span class="exo-num">#24</span>
+      <span class="exo-arrow" id="arrow-e24">›</span>
+    </div>
+    <div class="exo-body" id="body-e24">
+      <div class="exo-question">f(x) = 2x − 6.<br>Pour quelle valeur de x a-t-on f(x) = 0 ?</div>
+      <div class="exo-hint">Résous l'équation 2x − 6 = 0</div>
+      <input class="answer-input" id="inp-e24" type="number" placeholder="x = ?">
+      <button class="btn btn-primary" onclick="check('e24', 3)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e24', '2x − 6 = 0 → 2x = 6 → x = 3')">Corrigé</button>
+      <div class="feedback" id="fb-e24"></div>
+      <div class="solution-box" id="sol-e24"><div class="solution-title">CORRIGÉ</div>2x − 6 = 0 → 2x = 6 → x = <strong>3</strong> (la droite coupe l'axe des x en (3;0))</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e25')">
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-title">Zéro de la fonction décroissante</span>
+      <span class="exo-num">#25</span>
+      <span class="exo-arrow" id="arrow-e25">›</span>
+    </div>
+    <div class="exo-body" id="body-e25">
+      <div class="exo-question">f(x) = −3x + 9.<br>Pour quelle valeur de x a-t-on f(x) = 0 ?</div>
+      <input class="answer-input" id="inp-e25" type="number" placeholder="x = ?">
+      <button class="btn btn-primary" onclick="check('e25', 3)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e25', '−3x + 9 = 0 → −3x = −9 → x = 3')">Corrigé</button>
+      <div class="feedback" id="fb-e25"></div>
+      <div class="solution-box" id="sol-e25"><div class="solution-title">CORRIGÉ</div>−3x + 9 = 0 → −3x = −9 → x = <strong>3</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e26')">
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-title">Taux de variation négatif</span>
+      <span class="exo-num">#26</span>
+      <span class="exo-arrow" id="arrow-e26">›</span>
+    </div>
+    <div class="exo-body" id="body-e26">
+      <div class="exo-question">f(x) = −2x + 5.<br>Calcule le taux de variation de f entre x = 0 et x = 3.</div>
+      <input class="answer-input" id="inp-e26" type="number" placeholder="Taux = ?">
+      <button class="btn btn-primary" onclick="check('e26', -2)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e26', '(f(3)−f(0))÷(3−0) = (−1−5)÷3 = −6÷3 = −2 = a ✓')">Corrigé</button>
+      <div class="feedback" id="fb-e26"></div>
+      <div class="solution-box" id="sol-e26"><div class="solution-title">CORRIGÉ</div>f(0)=5, f(3)=−1 → (−1−5)÷3 = −6÷3 = <strong>−2</strong> = a ✓</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e27')">
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-title">Antécédent d'un négatif</span>
+      <span class="exo-num">#27</span>
+      <span class="exo-arrow" id="arrow-e27">›</span>
+    </div>
+    <div class="exo-body" id="body-e27">
+      <div class="exo-question">f(x) = 4x + 1.<br>Quel est l'antécédent de −3 par f ?</div>
+      <div class="exo-hint">4x + 1 = −3</div>
+      <input class="answer-input" id="inp-e27" type="number" placeholder="x = ?">
+      <button class="btn btn-primary" onclick="check('e27', -1)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e27', '4x + 1 = −3 → 4x = −4 → x = −1')">Corrigé</button>
+      <div class="feedback" id="fb-e27"></div>
+      <div class="solution-box" id="sol-e27"><div class="solution-title">CORRIGÉ</div>4x + 1 = −3 → 4x = −4 → x = <strong>−1</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e28')">
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-title">Coefficient depuis 2 points</span>
+      <span class="exo-num">#28</span>
+      <span class="exo-arrow" id="arrow-e28">›</span>
+    </div>
+    <div class="exo-body" id="body-e28">
+      <div class="exo-question">Une droite passe par (1 ; 3) et (3 ; 7).<br>Quel est son coefficient directeur ?</div>
+      <div class="exo-hint">a = (y₂ − y₁) ÷ (x₂ − x₁)</div>
+      <input class="answer-input" id="inp-e28" type="number" placeholder="a = ?">
+      <button class="btn btn-primary" onclick="check('e28', 2)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e28', 'a = (7−3) ÷ (3−1) = 4 ÷ 2 = 2')">Corrigé</button>
+      <div class="feedback" id="fb-e28"></div>
+      <div class="solution-box" id="sol-e28"><div class="solution-title">CORRIGÉ</div>a = (7−3) ÷ (3−1) = 4 ÷ 2 = <strong>2</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e29')">
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-title">Pente décroissante depuis 2 points</span>
+      <span class="exo-num">#29</span>
+      <span class="exo-arrow" id="arrow-e29">›</span>
+    </div>
+    <div class="exo-body" id="body-e29">
+      <div class="exo-question">Une droite passe par (0 ; 5) et (2 ; 1).<br>Quel est son coefficient directeur ?</div>
+      <input class="answer-input" id="inp-e29" type="number" placeholder="a = ?">
+      <button class="btn btn-primary" onclick="check('e29', -2)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e29', 'a = (1−5) ÷ (2−0) = −4 ÷ 2 = −2')">Corrigé</button>
+      <div class="feedback" id="fb-e29"></div>
+      <div class="solution-box" id="sol-e29"><div class="solution-title">CORRIGÉ</div>a = (1−5) ÷ (2−0) = −4 ÷ 2 = <strong>−2</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e30')">
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-title">Proportionnalité — extrapoler</span>
+      <span class="exo-num">#30</span>
+      <span class="exo-arrow" id="arrow-e30">›</span>
+    </div>
+    <div class="exo-body" id="body-e30">
+      <div class="exo-question">f est une fonction linéaire et f(3) = 12.<br>Quelle est la valeur de f(7) ?</div>
+      <div class="exo-hint">Trouve d'abord a depuis f(3) = 12. Ensuite calcule f(7).</div>
+      <input class="answer-input" id="inp-e30" type="number" placeholder="f(7) = ?">
+      <button class="btn btn-primary" onclick="check('e30', 28)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e30', 'a = 12÷3 = 4 → f(x)=4x → f(7)=4×7=28')">Corrigé</button>
+      <div class="feedback" id="fb-e30"></div>
+      <div class="solution-box" id="sol-e30"><div class="solution-title">CORRIGÉ</div>a = 12÷3 = 4 → f(x) = 4x → f(7) = 4×7 = <strong>28</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e31')">
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-title">Trouver b</span>
+      <span class="exo-num">#31</span>
+      <span class="exo-arrow" id="arrow-e31">›</span>
+    </div>
+    <div class="exo-body" id="body-e31">
+      <div class="exo-question">f(x) = 2x + b et f(3) = 11.<br>Quelle est la valeur de b ?</div>
+      <div class="exo-hint">f(3) = 2×3 + b = 11 → 6 + b = 11</div>
+      <input class="answer-input" id="inp-e31" type="number" placeholder="b = ?">
+      <button class="btn btn-primary" onclick="check('e31', 5)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e31', '6 + b = 11 → b = 5')">Corrigé</button>
+      <div class="feedback" id="fb-e31"></div>
+      <div class="solution-box" id="sol-e31"><div class="solution-title">CORRIGÉ</div>2×3 + b = 11 → 6 + b = 11 → b = <strong>5</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e32')">
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-title">Trouver a (avec b connu)</span>
+      <span class="exo-num">#32</span>
+      <span class="exo-arrow" id="arrow-e32">›</span>
+    </div>
+    <div class="exo-body" id="body-e32">
+      <div class="exo-question">f(x) = ax − 4 et f(2) = 2.<br>Quelle est la valeur de a ?</div>
+      <div class="exo-hint">f(2) = 2a − 4 = 2</div>
+      <input class="answer-input" id="inp-e32" type="number" placeholder="a = ?">
+      <button class="btn btn-primary" onclick="check('e32', 3)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e32', '2a − 4 = 2 → 2a = 6 → a = 3')">Corrigé</button>
+      <div class="feedback" id="fb-e32"></div>
+      <div class="solution-box" id="sol-e32"><div class="solution-title">CORRIGÉ</div>2a − 4 = 2 → 2a = 6 → a = <strong>3</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e33')">
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-title">Antécédent de 0</span>
+      <span class="exo-num">#33</span>
+      <span class="exo-arrow" id="arrow-e33">›</span>
+    </div>
+    <div class="exo-body" id="body-e33">
+      <div class="exo-question">f(x) = −2x + 8.<br>Quel est l'antécédent de 0 par f ?<br><small>(c'est-à-dire : pour quelle valeur de x f(x) = 0 ?)</small></div>
+      <input class="answer-input" id="inp-e33" type="number" placeholder="x = ?">
+      <button class="btn btn-primary" onclick="check('e33', 4)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e33', '−2x + 8 = 0 → −2x = −8 → x = 4')">Corrigé</button>
+      <div class="feedback" id="fb-e33"></div>
+      <div class="solution-box" id="sol-e33"><div class="solution-title">CORRIGÉ</div>−2x + 8 = 0 → −2x = −8 → x = <strong>4</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e34')">
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-title">Valeur sur un intervalle</span>
+      <span class="exo-num">#34</span>
+      <span class="exo-arrow" id="arrow-e34">›</span>
+    </div>
+    <div class="exo-body" id="body-e34">
+      <div class="exo-question">f(x) = 3x + 1.<br>Quelle est la valeur de f(−2) ?</div>
+      <input class="answer-input" id="inp-e34" type="number" placeholder="Ta réponse...">
+      <button class="btn btn-primary" onclick="check('e34', -5)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e34', 'f(−2) = 3×(−2) + 1 = −6 + 1 = −5')">Corrigé</button>
+      <div class="feedback" id="fb-e34"></div>
+      <div class="solution-box" id="sol-e34"><div class="solution-title">CORRIGÉ</div>f(−2) = 3×(−2) + 1 = −6 + 1 = <strong>−5</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e35')">
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-title">Extrapolation linéaire</span>
+      <span class="exo-num">#35</span>
+      <span class="exo-arrow" id="arrow-e35">›</span>
+    </div>
+    <div class="exo-body" id="body-e35">
+      <div class="exo-question">f est une fonction linéaire et f(−3) = 12.<br>Quelle est la valeur de f(5) ?</div>
+      <div class="exo-hint">Trouve a : a = 12 ÷ (−3). Puis calcule f(5) = a × 5.</div>
+      <input class="answer-input" id="inp-e35" type="number" placeholder="f(5) = ?">
+      <button class="btn btn-primary" onclick="check('e35', -20)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e35', 'a = 12÷(−3) = −4 → f(x)=−4x → f(5)=−4×5=−20')">Corrigé</button>
+      <div class="feedback" id="fb-e35"></div>
+      <div class="solution-box" id="sol-e35"><div class="solution-title">CORRIGÉ</div>a = 12÷(−3) = −4 → f(5) = −4×5 = <strong>−20</strong></div>
+    </div>
+  </div>
+
+  <!-- ===== EXPERT ===== -->
+  <div class="section-divider" id="div-hard">Niveau Expert — Brevet difficile</div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e36')">
+      <span class="exo-badge badge-hard">Expert</span>
+      <span class="exo-title">Intersection — abscisse</span>
+      <span class="exo-num">#36</span>
+      <span class="exo-arrow" id="arrow-e36">›</span>
+    </div>
+    <div class="exo-body" id="body-e36">
+      <div class="exo-question">f(x) = 2x + 1 &nbsp;&nbsp; g(x) = x + 3<br>Trouver l'abscisse du point d'intersection.</div>
+      <div class="exo-hint">Résous f(x) = g(x) → 2x + 1 = x + 3</div>
+      <input class="answer-input" id="inp-e36" type="number" placeholder="x = ?">
+      <button class="btn btn-primary" onclick="check('e36', 2)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e36', '2x + 1 = x + 3 → x = 2')">Corrigé</button>
+      <div class="feedback" id="fb-e36"></div>
+      <div class="solution-box" id="sol-e36"><div class="solution-title">CORRIGÉ</div>2x + 1 = x + 3 → 2x − x = 3 − 1 → x = <strong>2</strong> → Point (2 ; 5)</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e37')">
+      <span class="exo-badge badge-hard">Expert</span>
+      <span class="exo-title">Intersection — autre exemple</span>
+      <span class="exo-num">#37</span>
+      <span class="exo-arrow" id="arrow-e37">›</span>
+    </div>
+    <div class="exo-body" id="body-e37">
+      <div class="exo-question">f(x) = 3x − 2 &nbsp;&nbsp; g(x) = x + 4<br>Trouver l'abscisse du point d'intersection.</div>
+      <input class="answer-input" id="inp-e37" type="number" placeholder="x = ?">
+      <button class="btn btn-primary" onclick="check('e37', 3)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e37', '3x − 2 = x + 4 → 2x = 6 → x = 3')">Corrigé</button>
+      <div class="feedback" id="fb-e37"></div>
+      <div class="solution-box" id="sol-e37"><div class="solution-title">CORRIGÉ</div>3x − 2 = x + 4 → 2x = 6 → x = <strong>3</strong> → Point (3 ; 7)</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e38')">
+      <span class="exo-badge badge-hard">Expert</span>
+      <span class="exo-title">Intersection — ordonnée</span>
+      <span class="exo-num">#38</span>
+      <span class="exo-arrow" id="arrow-e38">›</span>
+    </div>
+    <div class="exo-body" id="body-e38">
+      <div class="exo-question">f(x) = 2x + 1 &nbsp;&nbsp; g(x) = −x + 7<br>Quelle est l'<strong>ordonnée</strong> du point d'intersection ?</div>
+      <div class="exo-hint">Trouve d'abord x (abscisse), puis calcule f(x).</div>
+      <input class="answer-input" id="inp-e38" type="number" placeholder="y = ?">
+      <button class="btn btn-primary" onclick="check('e38', 5)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e38', '2x+1=−x+7 → 3x=6 → x=2. f(2)=2×2+1=5')">Corrigé</button>
+      <div class="feedback" id="fb-e38"></div>
+      <div class="solution-box" id="sol-e38"><div class="solution-title">CORRIGÉ</div>2x+1=−x+7 → 3x=6 → x=2. y = f(2) = 4+1 = <strong>5</strong>. Point (2 ; 5).</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e39')">
+      <span class="exo-badge badge-hard">Expert</span>
+      <span class="exo-title">Problème — coût de taxi</span>
+      <span class="exo-num">#39</span>
+      <span class="exo-arrow" id="arrow-e39">›</span>
+    </div>
+    <div class="exo-body" id="body-e39">
+      <div class="exo-question">Un taxi coûte 2 € par km plus 5 € de prise en charge.<br>On modélise le coût par C(d) = 2d + 5.<br>Quel est le coût pour 8 km ?</div>
+      <input class="answer-input" id="inp-e39" type="number" placeholder="Coût en € = ?">
+      <button class="btn btn-primary" onclick="check('e39', 21)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e39', 'C(8) = 2×8 + 5 = 16 + 5 = 21 €')">Corrigé</button>
+      <div class="feedback" id="fb-e39"></div>
+      <div class="solution-box" id="sol-e39"><div class="solution-title">CORRIGÉ</div>C(8) = 2×8 + 5 = 16 + 5 = <strong>21 €</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e40')">
+      <span class="exo-badge badge-hard">Expert</span>
+      <span class="exo-title">Problème — comparaison de tarifs</span>
+      <span class="exo-num">#40</span>
+      <span class="exo-arrow" id="arrow-e40">›</span>
+    </div>
+    <div class="exo-body" id="body-e40">
+      <div class="exo-question">Tarif A : A(x) = 3x + 2<br>Tarif B : B(x) = 2x + 5<br>Pour quelle valeur de x les tarifs sont-ils égaux ?</div>
+      <div class="exo-hint">Résous A(x) = B(x)</div>
+      <input class="answer-input" id="inp-e40" type="number" placeholder="x = ?">
+      <button class="btn btn-primary" onclick="check('e40', 3)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e40', '3x + 2 = 2x + 5 → x = 3')">Corrigé</button>
+      <div class="feedback" id="fb-e40"></div>
+      <div class="solution-box" id="sol-e40"><div class="solution-title">CORRIGÉ</div>3x + 2 = 2x + 5 → x = <strong>3</strong>. Pour x < 3, B est moins cher. Pour x > 3, A est moins cher.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e41')">
+      <span class="exo-badge badge-hard">Expert</span>
+      <span class="exo-title">Égalité de deux fonctions</span>
+      <span class="exo-num">#41</span>
+      <span class="exo-arrow" id="arrow-e41">›</span>
+    </div>
+    <div class="exo-body" id="body-e41">
+      <div class="exo-question">f(x) = −3x + 7 &nbsp;&nbsp; g(x) = 2x − 3<br>Pour quelle valeur de x a-t-on f(x) = g(x) ?</div>
+      <input class="answer-input" id="inp-e41" type="number" placeholder="x = ?">
+      <button class="btn btn-primary" onclick="check('e41', 2)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e41', '−3x + 7 = 2x − 3 → 10 = 5x → x = 2')">Corrigé</button>
+      <div class="feedback" id="fb-e41"></div>
+      <div class="solution-box" id="sol-e41"><div class="solution-title">CORRIGÉ</div>−3x + 7 = 2x − 3 → 7 + 3 = 2x + 3x → 10 = 5x → x = <strong>2</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e42')">
+      <span class="exo-badge badge-hard">Expert</span>
+      <span class="exo-title">Troisième intersection</span>
+      <span class="exo-num">#42</span>
+      <span class="exo-arrow" id="arrow-e42">›</span>
+    </div>
+    <div class="exo-body" id="body-e42">
+      <div class="exo-question">f(x) = 2x + 3 &nbsp;&nbsp; g(x) = 5x − 3<br>Trouver l'abscisse du point d'intersection.</div>
+      <input class="answer-input" id="inp-e42" type="number" placeholder="x = ?">
+      <button class="btn btn-primary" onclick="check('e42', 2)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e42', '2x + 3 = 5x − 3 → 6 = 3x → x = 2')">Corrigé</button>
+      <div class="feedback" id="fb-e42"></div>
+      <div class="solution-box" id="sol-e42"><div class="solution-title">CORRIGÉ</div>2x + 3 = 5x − 3 → 6 = 3x → x = <strong>2</strong> → Point (2 ; 7)</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e43')">
+      <span class="exo-badge badge-hard">Expert</span>
+      <span class="exo-title">Problème — piscine</span>
+      <span class="exo-num">#43</span>
+      <span class="exo-arrow" id="arrow-e43">›</span>
+    </div>
+    <div class="exo-body" id="body-e43">
+      <div class="exo-question">Une piscine contient 300 litres. On la vide à raison de 25 litres par minute.<br>V(t) = 300 − 25t<br>En combien de minutes la piscine sera-t-elle vide ?</div>
+      <div class="exo-hint">Résoudre V(t) = 0</div>
+      <input class="answer-input" id="inp-e43" type="number" placeholder="t = ? minutes">
+      <button class="btn btn-primary" onclick="check('e43', 12)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e43', '300 − 25t = 0 → 25t = 300 → t = 12 min')">Corrigé</button>
+      <div class="feedback" id="fb-e43"></div>
+      <div class="solution-box" id="sol-e43"><div class="solution-title">CORRIGÉ</div>300 − 25t = 0 → 25t = 300 → t = <strong>12 minutes</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e44')">
+      <span class="exo-badge badge-hard">Expert</span>
+      <span class="exo-title">Trouver b depuis 2 points</span>
+      <span class="exo-num">#44</span>
+      <span class="exo-arrow" id="arrow-e44">›</span>
+    </div>
+    <div class="exo-body" id="body-e44">
+      <div class="exo-question">Une droite passe par A(1 ; 4) et B(4 ; −2).<br>Trouver b (l'ordonnée à l'origine).</div>
+      <div class="exo-hint">1) Calcule a = (y₂−y₁)÷(x₂−x₁). 2) Utilise f(1) = 4 pour trouver b.</div>
+      <input class="answer-input" id="inp-e44" type="number" placeholder="b = ?">
+      <button class="btn btn-primary" onclick="check('e44', 6)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e44', 'a=(−2−4)÷(4−1)=−6÷3=−2. f(x)=−2x+b. f(1)=4: −2+b=4 → b=6')">Corrigé</button>
+      <div class="feedback" id="fb-e44"></div>
+      <div class="solution-box" id="sol-e44"><div class="solution-title">CORRIGÉ</div>a = (−2−4)÷(4−1) = −6÷3 = −2. Puis −2×1 + b = 4 → b = <strong>6</strong>. f(x) = −2x + 6.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e45')">
+      <span class="exo-badge badge-hard">Expert</span>
+      <span class="exo-title">Ordonnée du point d'intersection</span>
+      <span class="exo-num">#45</span>
+      <span class="exo-arrow" id="arrow-e45">›</span>
+    </div>
+    <div class="exo-body" id="body-e45">
+      <div class="exo-question">f(x) = 3x + 2 &nbsp;&nbsp; g(x) = −x + 10<br>Quelle est l'ordonnée du point d'intersection de ces deux droites ?</div>
+      <div class="exo-hint">1) Résous 3x + 2 = −x + 10 pour trouver x. 2) Calcule f(x) pour l'ordonnée.</div>
+      <input class="answer-input" id="inp-e45" type="number" placeholder="y = ?">
+      <button class="btn btn-primary" onclick="check('e45', 8)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e45', '3x+2=−x+10 → 4x=8 → x=2. y=f(2)=6+2=8')">Corrigé</button>
+      <div class="feedback" id="fb-e45"></div>
+      <div class="solution-box" id="sol-e45"><div class="solution-title">CORRIGÉ</div>3x+2=−x+10 → 4x=8 → x=2. y = f(2) = 3×2+2 = <strong>8</strong>. Point (2 ; 8).</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e46')">
+      <span class="exo-badge badge-hard">Expert</span>
+      <span class="exo-title">Problème — économies</span>
+      <span class="exo-num">#46</span>
+      <span class="exo-arrow" id="arrow-e46">›</span>
+    </div>
+    <div class="exo-body" id="body-e46">
+      <div class="exo-question">Jean gagne 8 € par heure et possède déjà 20 €.<br>On modélise ses économies par f(h) = 8h + 20.<br>Combien d'heures doit-il travailler pour avoir 100 € ?</div>
+      <input class="answer-input" id="inp-e46" type="number" placeholder="h = ? heures">
+      <button class="btn btn-primary" onclick="check('e46', 10)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e46', '8h + 20 = 100 → 8h = 80 → h = 10 heures')">Corrigé</button>
+      <div class="feedback" id="fb-e46"></div>
+      <div class="solution-box" id="sol-e46"><div class="solution-title">CORRIGÉ</div>8h + 20 = 100 → 8h = 80 → h = <strong>10 heures</strong></div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e47')">
+      <span class="exo-badge badge-hard">Expert</span>
+      <span class="exo-title">Racine de la fonction</span>
+      <span class="exo-num">#47</span>
+      <span class="exo-arrow" id="arrow-e47">›</span>
+    </div>
+    <div class="exo-body" id="body-e47">
+      <div class="exo-question">f(x) = 2x − 4.<br>Pour quelle valeur de x la droite coupe-t-elle l'axe des abscisses ?</div>
+      <div class="exo-hint">Résoudre f(x) = 0, car l'axe des abscisses correspond à y = 0.</div>
+      <input class="answer-input" id="inp-e47" type="number" placeholder="x = ?">
+      <button class="btn btn-primary" onclick="check('e47', 2)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e47', '2x − 4 = 0 → 2x = 4 → x = 2')">Corrigé</button>
+      <div class="feedback" id="fb-e47"></div>
+      <div class="solution-box" id="sol-e47"><div class="solution-title">CORRIGÉ</div>2x − 4 = 0 → 2x = 4 → x = <strong>2</strong>. La droite coupe l'axe des x en (2 ; 0).</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e48')">
+      <span class="exo-badge badge-hard">Expert</span>
+      <span class="exo-title">Droites parallèles</span>
+      <span class="exo-num">#48</span>
+      <span class="exo-arrow" id="arrow-e48">›</span>
+    </div>
+    <div class="exo-body" id="body-e48">
+      <div class="exo-question">f(x) = ax + 3 est parallèle à g(x) = 5x − 1.<br>Quelle est la valeur de a ?</div>
+      <div class="exo-hint">Deux droites sont parallèles si et seulement si elles ont le même coefficient directeur.</div>
+      <input class="answer-input" id="inp-e48" type="number" placeholder="a = ?">
+      <button class="btn btn-primary" onclick="check('e48', 5)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e48', 'Droites parallèles ⟺ même a. Donc a = 5.')">Corrigé</button>
+      <div class="feedback" id="fb-e48"></div>
+      <div class="solution-box" id="sol-e48"><div class="solution-title">CORRIGÉ</div>Deux droites parallèles ont le même coefficient directeur. Donc a = <strong>5</strong>. f(x) = 5x + 3 ∥ g(x) = 5x − 1.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e49')">
+      <span class="exo-badge badge-hard">Expert</span>
+      <span class="exo-title">Différence de deux fonctions</span>
+      <span class="exo-num">#49</span>
+      <span class="exo-arrow" id="arrow-e49">›</span>
+    </div>
+    <div class="exo-body" id="body-e49">
+      <div class="exo-question">f(x) = 2x + 1 &nbsp;&nbsp; g(x) = 2x + 5<br>Quelle est la valeur de f(x) − g(x) pour tout x ?</div>
+      <div class="exo-hint">Calcule (2x + 1) − (2x + 5). Les termes en x s'annulent !</div>
+      <input class="answer-input" id="inp-e49" type="number" placeholder="f(x) − g(x) = ?">
+      <button class="btn btn-primary" onclick="check('e49', -4)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e49', '(2x+1)−(2x+5) = 2x+1−2x−5 = −4 (constante)')">Corrigé</button>
+      <div class="feedback" id="fb-e49"></div>
+      <div class="solution-box" id="sol-e49"><div class="solution-title">CORRIGÉ</div>(2x+1)−(2x+5) = −4. La différence est constante : <strong>−4</strong>. Les droites sont parallèles et toujours distantes de 4 unités.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e50')">
+      <span class="exo-badge badge-hard">Expert</span>
+      <span class="exo-title">Trouver b depuis un point</span>
+      <span class="exo-num">#50</span>
+      <span class="exo-arrow" id="arrow-e50">›</span>
+    </div>
+    <div class="exo-body" id="body-e50">
+      <div class="exo-question">f(x) = 3x + b passe par le point (4 ; 10).<br>Quelle est la valeur de b ?</div>
+      <div class="exo-hint">f(4) = 10 → 3×4 + b = 10</div>
+      <input class="answer-input" id="inp-e50" type="number" placeholder="b = ?">
+      <button class="btn btn-primary" onclick="check('e50', -2)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e50', 'f(4) = 3×4 + b = 12 + b = 10 → b = −2')">Corrigé</button>
+      <div class="feedback" id="fb-e50"></div>
+      <div class="solution-box" id="sol-e50"><div class="solution-title">CORRIGÉ</div>12 + b = 10 → b = <strong>−2</strong>. Donc f(x) = 3x − 2.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- RECAP                                                         -->
+<!-- ============================================================ -->
+<div class="section" id="section-recap">
+
+  <div class="card">
+    <div class="card-title">Tableau récapitulatif — Les 3 types</div>
+    <table class="summary-table">
+      <tr>
+        <th>Type</th><th>Forme</th><th>Graphique</th><th>Passe par (0;0)?</th><th>Coefficient</th>
+      </tr>
+      <tr>
+        <td><strong>Quelconque</strong></td>
+        <td style="font-family:'Space Mono',monospace">f(x) = ...</td>
+        <td>Courbe quelconque</td>
+        <td style="color:var(--text-muted)">Pas forcément</td>
+        <td style="color:var(--text-muted)">Variable</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--accent)">Linéaire</strong></td>
+        <td style="font-family:'Space Mono',monospace;color:var(--accent)">f(x) = ax</td>
+        <td>Droite</td>
+        <td style="color:var(--green)">TOUJOURS ✓</td>
+        <td style="color:var(--accent)">a = y ÷ x</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--accent2)">Affine</strong></td>
+        <td style="font-family:'Space Mono',monospace;color:var(--accent2)">f(x) = ax + b</td>
+        <td>Droite</td>
+        <td style="color:var(--text-muted)">Seulement si b = 0</td>
+        <td style="color:var(--accent2)">a = Δy ÷ Δx</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Variations — résumé</div>
+    <table class="summary-table">
+      <tr><th>Condition</th><th>Sens de variation</th><th>Tableau de variation</th></tr>
+      <tr>
+        <td style="color:var(--green)">a &gt; 0</td>
+        <td>📈 f croissante</td>
+        <td>Valeurs de f augmentent</td>
+      </tr>
+      <tr>
+        <td style="color:var(--accent3)">a &lt; 0</td>
+        <td>📉 f décroissante</td>
+        <td>Valeurs de f diminuent</td>
+      </tr>
+      <tr>
+        <td style="color:var(--text-muted)">a = 0</td>
+        <td>➡ f constante</td>
+        <td>f(x) = b pour tout x</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Vocabulaire — tout savoir par cœur</div>
+    <table class="summary-table">
+      <tr><th>Terme</th><th>Définition</th><th>Exemple</th></tr>
+      <tr><td><strong>Antécédent</strong></td><td>Le x qu'on donne à f</td><td>f(3) = 7 → antécédent de 7 est 3</td></tr>
+      <tr><td><strong>Image</strong></td><td>Le f(x) qu'on obtient</td><td>f(3) = 7 → image de 3 est 7</td></tr>
+      <tr><td><strong>Coefficient directeur (a)</strong></td><td>Pente de la droite</td><td>f(x) = 3x + 1 → a = 3</td></tr>
+      <tr><td><strong>Ordonnée à l'origine (b)</strong></td><td>Où la droite coupe l'axe y</td><td>f(x) = 3x + 1 → b = 1, point (0;1)</td></tr>
+      <tr><td><strong>Taux de variation</strong></td><td>(f(x₂)−f(x₁))÷(x₂−x₁)</td><td>Toujours = a pour une affine</td></tr>
+      <tr><td><strong>Racine / zéro</strong></td><td>x tel que f(x) = 0</td><td>f(x) = 2x−6 → racine : x = 3</td></tr>
+      <tr><td><strong>Intersection</strong></td><td>Point commun à 2 droites</td><td>Résoudre f(x) = g(x)</td></tr>
+      <tr><td><strong>Droites parallèles</strong></td><td>Même coefficient a</td><td>2x+1 et 2x−3 sont parallèles</td></tr>
+    </table>
+  </div>
+
+  <div class="card" style="border-color:var(--green)">
+    <div class="card-title green">Formules clés à mémoriser</div>
+    <div class="formula">f(x) = ax &nbsp;&nbsp;(linéaire)</div>
+    <div class="formula blue">f(x) = ax + b &nbsp;&nbsp;(affine)</div>
+    <div class="formula green">a = (y₂ − y₁) ÷ (x₂ − x₁)</div>
+    <div class="formula purple">Taux de variation = (f(x₂) − f(x₁)) ÷ (x₂ − x₁)</div>
+    <div class="formula red">Intersection : résoudre f(x) = g(x)</div>
+  </div>
+
+  <div class="card" style="border-color:var(--accent3)">
+    <div class="card-title red">10 erreurs à NE PAS faire au brevet</div>
+    <div class="steps">
+      <div class="step"><div class="step-num red">1</div><div class="step-text">Confondre image et antécédent (relire attentivement la question)</div></div>
+      <div class="step"><div class="step-num red">2</div><div class="step-text">Oublier que f(0) = b (l'ordonnée à l'origine se lit directement)</div></div>
+      <div class="step"><div class="step-num red">3</div><div class="step-text">Croire qu'une fonction linéaire peut ne pas passer par (0;0)</div></div>
+      <div class="step"><div class="step-num red">4</div><div class="step-text">Inverser la formule du coefficient : a = Δy ÷ Δx, pas Δx ÷ Δy</div></div>
+      <div class="step"><div class="step-num red">5</div><div class="step-text">Tracer une droite sans règle (zéro direct au brevet)</div></div>
+      <div class="step"><div class="step-num red">6</div><div class="step-text">Mal lire l'échelle du graphique (1 carreau ≠ toujours 1 unité)</div></div>
+      <div class="step"><div class="step-num red">7</div><div class="step-text">Oublier de vérifier avec un 3ème point lors du tracé</div></div>
+      <div class="step"><div class="step-num red">8</div><div class="step-text">Confondre "f croissante" avec "f(x) &gt; 0" (ce sont deux choses différentes)</div></div>
+      <div class="step"><div class="step-num red">9</div><div class="step-text">Ne pas donner une conclusion en français pour les problèmes</div></div>
+      <div class="step"><div class="step-num red">10</div><div class="step-text">Oublier d'exprimer b dans une équation type f(x) = ax + b quand on a trouvé a</div></div>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:var(--accent4)">
+    <div class="card-title" style="color:var(--accent4)">Méthode — Checklist brevet</div>
+    <div class="steps">
+      <div class="step"><div class="step-num" style="background:var(--accent4);color:#0d0d0f">✓</div><div class="step-text">Je sais calculer f(x) pour n'importe quelle valeur de x</div></div>
+      <div class="step"><div class="step-num" style="background:var(--accent4);color:#0d0d0f">✓</div><div class="step-text">Je sais résoudre f(x) = k pour trouver un antécédent</div></div>
+      <div class="step"><div class="step-num" style="background:var(--accent4);color:#0d0d0f">✓</div><div class="step-text">Je sais tracer une droite depuis son équation (2 points + règle)</div></div>
+      <div class="step"><div class="step-num" style="background:var(--accent4);color:#0d0d0f">✓</div><div class="step-text">Je sais lire a et b depuis un graphique</div></div>
+      <div class="step"><div class="step-num" style="background:var(--accent4);color:#0d0d0f">✓</div><div class="step-text">Je sais déterminer le sens de variation depuis le signe de a</div></div>
+      <div class="step"><div class="step-num" style="background:var(--accent4);color:#0d0d0f">✓</div><div class="step-text">Je sais trouver l'intersection de deux droites</div></div>
+      <div class="step"><div class="step-num" style="background:var(--accent4);color:#0d0d0f">✓</div><div class="step-text">Je sais modéliser une situation concrète avec une fonction affine</div></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ==================== NAV ====================
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  event.target.classList.add('active');
+  setTimeout(() => initGraphs(), 60);
+}
+
+// ==================== GRAPH UTILS ====================
+function setupCanvas(canvas) {
+  const rect = canvas.parentElement.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  return { ctx, w: rect.width, h: rect.height };
+}
+
+function drawGrid(ctx, w, h, scale, ox, oy) {
+  ctx.strokeStyle = '#2a2a35';
+  ctx.lineWidth = 0.5;
+  for (let x = 0; x <= w; x += scale) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,h); ctx.stroke(); }
+  for (let y = 0; y <= h; y += scale) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(w,y); ctx.stroke(); }
+  ctx.strokeStyle = '#4a4a5a'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(0,oy); ctx.lineTo(w,oy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(ox,0); ctx.lineTo(ox,h); ctx.stroke();
+  ctx.fillStyle = '#4a4a5a';
+  ctx.beginPath(); ctx.moveTo(w-2,oy-5); ctx.lineTo(w+6,oy); ctx.lineTo(w-2,oy+5); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(ox-5,2); ctx.lineTo(ox,-6); ctx.lineTo(ox+5,2); ctx.fill();
+  ctx.fillStyle = '#7a7a90'; ctx.font = '10px Space Mono, monospace';
+  ctx.fillText('x', w-8, oy-8); ctx.fillText('y', ox+8, 12);
+  ctx.fillStyle = '#5a5a70'; ctx.font = '9px Space Mono, monospace';
+  for (let i = -10; i <= 10; i++) {
+    if (i === 0) continue;
+    const px = ox + i * scale, py = oy + i * scale;
+    if (px > 5 && px < w-5) {
+      ctx.beginPath(); ctx.moveTo(px,oy-3); ctx.lineTo(px,oy+3); ctx.stroke();
+      if (i % 2 === 0) { ctx.fillStyle = '#5a5a70'; ctx.fillText(i, px-4, oy+14); }
+    }
+    if (py > 5 && py < h-5) {
+      ctx.beginPath(); ctx.moveTo(ox-3,py); ctx.lineTo(ox+3,py); ctx.stroke();
+      if (i % 2 === 0) { ctx.fillStyle = '#5a5a70'; ctx.fillText(-i, ox+6, py+3); }
+    }
+  }
+}
+
+function toCanvas(x, y, ox, oy, scale) { return { cx: ox + x*scale, cy: oy - y*scale }; }
+
+function drawLine(ctx, fn, w, h, ox, oy, scale, color, lw) {
+  ctx.strokeStyle = color; ctx.lineWidth = lw || 2.5; ctx.beginPath();
+  let first = true;
+  for (let px = 0; px <= w; px += 1) {
+    const x = (px - ox) / scale, y = fn(x), py = oy - y * scale;
+    if (first) { ctx.moveTo(px, py); first = false; } else ctx.lineTo(px, py);
+  }
+  ctx.stroke();
+}
+
+function drawDot(ctx, x, y, ox, oy, scale, color, label) {
+  const p = toCanvas(x, y, ox, oy, scale);
+  ctx.beginPath(); ctx.arc(p.cx, p.cy, 5, 0, Math.PI*2);
+  ctx.fillStyle = color; ctx.fill();
+  ctx.strokeStyle = '#0d0d0f'; ctx.lineWidth = 2; ctx.stroke();
+  if (label) {
+    ctx.fillStyle = color; ctx.font = 'bold 10px Space Mono';
+    ctx.fillText(label, p.cx + 8, p.cy - 6);
+  }
+}
+
+// ==================== COURS GRAPH ====================
+function drawCours() {
+  const canvas = document.getElementById('canvas-cours');
+  if (!canvas) return;
+  const { ctx, w, h } = setupCanvas(canvas);
+  const scale = 28, ox = w/2, oy = h/2;
+  ctx.clearRect(0,0,w,h);
+  drawGrid(ctx, w, h, scale, ox, oy);
+  drawLine(ctx, x => 3*x-1, w, h, ox, oy, scale, '#f0c040');
+  [[-2,-7],[-1,-4],[0,-1],[1,2],[2,5],[3,8]].forEach(([x,y]) => drawDot(ctx, x, y, ox, oy, scale, '#f0c040'));
+}
+
+// ==================== LINEAR ====================
+function updateLinear() {
+  const a = parseFloat(document.getElementById('slider-a-lin').value);
+  document.getElementById('val-a-lin').textContent = a;
+  document.getElementById('label-linear').textContent = `f(x) = ${a}x — passe par (0 ; 0)`;
+  document.getElementById('tip-linear').textContent = a > 0 ? `📈 a = ${a} > 0 → droite croissante (monte)` : a < 0 ? `📉 a = ${a} < 0 → droite décroissante (descend)` : `➡ a = 0 → droite horizontale`;
+  const canvas = document.getElementById('canvas-linear');
+  if (!canvas) return;
+  const { ctx, w, h } = setupCanvas(canvas);
+  const scale = 35, ox = w/2, oy = h/2;
+  ctx.clearRect(0,0,w,h);
+  drawGrid(ctx, w, h, scale, ox, oy);
+  drawLine(ctx, x => a*x, w, h, ox, oy, scale, '#f0c040');
+  drawDot(ctx, 0, 0, ox, oy, scale, '#f0c040', '(0;0)');
+}
+
+// ==================== AFFINE ====================
+function updateAffine() {
+  const a = parseFloat(document.getElementById('slider-a-aff').value);
+  const b = parseFloat(document.getElementById('slider-b-aff').value);
+  document.getElementById('val-a-aff').textContent = a;
+  document.getElementById('val-b-aff').textContent = b;
+  const sign = b >= 0 ? `+ ${b}` : `− ${Math.abs(b)}`;
+  document.getElementById('label-affine').textContent = `f(x) = ${a}x ${sign}`;
+  const canvas = document.getElementById('canvas-affine');
+  if (!canvas) return;
+  const { ctx, w, h } = setupCanvas(canvas);
+  const scale = 35, ox = w/2, oy = h/2;
+  ctx.clearRect(0,0,w,h);
+  drawGrid(ctx, w, h, scale, ox, oy);
+  drawLine(ctx, x => a*x+b, w, h, ox, oy, scale, '#5b8fff');
+  drawDot(ctx, 0, b, ox, oy, scale, '#4ecdc4', `(0 ; ${b})`);
+}
+
+// ==================== VARIATIONS ====================
+function updateVar() {
+  const a = parseFloat(document.getElementById('slider-a-var').value);
+  const b = parseFloat(document.getElementById('slider-b-var').value);
+  document.getElementById('val-a-var').textContent = a;
+  document.getElementById('val-b-var').textContent = b;
+  const sign = b >= 0 ? `+ ${b}` : `− ${Math.abs(b)}`;
+  document.getElementById('label-var').textContent = `f(x) = ${a}x ${b !== 0 ? sign : ''}`;
+  const tip = document.getElementById('tip-var');
+  if (a > 0) {
+    tip.className = 'success'; tip.style.textAlign = 'center'; tip.style.fontFamily = "'Space Mono',monospace"; tip.style.fontSize = '13px';
+    tip.textContent = `📈 a = ${a} > 0 → f est CROISSANTE`;
+  } else if (a < 0) {
+    tip.className = 'alert'; tip.style.textAlign = 'center'; tip.style.fontFamily = "'Space Mono',monospace"; tip.style.fontSize = '13px';
+    tip.textContent = `📉 a = ${a} < 0 → f est DÉCROISSANTE`;
+  } else {
+    tip.className = 'tip'; tip.style.textAlign = 'center'; tip.style.fontFamily = "'Space Mono',monospace"; tip.style.fontSize = '13px';
+    tip.textContent = `➡ a = 0 → f est CONSTANTE`;
+  }
+  const canvas = document.getElementById('canvas-var');
+  if (!canvas) return;
+  const { ctx, w, h } = setupCanvas(canvas);
+  const scale = 32, ox = w/2, oy = h/2;
+  ctx.clearRect(0,0,w,h);
+  drawGrid(ctx, w, h, scale, ox, oy);
+  drawLine(ctx, x => a*x+b, w, h, ox, oy, scale, a > 0 ? '#6bcb77' : a < 0 ? '#ff6b6b' : '#4ecdc4');
+}
+
+// ==================== COMPARISON ====================
+let showLin = true, showAff = true, showPar = false;
+function toggleComp(type) {
+  if (type === 'lin') showLin = !showLin;
+  if (type === 'aff') showAff = !showAff;
+  if (type === 'par') showPar = !showPar;
+  document.getElementById('btn-comp-lin').classList.toggle('active', showLin);
+  document.getElementById('btn-comp-aff').classList.toggle('active', showAff);
+  document.getElementById('btn-comp-par').classList.toggle('active', showPar);
+  const pr = document.getElementById('legend-par-row');
+  if (pr) pr.style.display = showPar ? 'flex' : 'none';
+  drawComp();
+}
+function drawComp() {
+  const canvas = document.getElementById('canvas-comp');
+  if (!canvas) return;
+  const { ctx, w, h } = setupCanvas(canvas);
+  const scale = 30, ox = w/2, oy = h/2;
+  ctx.clearRect(0,0,w,h);
+  drawGrid(ctx, w, h, scale, ox, oy);
+  if (showLin) drawLine(ctx, x => 2*x, w, h, ox, oy, scale, '#f0c040');
+  if (showAff) drawLine(ctx, x => x+2, w, h, ox, oy, scale, '#5b8fff');
+  if (showPar) drawLine(ctx, x => x*x, w, h, ox, oy, scale, '#ff6b6b');
+  // Intersection between lin and aff at x=2
+  if (showLin && showAff) {
+    const p = toCanvas(2, 4, ox, oy, scale);
+    ctx.beginPath(); ctx.arc(p.cx, p.cy, 5, 0, Math.PI*2);
+    ctx.fillStyle = '#4ecdc4'; ctx.fill();
+    ctx.strokeStyle = '#0d0d0f'; ctx.lineWidth = 2; ctx.stroke();
+  }
+}
+
+// ==================== READ GRAPH ====================
+function drawReadGraph() {
+  const canvas = document.getElementById('canvas-read');
+  if (!canvas) return;
+  const { ctx, w, h } = setupCanvas(canvas);
+  const scale = 32, ox = w/2, oy = h/2;
+  canvas._graphData = { scale, ox, oy };
+  ctx.clearRect(0,0,w,h);
+  drawGrid(ctx, w, h, scale, ox, oy);
+  drawLine(ctx, x => 1.5*x - 1, w, h, ox, oy, scale, '#f0c040');
+  canvas.onclick = function(e) {
+    const rect = canvas.getBoundingClientRect();
+    const px = (e.clientX - rect.left) * (canvas.width / rect.width / (window.devicePixelRatio||1));
+    const py = (e.clientY - rect.top) * (canvas.height / rect.height / (window.devicePixelRatio||1));
+    const x = Math.round((px - ox) / scale * 2) / 2;
+    const fx = Math.round((1.5*x - 1) * 10) / 10;
+    document.getElementById('coord-display').innerHTML =
+      `Clic en x = <span style="color:var(--accent2)">${x}</span> &nbsp;|&nbsp; f(${x}) = <span style="color:var(--accent)">${fx}</span>`;
+    const { ctx: c2, w: w2, h: h2 } = setupCanvas(canvas);
+    drawGrid(c2, w2, h2, scale, ox, oy);
+    drawLine(c2, x2 => 1.5*x2 - 1, w2, h2, ox, oy, scale, '#f0c040');
+    drawDot(c2, x, fx, ox, oy, scale, '#4ecdc4', `(${x} ; ${fx})`);
+  };
+}
+
+// ==================== INTERSECTION GRAPH ====================
+function drawIntersection() {
+  const canvas = document.getElementById('canvas-inter');
+  if (!canvas) return;
+  const { ctx, w, h } = setupCanvas(canvas);
+  const scale = 32, ox = w/2, oy = h/2;
+  ctx.clearRect(0,0,w,h);
+  drawGrid(ctx, w, h, scale, ox, oy);
+  drawLine(ctx, x => 2*x+1, w, h, ox, oy, scale, '#f0c040');
+  drawLine(ctx, x => x+3, w, h, ox, oy, scale, '#5b8fff');
+  drawDot(ctx, 2, 5, ox, oy, scale, '#4ecdc4', '(2;5)');
+}
+
+// ==================== EXO 19 GRAPH ====================
+function drawE19() {
+  const canvas = document.getElementById('canvas-e19');
+  if (!canvas) return;
+  const { ctx, w, h } = setupCanvas(canvas);
+  const scale = 38, ox = w/2, oy = h/2;
+  ctx.clearRect(0,0,w,h);
+  drawGrid(ctx, w, h, scale, ox, oy);
+  drawLine(ctx, x => 2*x-1, w, h, ox, oy, scale, '#5b8fff');
+  drawDot(ctx, 0, -1, ox, oy, scale, '#5b8fff', '(0;−1)');
+  drawDot(ctx, 2, 3, ox, oy, scale, '#5b8fff', '(2;3)');
+}
+
+// ==================== INIT ====================
+function initGraphs() {
+  drawCours();
+  updateLinear();
+  updateAffine();
+  updateVar();
+  drawComp();
+  drawReadGraph();
+  drawIntersection();
+  drawE19();
+}
+
+window.addEventListener('load', () => setTimeout(initGraphs, 120));
+window.addEventListener('resize', () => setTimeout(initGraphs, 100));
+
+// ==================== EXERCISES ====================
+let scores = {};
+const TOTAL = 50;
+
+function updateProgress() {
+  const n = Object.values(scores).filter(Boolean).length;
+  document.getElementById('score-txt').textContent = `${n} / ${TOTAL}`;
+  document.getElementById('progress-fill').style.width = `${(n/TOTAL)*100}%`;
+}
+
+function check(id, answer) {
+  const inp = document.getElementById('inp-' + id);
+  const fb = document.getElementById('fb-' + id);
+  if (!inp || !fb) return;
+  const val = parseFloat(inp.value);
+  fb.style.display = 'block';
+  if (Math.abs(val - answer) < 0.001) {
+    fb.className = 'feedback correct';
+    fb.textContent = '✓ Correct ! Excellent travail.';
+    if (!scores[id]) { scores[id] = true; updateProgress(); }
+  } else {
+    fb.className = 'feedback wrong';
+    fb.textContent = `✗ Pas tout à fait. Ta réponse : ${val}. Regarde le corrigé pour comprendre.`;
+  }
+}
+
+function showSolution(id, text) {
+  const sol = document.getElementById('sol-' + id);
+  if (sol) sol.classList.toggle('visible');
+}
+
+function toggleExo(id) {
+  const body = document.getElementById('body-' + id);
+  const arrow = document.getElementById('arrow-' + id);
+  if (!body) return;
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  arrow.classList.toggle('open', !isOpen);
+  if (!isOpen) setTimeout(initGraphs, 80);
+}
+
+// ==================== FILTER ====================
+function filterExos(level) {
+  document.querySelectorAll('.filter-tab').forEach(t => t.className = 'filter-tab');
+  const exos = document.querySelectorAll('.exo-card');
+  const divEasy = document.getElementById('div-easy');
+  const divMed = document.getElementById('div-med');
+  const divHard = document.getElementById('div-hard');
+
+  if (level === 'all') {
+    event.target.className = 'filter-tab active-all';
+    exos.forEach(e => e.style.display = '');
+    if(divEasy) divEasy.style.display=''; if(divMed) divMed.style.display=''; if(divHard) divHard.style.display='';
+  } else if (level === 'easy') {
+    event.target.className = 'filter-tab active-easy';
+    exos.forEach(e => e.style.display = e.dataset.level === 'easy' ? '' : 'none');
+    if(divEasy) divEasy.style.display=''; if(divMed) divMed.style.display='none'; if(divHard) divHard.style.display='none';
+  } else if (level === 'med') {
+    event.target.className = 'filter-tab active-med';
+    exos.forEach(e => e.style.display = e.dataset.level === 'med' ? '' : 'none');
+    if(divEasy) divEasy.style.display='none'; if(divMed) divMed.style.display=''; if(divHard) divHard.style.display='none';
+  } else if (level === 'hard') {
+    event.target.className = 'filter-tab active-hard';
+    exos.forEach(e => e.style.display = e.dataset.level === 'hard' ? '' : 'none');
+    if(divEasy) divEasy.style.display='none'; if(divMed) divMed.style.display='none'; if(divHard) divHard.style.display='';
+  }
+}
+</script>
+</div><!-- /main-content -->
+</div><!-- /page-wrapper -->
+</body>
+</html>

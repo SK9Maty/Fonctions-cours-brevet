@@ -1,0 +1,1833 @@
+<html lang="fr"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Géométrie — Brevet Complet</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,300&amp;display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0f;
+    --surface: #16161a;
+    --surface2: #1e1e24;
+    --surface3: #242430;
+    --border: #2a2a35;
+    --accent: #f0c040;
+    --accent2: #5b8fff;
+    --accent3: #ff6b6b;
+    --accent4: #4ecdc4;
+    --accent5: #b57bee;
+    --text: #e8e8f0;
+    --text-muted: #7a7a90;
+    --green: #6bcb77;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  .header {
+    background: var(--surface);
+    border-bottom: 2px solid var(--accent2);
+    padding: 18px 18px 14px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-tag { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--accent2); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 3px; }
+  .header h1 { font-family: 'Space Mono', monospace; font-size: 19px; font-weight: 700; }
+  .header h1 span { color: var(--accent2); }
+  .header-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .header-back { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text-muted); text-decoration: none; padding: 6px 12px; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; white-space: nowrap; }
+  .header-back:hover { color: var(--accent2); border-color: var(--accent2); }
+
+  .nav-scroll { display: flex; gap: 5px; padding: 10px 16px; overflow-x: auto; scrollbar-width: none; background: var(--surface); border-bottom: 1px solid var(--border); }
+  .nav-scroll::-webkit-scrollbar { display: none; }
+  .nav-tab { flex-shrink: 0; padding: 6px 13px; border-radius: 20px; font-family: 'Space Mono', monospace; font-size: 11px; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--text-muted); transition: all 0.2s; white-space: nowrap; }
+  .nav-tab.active { background: var(--accent2); color: white; border-color: var(--accent2); font-weight: 700; }
+
+  .section { display: none; padding: 16px; }
+  .section.active { display: block; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin-bottom: 15px; }
+  .card-title { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--accent2); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .card-title::before { content: ''; width: 3px; height: 14px; background: var(--accent2); border-radius: 2px; }
+  .card-title.yellow { color: var(--accent); }
+  .card-title.yellow::before { background: var(--accent); }
+  .card-title.green { color: var(--green); }
+  .card-title.green::before { background: var(--green); }
+  .card-title.red { color: var(--accent3); }
+  .card-title.red::before { background: var(--accent3); }
+  .card-title.purple { color: var(--accent5); }
+  .card-title.purple::before { background: var(--accent5); }
+  .card-title.teal { color: var(--accent4); }
+  .card-title.teal::before { background: var(--accent4); }
+
+  .formula { background: var(--surface2); border: 1px solid var(--accent2); border-left: 4px solid var(--accent2); border-radius: 8px; padding: 12px 16px; margin: 10px 0; font-family: 'Space Mono', monospace; font-size: 15px; color: var(--accent2); text-align: center; }
+  .formula.yellow { border-color: var(--accent); border-left-color: var(--accent); color: var(--accent); }
+  .formula.green { border-color: var(--green); border-left-color: var(--green); color: var(--green); }
+  .formula.red { border-color: var(--accent3); border-left-color: var(--accent3); color: var(--accent3); }
+  .formula.purple { border-color: var(--accent5); border-left-color: var(--accent5); color: var(--accent5); }
+  .formula.teal { border-color: var(--accent4); border-left-color: var(--accent4); color: var(--accent4); }
+
+  .vocab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+  .vocab-item { background: var(--surface2); border-radius: 8px; padding: 10px 12px; border-left: 3px solid var(--accent2); }
+  .vocab-item.yellow { border-left-color: var(--accent); }
+  .vocab-item.green { border-left-color: var(--green); }
+  .vocab-item.red { border-left-color: var(--accent3); }
+  .vocab-item.purple { border-left-color: var(--accent5); }
+  .vocab-term { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent2); font-weight: 700; margin-bottom: 3px; }
+  .vocab-term.yellow { color: var(--accent); }
+  .vocab-term.green { color: var(--green); }
+  .vocab-def { font-size: 12px; color: var(--text-muted); }
+
+  .graph-wrap { position: relative; width: 100%; aspect-ratio: 1; background: var(--surface2); border-radius: 10px; overflow: hidden; margin: 12px 0; border: 1px solid var(--border); }
+  .graph-wrap.wide { aspect-ratio: 4/3; }
+  canvas { width: 100% !important; height: 100% !important; display: block; }
+  .graph-label { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 4px; margin-bottom: 8px; }
+
+  .steps { margin: 10px 0; }
+  .step { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 10px; }
+  .step-num { flex-shrink: 0; width: 26px; height: 26px; background: var(--accent2); color: white; border-radius: 50%; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .step-num.yellow { background: var(--accent); color: #0d0d0f; }
+  .step-num.green { background: var(--green); color: #0d0d0f; }
+  .step-num.red { background: var(--accent3); color: white; }
+  .step-num.purple { background: var(--accent5); color: white; }
+  .step-text { font-size: 14px; padding-top: 3px; }
+
+  .alert { background: rgba(255,107,107,0.1); border: 1px solid var(--accent3); border-radius: 8px; padding: 12px 14px; margin: 10px 0; font-size: 13px; color: var(--accent3); }
+  .alert-title { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; margin-bottom: 4px; letter-spacing: 1px; }
+  .tip { background: rgba(78,205,196,0.1); border: 1px solid var(--accent4); border-radius: 8px; padding: 12px 14px; margin: 10px 0; font-size: 13px; color: var(--accent4); }
+  .tip-title { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; margin-bottom: 4px; letter-spacing: 1px; }
+  .info { background: rgba(91,143,255,0.1); border: 1px solid var(--accent2); border-radius: 8px; padding: 12px 14px; margin: 10px 0; font-size: 13px; color: var(--accent2); }
+  .info-title { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; margin-bottom: 4px; letter-spacing: 1px; }
+  .success { background: rgba(107,203,119,0.1); border: 1px solid var(--green); border-radius: 8px; padding: 12px 14px; margin: 10px 0; font-size: 13px; color: var(--green); }
+  .success-title { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; margin-bottom: 4px; letter-spacing: 1px; }
+
+  .exo-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+  .exo-header { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; gap: 8px; }
+  .exo-header:hover { background: var(--surface2); }
+  .exo-badge { font-family: 'Space Mono', monospace; font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: 700; flex-shrink: 0; }
+  .badge-easy { background: rgba(107,203,119,0.2); color: var(--green); }
+  .badge-med { background: rgba(240,192,64,0.2); color: var(--accent); }
+  .badge-hard { background: rgba(255,107,107,0.2); color: var(--accent3); }
+  .exo-num { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-muted); flex-shrink: 0; }
+  .exo-title { font-size: 14px; font-weight: 500; flex: 1; }
+  .exo-arrow { color: var(--text-muted); font-size: 18px; transition: transform 0.2s; flex-shrink: 0; }
+  .exo-arrow.open { transform: rotate(90deg); }
+  .exo-body { display: none; padding: 0 16px 16px; border-top: 1px solid var(--border); padding-top: 14px; }
+  .exo-body.open { display: block; }
+  .exo-question { font-size: 14px; margin-bottom: 14px; color: var(--text); line-height: 1.7; }
+  .exo-hint { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; background: var(--surface2); border-radius: 6px; padding: 8px 12px; }
+
+  .answer-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; color: var(--text); font-family: 'Space Mono', monospace; font-size: 14px; outline: none; transition: border-color 0.2s; margin-bottom: 10px; }
+  .answer-input:focus { border-color: var(--accent2); }
+
+  .btn { display: inline-block; padding: 10px 20px; border-radius: 8px; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; cursor: pointer; border: none; transition: all 0.15s; letter-spacing: 0.5px; }
+  .btn-primary { background: var(--accent2); color: white; }
+  .btn-primary:active { transform: scale(0.97); }
+  .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-show { background: rgba(91,143,255,0.15); color: var(--accent2); border: 1px solid var(--accent2); margin-left: 8px; }
+
+  .feedback { margin-top: 10px; padding: 10px 14px; border-radius: 8px; font-size: 13px; font-family: 'Space Mono', monospace; display: none; }
+  .feedback.correct { background: rgba(107,203,119,0.15); color: var(--green); border: 1px solid var(--green); }
+  .feedback.wrong { background: rgba(255,107,107,0.15); color: var(--accent3); border: 1px solid var(--accent3); }
+
+  .solution-box { margin-top: 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-size: 13px; display: none; }
+  .solution-box.visible { display: block; }
+  .solution-title { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent2); margin-bottom: 8px; letter-spacing: 1px; }
+
+  .filter-tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+  .filter-tab { padding: 6px 14px; border-radius: 20px; font-family: 'Space Mono', monospace; font-size: 11px; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text-muted); transition: all 0.15s; }
+  .filter-tab.active-all { background: var(--surface3); color: var(--text); border-color: var(--text-muted); }
+  .filter-tab.active-easy { background: rgba(107,203,119,0.2); color: var(--green); border-color: var(--green); }
+  .filter-tab.active-med { background: rgba(240,192,64,0.2); color: var(--accent); border-color: var(--accent); }
+  .filter-tab.active-hard { background: rgba(255,107,107,0.2); color: var(--accent3); border-color: var(--accent3); }
+
+  .mcq-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+  .mcq-btn { padding: 10px 16px; border-radius: 8px; font-family: 'Space Mono', monospace; font-size: 13px; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text); text-align: left; transition: all 0.15s; }
+  .mcq-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+  .mcq-btn.correct { background: rgba(107,203,119,0.15); color: var(--green); border-color: var(--green); }
+  .mcq-btn.wrong { background: rgba(255,107,107,0.15); color: var(--accent3); border-color: var(--accent3); }
+
+  .progress-bar-wrap { background: var(--surface2); border-radius: 10px; height: 8px; margin: 8px 0 16px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent4)); border-radius: 10px; transition: width 0.4s ease; }
+  .progress-label { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text-muted); display: flex; justify-content: space-between; margin-bottom: 4px; }
+
+  .summary-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+  .summary-table th { background: var(--accent2); color: white; padding: 8px 10px; font-family: 'Space Mono', monospace; font-size: 11px; text-align: left; }
+  .summary-table td { padding: 10px; border: 1px solid var(--border); vertical-align: top; font-size: 13px; }
+  .summary-table tr:nth-child(even) td { background: var(--surface2); }
+
+  .trig-table { width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 13px; margin: 12px 0; }
+  .trig-table th { background: var(--surface2); color: var(--accent2); padding: 8px 6px; text-align: center; border: 1px solid var(--border); font-size: 11px; }
+  .trig-table td { padding: 8px 6px; text-align: center; border: 1px solid var(--border); color: var(--text); }
+  .trig-table tr:hover td { background: var(--surface2); }
+  .trig-table .hl { color: var(--accent2); font-weight: 700; }
+  .trig-table .hl-y { color: var(--accent); font-weight: 700; }
+  .trig-table .hl-g { color: var(--green); font-weight: 700; }
+  .trig-table .hl-r { color: var(--accent3); font-weight: 700; }
+  .trig-table .hl-p { color: var(--accent5); font-weight: 700; }
+
+  .problem-ctx { background: var(--surface2); border-left: 4px solid var(--accent5); border-radius: 0 8px 8px 0; padding: 14px 16px; margin: 12px 0; font-size: 14px; }
+  .problem-ctx-title { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent5); letter-spacing: 1px; margin-bottom: 6px; }
+
+  .chip { display: inline-block; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; font-family: 'Space Mono', monospace; font-size: 12px; margin: 2px; }
+
+  .soh-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 12px 0; }
+  .soh-box { background: var(--surface2); border-radius: 10px; padding: 12px 8px; text-align: center; border: 1px solid var(--border); }
+  .soh-name { font-family: 'Space Mono', monospace; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .soh-frac { display: flex; flex-direction: column; align-items: center; gap: 2px; font-family: 'Space Mono', monospace; font-size: 12px; }
+  .soh-num { color: var(--text); }
+  .soh-line { width: 60%; height: 1px; background: var(--text-muted); margin: 2px auto; }
+  .soh-den { color: var(--text-muted); }
+
+  .transform-row { display: flex; gap: 10px; margin: 10px 0; flex-wrap: wrap; }
+  .transform-box { flex: 1; min-width: 100px; background: var(--surface2); border-radius: 8px; padding: 12px; border: 1px solid var(--border); text-align: center; }
+  .transform-icon { font-size: 24px; margin-bottom: 6px; }
+  .transform-name { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent2); margin-bottom: 4px; font-weight: 700; }
+  .transform-desc { font-size: 11px; color: var(--text-muted); }
+
+  p { margin-bottom: 8px; }
+  p:last-child { margin-bottom: 0; }
+  strong { color: var(--text); font-weight: 700; }
+  .highlight { color: var(--accent); font-family: 'Space Mono', monospace; }
+  .hl-blue { color: var(--accent2); font-family: 'Space Mono', monospace; }
+  .hl-green { color: var(--green); font-family: 'Space Mono', monospace; }
+  .hl-red { color: var(--accent3); font-family: 'Space Mono', monospace; }
+  .hl-purple { color: var(--accent5); font-family: 'Space Mono', monospace; }
+  .hl-teal { color: var(--accent4); font-family: 'Space Mono', monospace; }
+  small { font-size: 12px; color: var(--text-muted); }
+  hr { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+  .section-divider { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; margin: 20px 0 10px; padding: 0 4px; }
+
+  @media (min-width: 768px) {
+    body { font-size: 16px; }
+    .page-wrapper { display: flex; min-height: 100vh; }
+    .header { padding: 20px 40px 16px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .header-content { flex: 1; }
+    .header-tag { font-size: 11px; }
+    .header h1 { font-size: 26px; }
+    .header-sub { font-size: 13px; }
+    .nav-scroll { display: flex; flex-direction: column; gap: 4px; padding: 24px 14px; overflow-x: visible; overflow-y: auto; width: 200px; min-width: 200px; height: calc(100vh - 80px); position: sticky; top: 80px; border-bottom: none; border-right: 1px solid var(--border); background: var(--surface); align-self: flex-start; }
+    .nav-tab { width: 100%; text-align: left; border-radius: 8px; padding: 10px 14px; font-size: 12px; white-space: normal; }
+    .nav-tab.active { border-radius: 8px; }
+    .main-content { flex: 1; min-width: 0; padding: 0; }
+    .section { padding: 28px 36px; width: 100%; }
+    .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .cards-grid .card { margin-bottom: 0; }
+    .card { padding: 24px; margin-bottom: 20px; border-radius: 14px; }
+    .card-title { font-size: 13px; margin-bottom: 16px; }
+    .formula { font-size: 17px; padding: 14px 20px; }
+    .vocab-grid { grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .vocab-def { font-size: 13px; }
+    .graph-wrap { aspect-ratio: 16/9 !important; max-height: 400px; }
+    .graph-wrap.sq { aspect-ratio: 1/1 !important; max-height: 400px; }
+    .step-text { font-size: 15px; }
+    .exo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .exo-grid .exo-card { margin-bottom: 0; }
+    .exo-title { font-size: 15px; }
+    .soh-grid { gap: 16px; }
+    .soh-name { font-size: 22px; }
+    .soh-frac { font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-content">
+    <div class="header-tag">Chapitre 2 — Brevet 3ème</div>
+    <h1>△ <span>Géométrie</span></h1>
+    <div class="header-sub">Pythagore · Thalès · Trigonométrie · Transformations</div>
+  </div>
+  <a href="../index.html" class="header-back">← Retour</a>
+</div>
+
+<div class="page-wrapper">
+<div class="nav-scroll">
+  <button class="nav-tab" onclick="showSection('pythagore', this)"> Pythagore</button>
+  <button class="nav-tab" onclick="showSection('thales', this)">Thalès</button>
+  <button class="nav-tab" onclick="showSection('trigo', this)"> Trigonométrie</button>
+  <button class="nav-tab" onclick="showSection('transformations', this)">Transformations</button>
+  <button class="nav-tab" onclick="showSection('exercices', this)"> Exercices</button>
+  <button class="nav-tab active" onclick="showSection('recap', this)">Récap</button>
+</div>
+
+<div class="main-content">
+
+<!-- ==================== PYTHAGORE ==================== -->
+<div id="sec-pythagore" class="section">
+
+  <div class="card">
+    <div class="card-title">Qu'est-ce qu'un triangle rectangle ?</div>
+    <p>Un triangle rectangle est un triangle qui possède un <strong>angle droit (90°)</strong>. Le côté opposé à l'angle droit s'appelle l'<span class="hl-blue">hypoténuse</span> — c'est toujours le <strong>plus grand côté</strong>.</p>
+    <div class="vocab-grid">
+      <div class="vocab-item">
+        <div class="vocab-term">Hypoténuse</div>
+        <div class="vocab-def">Côté en face de l'angle droit. Noté <strong>c</strong>. C'est le plus long.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-term">Côtés de l'angle droit</div>
+        <div class="vocab-def">Les deux autres côtés. Notés <strong>a</strong> et <strong>b</strong>.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-term">Angle droit</div>
+        <div class="vocab-def">Angle de 90°, symbolisé par un petit carré dans le triangle.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-term">Symbole ⊾</div>
+        <div class="vocab-def">Le petit carré au sommet indique que l'angle est droit.</div>
+      </div>
+    </div>
+    <div class="graph-wrap sq">
+      <canvas id="canvas-pyth-intro" width="0" height="0"></canvas>
+    </div>
+    <div class="graph-label">△ABC rectangle en C — hypoténuse AB</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title yellow">Théorème de Pythagore</div>
+    <p>Dans un triangle rectangle, le carré de l'hypoténuse est égal à la somme des carrés des deux autres côtés.</p>
+    <div class="formula yellow">AB² = AC² + BC²</div>
+    
+
+    <div class="section-divider">Calculer l'hypoténuse</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num yellow">1</div>
+        <div class="step-text">On sait que le triangle est rectangle en C → <span class="highlight">AB² = AC² + BC²</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num yellow">2</div>
+        <div class="step-text">On remplace par les valeurs : AC = 3 cm, BC = 4 cm → <span class="highlight">AB² = 3² + 4² = 9 + 16 = 25</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num yellow">3</div>
+        <div class="step-text">On prend la racine carrée : <span class="highlight">AB = √25 = 5 cm</span></div>
+      </div>
+    </div>
+
+    <div class="section-divider">Calculer un côté qui n'est pas l'hypoténuse</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Si AB = 13 et AC = 5 → <span class="hl-blue">BC² = AB² − AC² = 169 − 25 = 144</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><span class="hl-blue">BC = √144 = 12 cm</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card">
+      <div class="card-title green">Réciproque de Pythagore</div>
+      <p>La réciproque permet de <strong>vérifier si un triangle est rectangle</strong>.</p>
+      <div class="formula green">Si c² = a² + b² alors le triangle rectangle</div>
+      <p style="margin-top:10px">Si le carré du plus grand côté = somme des carrés des deux autres, alors le triangle est rectangle.</p>
+      <div class="tip">
+        <div class="tip-title">Méthode</div>
+        Toujours tester avec le <strong>plus grand côté</strong> au carré d'un côté.
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num green">1</div>
+          <div class="step-text">Identifier le plus grand côté (ex : 10)</div>
+        </div>
+        <div class="step">
+          <div class="step-num green">2</div>
+          <div class="step-text">Calculer 10² = 100, et 6² + 8² = 36 + 64 = 100 ✓</div>
+        </div>
+        <div class="step">
+          <div class="step-num green">3</div>
+          <div class="step-text">100 = 100 donc le triangle <strong>est rectangle</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title red">Contraposée de Pythagore</div>
+      <p>La contraposée permet de <strong>prouver qu'un triangle n'est pas rectangle</strong>.</p>
+      <div class="formula red">Si c² ≠ a² + b² alors le triangle n'est pas rectangle</div>
+      <p style="margin-top:10px">Si on teste et que les deux membres sont différents, alors le triangle n'est <strong>pas rectangle</strong>.</p>
+      <div class="alert">
+        <div class="alert-title">⚠ Attention</div>Ne pas oublié de citer la contraposé de pythagore lorsque vous répondez à une question.</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num red">1</div>
+          <div class="step-text">Grand côté = 7 : 7² = 49</div>
+        </div>
+        <div class="step">
+          <div class="step-num red">2</div>
+          <div class="step-text">5² + 4² = 25 + 16 = 41</div>
+        </div>
+        <div class="step">
+          <div class="step-num red">3</div>
+          <div class="step-text">49 ≠ 41 → le triangle <strong>n'est pas rectangle</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title purple">Rédaction d'un exercice au brevt</div>
+    <p>Au brevet, la rédaction est notée. Voici le plan type :</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num purple">1</div>
+        <div class="step-text"><strong>Hypothèse :</strong> "Le triangle ABC est rectangle en C." (donné dans l'énoncé)</div>
+      </div>
+      <div class="step">
+        <div class="step-num purple">2</div>
+        <div class="step-text"><strong>Application du théorème :</strong> "D'après le théorème de Pythagore : AB² = AC² + BC²"</div>
+      </div>
+      <div class="step">
+        <div class="step-num purple">3</div>
+        <div class="step-text"><strong>Calcul :</strong> "AB² = 6² + 8² = 36 + 64 = 100"</div>
+      </div>
+      <div class="step">
+        <div class="step-num purple">4</div>
+        <div class="step-text"><strong>Conclusion :</strong> "Donc AB = √100 = 10 cm"</div>
+      </div>
+    </div>
+    <div class="success">
+      <div class="success-title">✓ Pour la réciproque</div>
+      "Le plus grand côté est AB = 10 cm. Or 10² = 100 et 6² + 8² = 36 + 64 = 100. Les deux membres sont égaux, donc d'après la réciproque du théorème de Pythagore, le triangle ABC est rectangle en C."
+    </div>
+  </div>
+</div>
+
+<!-- ==================== THALES ==================== -->
+<div id="sec-thales" class="section">
+
+  <div class="card">
+    <div class="card-title">Configuration de Thalès</div>
+    <p>Le théorème de Thalès s'applique dans une <strong>configuration précise</strong>. Il faut deux droites sécantes coupées par deux droites parallèles.</p>
+    <div class="vocab-grid">
+      <div class="vocab-item">
+        <div class="vocab-term">Configuration "papillon"</div>
+        <div class="vocab-def">Deux demi-droites issues d'un même point S, coupées par deux parallèles.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-term">Configuration "triangle"</div>
+        <div class="vocab-def">Une droite coupe deux côtés d'un triangle et est parallèle au troisième.</div>
+      </div>
+      
+      <div class="vocab-item">
+        <div class="vocab-term">Points alignés</div>
+        <div class="vocab-def">S, A, A' sont alignés / S, B, B' sont alignés.</div>
+      </div>
+    </div>
+    <div class="graph-wrap wide">
+      <canvas id="canvas-thales-config" width="0" height="0"></canvas>
+    </div>
+    <div class="graph-label">S sommet, (AB) ∥ (A'B') — configuration Thalès</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title yellow">Théorème de Thalès</div>
+    <p>Voici la méthode : Petite longeur / Grande longeur (ou l'inverse). Il faut aussi faire attention à garder le meme ordre partout. <strong> Avec la configuartion ci-dessus voila la formule</strong> :</p>
+    <div class="formula yellow">SA/SA' = SB/SB' = AB/A'B'
+ 
+</div>
+    <div class="info">
+      <div class="info-title">Ce que ça signifie</div>
+ 
+    Les longueurs sont proportionnelles. Si on connaît 3 valeurs sur 4, on peut trouver la 4ème par une règle de trois (produit en croix).
+    </div>
+    <div class="section-divider">Exemple concret</div>
+    <p>SA = 4, SA' = 6, SB = 5. Trouver SB'.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num yellow">1</div>
+        <div class="step-text">On écrit le rapport : <span class="highlight">SA/SA' = SB/SB'</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num yellow">2</div>
+        <div class="step-text">On remplace : <span class="highlight">4/6 = 5/SB'</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num yellow">3</div>
+        <div class="step-text">Produit en croix : <span class="highlight">SB' = (5 × 6) / 4 = 30/4 = 7,5</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:15px">
+    <div class="card-title teal">Configuration "Papillon"</div>
+    <p>Dans la configuration papillon, le point S est <strong>entre</strong> les deux parallèles. Les points sont dans l'ordre S, A', A (et S, B', B). Les rapports restent les mêmes mais attention à l'ordre !</p>
+    <div class="formula teal">SA/SA' = SB/SB' = AB/A'B'</div>
+    <div class="graph-wrap wide">
+      <canvas id="canvas-thales-papillon" width="0" height="0"></canvas>
+    </div>
+    <div class="graph-label">Configuration papillon : S est entre les deux parallèles (AB) et (A'B')</div>
+    <div class="alert">
+      <div class="alert-title">⚠ Différence clé avec la config classique</div>
+      Dans la config classique, S est à l'extérieur (avant AB et A'B'). Dans la config papillon, S est au croisement entre les deux parallèles. Les rapports sont les mêmes, mais l'ordre des points sur chaque droite est inversé : S est entre A et A' (et entre B et B').
+    </div>
+    <div class="tip">
+      <div class="tip-title">💡 Astuce visuelle</div>
+      Ça ressemble à un papillon car les deux triangles SAB et SA'B' se croisent en S, formant une figure en X.
+    </div>
+  </div>
+
+  <div class="cards-grid" style="margin-top:15px">
+    <div class="card">
+      <div class="card-title green">Réciproque de Thalès</div>
+      <p>La réciproque permet de <strong>prouver que deux droites sont parallèles</strong>.</p>
+      <div class="formula green">SA/SA' = SB/SB' ⟹ (AB) ∥ (A'B')</div>
+      <p style="margin-top:10px">Si les rapports sont égaux et que les points sont bien alignés (S, A, A' et S, B, B'), alors les droites sont parallèles.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num green">1</div>
+          <div class="step-text">Calculer SA/SA' = 4/6 = 2/3</div>
+        </div>
+        <div class="step">
+          <div class="step-num green">2</div>
+          <div class="step-text">Calculer SB/SB' = 6/9 = 2/3</div>
+        </div>
+        <div class="step">
+          <div class="step-num green">3</div>
+          <div class="step-text">2/3 = 2/3 → S, A, A' et S, B, B' alignés → <strong>(AB) ∥ (A'B')</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title red">Erreurs classiques</div>
+      <div class="alert">
+        <div class="alert-title">⚠ Vérifier l'alignement !</div>
+        S, A, A' doivent être alignés dans cet ordre (ou S, A', A). Même chose pour S, B, B'. Si l'ordre n'est pas respecté, la configuration est fausse.
+      </div>
+      <div class="alert">
+        <div class="alert-title">⚠ Ne pas confondre les rapports</div>
+        SA/SA' = SB/SB' et <strong>pas</strong> SA/SB = SA'/SB'. Toujours comparer des longueurs sur la <em>même</em> droite.
+      </div>
+      <div class="tip">
+        <div class="tip-title">💡 Conseil</div>
+        Faire un schéma légendé avant de commencer. Identifier clairement le point S et les deux parallèles.
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:15px">
+    <div class="card-title purple">Rédaction</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num purple">1</div>
+        <div class="step-text"><strong>Points alignés :</strong> "Les points S, A, A' sont alignés d'une part et les points S, B, B' sont alignés d'autre part."</div>
+      </div>
+      <div class="step">
+        <div class="step-num purple">2</div>
+        <div class="step-text"><strong>Parallèles :</strong> "De plus, (AB) est parallèle à (A'B')"</div>
+      </div>
+      <div class="step">
+        <div class="step-num purple">3</div>
+        <div class="step-text"><strong>Application :</strong> "Or, d'après le théorème de Thalès : SA/SA' = SB/SB' = AB/A'B'"</div>
+      </div>
+      <div class="step">
+        <div class="step-num purple">4</div>
+        <div class="step-text"><strong>Calcul + conclusion :</strong> Produit en croix puis donner la valeur cherchée avec son unité. Et conclure avec : Donc SA = ? ou (AB) et (A'B') sont parallèles.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== TRIGONOMETRIE ==================== -->
+<div id="sec-trigo" class="section">
+
+  <div class="card">
+    <div class="card-title">Introduction : les côtés selon l'angle</div>
+    <p>Dans un triangle rectangle, les noms des côtés <strong>dépendent de l'angle étudié</strong>. Pour un angle <span class="hl-blue">α</span> :</p>
+    <div class="vocab-grid">
+      <div class="vocab-item">
+        <div class="vocab-term">Adjacent</div>
+        <div class="vocab-def">Le côté qui "touche" l'angle α (mais pas l'hypoténuse).</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-term">Opposé</div>
+        <div class="vocab-def">Le côté "en face" de l'angle α.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-term">Hypoténuse</div>
+        <div class="vocab-def">Toujours en face de l'angle droit — jamais un côté de l'angle α.</div>
+      </div>
+    </div>
+    <div class="graph-wrap wide">
+      <canvas id="canvas-trigo-intro" width="0" height="0"></canvas>
+    </div>
+    <div class="graph-label">Côtés Adjacent / Opposé / Hypoténuse par rapport à α</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title yellow">Les 3 formules — CAH SOH TOA</div>
+    <p>Il est recommandé de noter ce moyen mnémotechnique sur le brouillon dès le début de l'épreuve.</p>
+    <div class="soh-grid">
+      <div class="soh-box">
+        <div class="soh-name" style="color:var(--accent)">cos α</div>
+        <div class="soh-frac">
+          <div class="soh-num">Adjacent</div>
+          <div class="soh-line"></div>
+          <div class="soh-den">Hypoténuse</div>
+        </div>
+        <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--text-muted);margin-top:8px">CAH</div>
+      </div>
+      <div class="soh-box">
+        <div class="soh-name" style="color:var(--accent2)">sin α</div>
+        <div class="soh-frac">
+          <div class="soh-num">Opposé</div>
+          <div class="soh-line"></div>
+          <div class="soh-den">Hypoténuse</div>
+        </div>
+        <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--text-muted);margin-top:8px">SOH</div>
+      </div>
+      <div class="soh-box">
+        <div class="soh-name" style="color:var(--green)">tan α</div>
+        <div class="soh-frac">
+          <div class="soh-num">Opposé</div>
+          <div class="soh-line"></div>
+          <div class="soh-den">Adjacent</div>
+        </div>
+        <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--text-muted);margin-top:8px">TOA</div>
+      </div>
+    </div>
+    <div class="formula yellow">CAH — SOH — TOA</div>
+    <div class="tip">
+      <div class="tip-title">💡 Moyen mnémotechnique</div>
+      <strong>C</strong>os = <strong>A</strong>djacent / <strong>H</strong>yp → CAH &nbsp;|&nbsp; <strong>S</strong>in = <strong>O</strong>pposé / <strong>H</strong>yp → SOH &nbsp;|&nbsp; <strong>T</strong>an = <strong>O</strong>pposé / <strong>A</strong>dj → TOA
+    </div>
+  </div>
+
+  
+
+  
+
+  
+
+  <div class="card" style="margin-top:15px">
+    <div class="card-title green">Déterminer un angle inconnu</div>
+    <p><strong>Démarche en 2 étapes :</strong></p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num green">1</div>
+        <div class="step-text"><strong>Identifier les côtés disponibles</strong> par rapport à l'angle recherché. Si l'hypoténuse et l'adjacent sont connus, on utilise le <span class="hl-green">cosinus (CAH)</span>.</div>
+      </div>
+      <div class="step">
+        <div class="step-num green">2</div>
+        <div class="step-text"><strong>Appliquer la formule</strong>, puis calculer l'arc correspondant (arccos, arcsin ou arctan) pour obtenir la valeur de l'angle.</div>
+      </div>
+    </div>
+    <div class="section-divider">Exemple</div>
+    <p>Hypoténuse = 6, Adjacent = 4 :</p>
+    <div class="formula green">cos(angle) = 4/6 ≈ 0,667</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num green">3</div>
+        <div class="step-text">Pour passer du cos, sin ou tan vers la valeur d'un angle en degré, voir :  <strong>Utiliser la calculatrice</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:15px">
+    <div class="card-title red">Déterminer un côté inconnu</div>
+    <p>La démarche est identique : identifier l'angle et les côtés connus, puis appliquer la formule adaptée. Deux cas se présentent selon la position du côté inconnu dans la fraction.</p>
+
+    <div class="section-divider">Cas 1 — Le côté inconnu est au dénominateur</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num red">Ex</div>
+        <div class="step-text">cos(35°) = 4 / <strong>H</strong> &nbsp;→&nbsp; H est l'hypoténuse (inconnue), 4 est l'adjacent.</div>
+      </div>
+      <div class="step">
+        <div class="step-num red">→</div>
+        <div class="step-text"><strong>H = 4 / cos(35°)</strong> — lorsque l'inconnue est au dénominateur, on divise le numérateur par le ratio. </div>
+      </div>
+    </div>
+    <div class="formula red">H = Adjacent / cos(35°) = 4 / 0,819 ≈ 4,88</div>
+
+    <div class="section-divider">Cas 2 — Le côté inconnu est au numérateur</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num red">Ex</div>
+        <div class="step-text">cos(35°) = <strong>Adj</strong> / 6 &nbsp;→&nbsp; l'hypoténuse (6) est connue, l'adjacent est à trouver.</div>
+      </div>
+      <div class="step">
+        <div class="step-num red">→</div>
+        <div class="step-text"><strong>Adj = 6 × cos(35°)</strong> — lorsque l'inconnue est au numérateur, on multiplie le dénominateur par le ratio.</div>
+      </div>
+    </div>
+    <div class="formula red">Adjacent = Hyp × cos(35°) = 6 × 0,819 ≈ 4,91</div>
+
+    <div class="success">
+      <div class="success-title">✓ À retenir</div>
+      Côté inconnu au <strong>dénominateur (en bas)</strong> → on <strong>divise</strong>.<br>
+      Côté inconnu au <strong>numérateur (en haut)</strong> → on <strong>multiplie</strong>.
+    </div>
+    <div class="info">
+      <div class="info-title">Remarque</div>
+      La maîtrise de ces deux cas s'acquiert principalement par la pratique des exercices.
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:15px">
+    <div class="card-title teal">Utiliser la calculatrice</div>
+    <p>Pour obtenir le cosinus, le sinus ou la tangente d'un angle :</p>
+    <div class="info" style="margin-top:10px">
+      <div class="info-title">Calculer la valeur du ratio</div>
+      Saisir <strong>cos(35)</strong> puis EXE → la calculatrice renvoie un nombre (compris entre 0 et 1).
+</div>
+    <div class="info">
+      <div class="info-title">Retrouver la valeur en degré d'un angle à partir du ratio</div>
+      Lorsque la valeur du cos, sin ou tan est connue et que l'on cherche l'angle correspondant :<br>
+      Saisir <strong>arccos(0,7)</strong> ou <strong>cos⁻¹(0,7)</strong> → la calculatrice renvoie l'angle en degrés.<br>
+      Sur la calculatrice : touche <strong>SHIFT/SECONDE</strong> + cos / sin / tan.
+    </div>
+    <div class="tip">
+      <div class="tip-title">💡 Conseil : utiliser REP</div>
+      Lors du calcul de l'arc (arccos, arcsin, arctan), il est conseillé d'utiliser la touche <strong>REP</strong> (ou ANS) pour récupérer le résultat précédent au lieu de le ressaisir manuellement. Cela évite les erreurs d'arrondi intermédiaires.
+    </div>
+    <div class="alert">
+      <div class="alert-title">⚠ Mode DEGRÉ</div>
+      Vérifier que la calculatrice est réglée en mode <strong>DEG</strong> (degrés) et non en RAD ou GRAD.
+    </div>
+  </div><div class="card" style="margin-top:15px">
+    <div class="card-title purple">Rédiger une preuve complète</div>
+    <div class="alert">
+      <div class="alert-title">⚠ La rédaction compte au brevet</div>
+      Ne jamais écrire cos A = AC/AB sans avoir dit avant que A est l'angle étudié et que le triangle est rectangle. Mets toujours les conditions avant le calcul.
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num purple">1</div>
+        <div class="step-text"><strong>Contexte :</strong> "Le triangle ABC est rectangle en C"</div>
+      </div>
+      
+      <div class="step">
+        <div class="step-num purple">2</div>
+        <div class="step-text"><strong>Formule :</strong>J'utilise le cosinus/sinus/tangente (La trigonométries sont des outils, non des formules, alors on n'applique pas, on utilise)</div>
+      </div>
+      <div class="step">
+        <div class="step-num purple">3</div>
+        <div class="step-text"><strong>Calcul + conclusion :</strong> "cos(A) = 6/10 = 0,6 → A = arccos(0,6) ≈ 53,1°"</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== TRANSFORMATIONS ==================== -->
+<div id="sec-transformations" class="section">
+
+  <div class="card">
+    <div class="card-title">Les 5 transformations du brevet</div>
+    <div class="transform-row">
+      <div class="transform-box">
+        <div class="transform-icon">↔</div>
+        <div class="transform-name">Symétrie axiale</div>
+        <div class="transform-desc">Réflexion par rapport à une droite</div>
+      </div>
+      <div class="transform-box">
+        <div class="transform-icon">⊙</div>
+        <div class="transform-name">Symétrie centrale</div>
+        <div class="transform-desc">½ tour autour d'un point</div>
+      </div>
+      <div class="transform-box">
+        <div class="transform-icon">→</div>
+        <div class="transform-name">Translation</div>
+        <div class="transform-desc">Déplacement sans rotation</div>
+      </div>
+      <div class="transform-box">
+        <div class="transform-icon">↻</div>
+        <div class="transform-name">Rotation</div>
+        <div class="transform-desc">Tour autour d'un point d'un angle donné</div>
+      </div>
+      <div class="transform-box">
+        <div class="transform-icon">⤢</div>
+        <div class="transform-name">Homothétie</div>
+        <div class="transform-desc">Agrandissement/réduction depuis un centre</div>
+      </div>
+    </div>
+    <div class="success">
+      <div class="success-title">✓ Propriété commune aux 4 isométries (sauf homothétie)</div>
+      Symétrie axiale, symétrie centrale, translation et rotation conservent les distances, les angles et l'aire. L'homothétie conserve les angles et la forme, mais <strong>pas</strong> les distances.
+    </div>
+  </div>
+
+  <div class="cards-grid" style="margin-top:15px">
+    <div class="card">
+      <div class="card-title yellow">Symétrie axiale</div>
+      <p><strong>Axe de symétrie (d)</strong> : la droite par rapport à laquelle on effectue la réflexion.</p>
+      <div class="formula yellow">M' est le symétrique de M par rapport à (d)</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num yellow">1</div>
+          <div class="step-text">Tracer la perpendiculaire à (d) passant par M</div>
+        </div>
+        <div class="step">
+          <div class="step-num yellow">2</div>
+          <div class="step-text">Mesurer la distance de M à l'axe</div>
+        </div>
+        <div class="step">
+          <div class="step-num yellow">3</div>
+          <div class="step-text">Reporter la même distance de l'autre côté → point M'</div>
+        </div>
+      </div>
+      <div class="vocab-grid" style="margin-top:10px">
+        <div class="vocab-item yellow">
+          <div class="vocab-term yellow">Propriétés</div>
+          <div class="vocab-def">• (d) est la médiatrice de [MM']<br>• MM' ⊥ (d)<br>• Le milieu de [MM'] ∈ (d)</div>
+        </div>
+        <div class="vocab-item">
+          <div class="vocab-term">Axe de symétrie d'une figure</div>
+          <div class="vocab-def">Une figure a un axe de symétrie si elle est identique de part et d'autre de cet axe.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Symétrie centrale</div>
+      <p><strong>Centre de symétrie O</strong> : le point par rapport auquel on effectue le ½ tour.</p>
+      <div class="formula">O est le milieu de [MM']</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text">Tracer la droite (OM)</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text">Reporter OA = OM de l'autre côté de O → point M'</div>
+        </div>
+      </div>
+      <div class="vocab-grid" style="margin-top:10px">
+        <div class="vocab-item">
+          <div class="vocab-term">Propriétés</div>
+          <div class="vocab-def">• O milieu de [MM']<br>• OM = OM'<br>• MM' passe par O</div>
+        </div>
+        <div class="vocab-item green">
+          <div class="vocab-term green">Figures à centre de symétrie</div>
+          <div class="vocab-def">Cercle, parallélogramme, losange, rectangle, carré, etc.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards-grid" style="margin-top:15px">
+    <div class="card">
+      <div class="card-title green">Translation</div>
+      <p>La translation est le fait de transformer un point en un autre<strong> : "Par la translation de A en B"</strong> .</p>
+      <div class="formula green">"Contruire la figure A'B'C'D' par la translation de A en A'" Par ex.</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num green">1</div>
+          <div class="step-text">Déterminer la position de chaque point de la figure par rapport à A. (Sur l'axe des abcisses et des ordonnés)</div>
+        </div>
+        <div class="step">
+          <div class="step-num green">2</div>
+          <div class="step-text">Reproduisé les points avec les memes distances, mais cette fois par rapport au point A'.</div>
+        </div>
+        <div class="step">
+          <div class="step-num green">3</div>
+          <div class="step-text">On obtient donc la même figure, à un different endroit. (Ne pas oublié le "prime '" sur les lettres de la nouvelle figure)</div>
+        </div>
+      </div>
+      <div class="info">
+        <div class="info-title">Propriétés</div>Les longeurs sont les mêmes, les angles ont les mêmes valeurs, la figure ne s'est pas retourné, les figures sont superpossables.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title purple">Rotation</div>
+      <p>Pour faire une rotation, on a besoin de savoir :
+
+Le centre (le point O),
+
+L'angle : De combien de degrés on tourne.
+
+Le sens : (sens horaire ou anti-horraire)</p>
+      
+      <div class="steps">
+        <div class="step">
+          <div class="step-num purple">1</div>
+          <div class="step-text">On relie le point qu'on veut rotater au centre O.</div>
+        </div>
+        <div class="step">
+          <div class="step-num purple">2</div>
+          <div class="step-text">On utilise notre rapporteur. Et on reporte avec l'angle qu'on nous demande. (Attention à ne pas se tromper de sens)</div>
+        </div>
+      </div>
+      <div class="vocab-grid" style="margin-top:10px">
+        <div class="vocab-item purple">
+          <div class="vocab-term purple">Rotation de 90°</div>
+          <div class="vocab-def">Un quart de tour. Sens trigo = anti-horaire.</div>
+        </div>
+        <div class="vocab-item purple">
+          <div class="vocab-term purple">Rotation de 180°</div>
+          <div class="vocab-def">Un demi-tour. Équivalent à une symétrie centrale !</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:15px">
+    <div class="card-title teal">Homothétie</div>
+    <p>L'homothétie est une transformation qui <strong>agrandit ou réduit</strong> une figure depuis un centre O, avec un rapport k.</p>
+    <div class="formula teal">OM' = k × OM</div>
+    <div class="vocab-grid">
+      <div class="vocab-item">
+        <div class="vocab-term">Centre O</div>
+        <div class="vocab-def">Point fixe de la transformation. Tous les agrandissements partent de O.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-term">Rapport k</div>
+        <div class="vocab-def">Facteur d'agrandissement. k &gt; 1 = agrandissement, 0 &lt; k &lt; 1 = réduction, k &lt; 0 = retournement.</div>
+      </div>
+      <div class="vocab-item yellow">
+        <div class="vocab-term yellow">k = 2</div>
+        <div class="vocab-def">La figure image est 2× plus grande. OM' = 2 × OM.</div>
+      </div>
+      <div class="vocab-item red">
+        <div class="vocab-term" style="color:var(--accent3)">k = −1</div>
+        <div class="vocab-def">Équivalent à une symétrie centrale de centre O.</div>
+      </div>
+    </div>
+    <div class="steps" style="margin-top:12px">
+      <div class="step">
+        <div class="step-num teal">1</div>
+        <div class="step-text">Repérer le centre O et le rapport k dans l'énoncé.</div>
+      </div>
+      <div class="step">
+        <div class="step-num teal">2</div>
+        <div class="step-text">Pour chaque point M, placer M' sur la droite (OM) tel que OM' = k × OM (même sens si k &gt; 0, sens opposé si k &lt; 0).</div>
+      </div>
+      <div class="step">
+        <div class="step-num teal">3</div>
+        <div class="step-text">Relier tous les points images pour tracer la figure image.</div>
+      </div>
+    </div>
+    <div class="alert" style="margin-top:10px">
+      <div class="alert-title">⚠ Homothétie ≠ isométrie</div>
+      Contrairement aux 4 autres transformations, l'homothétie ne conserve <strong>pas</strong> les distances (sauf si k = ±1). Elle conserve les angles et les formes, mais pas la taille.
+    </div>
+    <div class="success">
+      <div class="success-title">✓ Lien avec Thalès</div>
+      L'homothétie et le théorème de Thalès sont très liés : dans une configuration de Thalès, les triangles SAB et SA'B' sont en fait des images l'un de l'autre par une homothétie de centre S et de rapport SA'/SA.
+    </div>
+  </div>
+</div>
+
+<!-- ==================== EXERCICES ==================== -->
+<div id="sec-exercices" class="section">
+
+  <div class="card" style="margin-bottom:16px">
+    <div class="progress-label">
+      <span>Progression</span>
+      <span id="score-txt">0 / 27</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <div class="filter-tabs">
+      <button class="filter-tab active-all" onclick="filterExos('all',event)">Tous</button>
+      <button class="filter-tab" onclick="filterExos('easy',event)">Facile</button>
+      <button class="filter-tab" onclick="filterExos('med',event)">Moyen</button>
+      <button class="filter-tab" onclick="filterExos('hard',event)">Difficile</button>
+    </div>
+  </div>
+
+  <!-- ---- FACILE ---- -->
+  <div id="div-easy" class="section-divider">Niveau Facile</div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e1')">
+      <span class="exo-num">EX. 01</span>
+      <span class="exo-title">Calcul d'hypoténuse (3-4-5)</span>
+      <span class="exo-badge badge-easy">Facile</span>
+      <span class="exo-arrow" id="arrow-e1">›</span>
+    </div>
+    <div class="exo-body" id="body-e1">
+      <div class="exo-question">
+        Le triangle ABC est rectangle en C, avec AC = 3 cm et BC = 4 cm.<br>
+        Calculer la longueur AB.
+      </div>
+      <div class="exo-hint">💡 Utilise le théorème de Pythagore : AB² = AC² + BC²</div>
+      <input class="answer-input" id="inp-e1" placeholder="AB = ? (en cm)" type="number" step="0.01">
+      <button class="btn btn-primary" onclick="check('e1', 5)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e1')">Voir le corrigé</button>
+      <div class="feedback" id="fb-e1"></div>
+      <div class="solution-box" id="sol-e1">
+        <div class="solution-title">CORRIGÉ</div>
+        ABC rectangle en C → AB² = AC² + BC² = 3² + 4² = 9 + 16 = 25<br>
+        Donc AB = √25 = <strong>5 cm</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e2')">
+      <span class="exo-num">EX. 02</span>
+      <span class="exo-title">Calcul d'un côté de l'angle droit</span>
+      <span class="exo-badge badge-easy">Facile</span>
+      <span class="exo-arrow" id="arrow-e2">›</span>
+    </div>
+    <div class="exo-body" id="body-e2">
+      <div class="exo-question">
+        Le triangle DEF est rectangle en F, avec DE = 13 cm et DF = 5 cm.<br>
+        Calculer la longueur EF.
+      </div>
+      <div class="exo-hint">💡 EF² = DE² − DF²</div>
+      <input class="answer-input" id="inp-e2" placeholder="EF = ? (en cm)" type="number" step="0.01">
+      <button class="btn btn-primary" onclick="check('e2', 12)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e2')">Voir le corrigé</button>
+      <div class="feedback" id="fb-e2"></div>
+      <div class="solution-box" id="sol-e2">
+        <div class="solution-title">CORRIGÉ</div>
+        DEF rectangle en F → DE est l'hypoténuse → EF² = DE² − DF² = 13² − 5² = 169 − 25 = 144<br>
+        Donc EF = √144 = <strong>12 cm</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e3')">
+      <span class="exo-num">EX. 03</span>
+      <span class="exo-title">Le triangle est-il rectangle ?</span>
+      <span class="exo-badge badge-easy">Facile</span>
+      <span class="exo-arrow" id="arrow-e3">›</span>
+    </div>
+    <div class="exo-body" id="body-e3">
+      <div class="exo-question">
+        Un triangle a pour côtés : 8 cm, 15 cm et 17 cm.<br>
+        Ce triangle est-il rectangle ? Quel serait l'angle droit ?
+      </div>
+      <div class="exo-hint">💡 Teste 17² et 8² + 15²</div>
+      <div class="mcq-options">
+        <button class="mcq-btn" onclick="mcq('e3','a')">A) Oui, rectangle en face du côté 8 cm</button>
+        <button class="mcq-btn" onclick="mcq('e3','b')">B) Non, aucun angle droit</button>
+        <button class="mcq-btn" id="mcq-e3-c" onclick="mcq('e3','c')">C) Oui, rectangle en face du côté 17 cm</button>
+      </div>
+      <div class="feedback" id="fb-e3"></div>
+      <div class="solution-box" id="sol-e3">
+        <div class="solution-title">CORRIGÉ</div>
+        Plus grand côté = 17. On calcule : 17² = 289 et 8² + 15² = 64 + 225 = 289.<br>
+        289 = 289 → d'après la réciproque de Pythagore, le triangle est <strong>rectangle, l'angle droit étant en face du côté 17 cm</strong>.
+      </div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e4')">
+      <span class="exo-num">EX. 04</span>
+      <span class="exo-title">Rapport trigonométrique (sin)</span>
+      <span class="exo-badge badge-easy">Facile</span>
+      <span class="exo-arrow" id="arrow-e4">›</span>
+    </div>
+    <div class="exo-body" id="body-e4">
+      <div class="exo-question">
+        Dans le triangle ABC rectangle en C, on donne sin(A) = 0,6.<br>
+        Si AB = 10 cm, calculer BC (côté opposé à A). (en cm)
+      </div>
+      <div class="exo-hint">💡 sin(A) = BC/AB donc BC = AB × sin(A)</div>
+      <input class="answer-input" id="inp-e4" placeholder="BC = ? (en cm)" type="number" step="0.01">
+      <button class="btn btn-primary" onclick="check('e4', 6)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e4')">Voir le corrigé</button>
+      <div class="feedback" id="fb-e4"></div>
+      <div class="solution-box" id="sol-e4">
+        <div class="solution-title">CORRIGÉ</div>
+        sin(A) = BC/AB → BC = AB × sin(A) = 10 × 0,6 = <strong>6 cm</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- ---- MOYEN ---- -->
+  <div id="div-med" class="section-divider">Niveau Moyen</div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e6')">
+      <span class="exo-num">EX. 06</span>
+      <span class="exo-title">Application de Thalès — trouver une longueur</span>
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-arrow" id="arrow-e6">›</span>
+    </div>
+    <div class="exo-body" id="body-e6">
+      <div class="problem-ctx">
+        <div class="problem-ctx-title">CONTEXTE</div>
+        S, A, A' sont alignés dans cet ordre. S, B, B' sont alignés dans cet ordre.<br>
+        (AB) ∥ (A'B'), SA = 6, SA' = 9, SB = 8.
+      </div>
+      <div class="exo-question">
+        Calculer SB'. (arrondir au centième)
+      </div>
+      <div class="exo-hint">💡 Thalès : SA/SA' = SB/SB' → produit en croix</div>
+      <input class="answer-input" id="inp-e6" placeholder="SB' = ?" type="number" step="0.01">
+      <button class="btn btn-primary" onclick="check('e6', 12)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e6')">Voir le corrigé</button>
+      <div class="feedback" id="fb-e6"></div>
+      <div class="solution-box" id="sol-e6">
+        <div class="solution-title">CORRIGÉ</div>
+        D'après Thalès : SA/SA' = SB/SB' → 6/9 = 8/SB' → SB' = (8 × 9)/6 = 72/6 = <strong>12</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e7')">
+      <span class="exo-num">EX. 07</span>
+      <span class="exo-title">Trouver un angle avec la trigo</span>
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-arrow" id="arrow-e7">›</span>
+    </div>
+    <div class="exo-body" id="body-e7">
+      <div class="exo-question">
+        Le triangle PQR est rectangle en R, avec PQ = 20 cm et QR = 12 cm.<br>
+        Calculer l'angle en Q, arrondi au degré près.
+      </div>
+      <div class="exo-hint">💡 Par rapport à Q : PQ est hyp, QR est adj. Quel ratio ?</div>
+      <input class="answer-input" id="inp-e7" placeholder="Angle Q = ? (°)" type="number" step="1">
+      <button class="btn btn-primary" onclick="check('e7', 53)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e7')">Voir le corrigé</button>
+      <div class="feedback" id="fb-e7"></div>
+      <div class="solution-box" id="sol-e7">
+        <div class="solution-title">CORRIGÉ</div>
+        Par rapport à Q : PQ = hyp, QR = adj → cos(Q) = QR/PQ = 12/20 = 0,6<br>
+        Angle Q = cos⁻¹(0,6) ≈ <strong>53°</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e9')">
+      <span class="exo-num">EX. 09</span>
+      <span class="exo-title">Hauteur d'un poteau (trigo)</span>
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-arrow" id="arrow-e9">›</span>
+    </div>
+    <div class="exo-body" id="body-e9">
+      <div class="problem-ctx">
+        <div class="problem-ctx-title">CONTEXTE</div>
+        Un poteau est vertical. Un observateur se trouve à 10 m de la base du poteau. L'angle d'élévation jusqu'au sommet est de 35°.
+      </div>
+      <div class="exo-question">
+        Calculer la hauteur du poteau (arrondi au centième de mètre).
+      </div>
+      <div class="exo-hint">💡 tan(35°) = hauteur / distance → h = 10 × tan(35°) ≈ 10 × 0,7002</div>
+      <input class="answer-input" id="inp-e9" placeholder="h ≈ ? m" type="number" step="0.01">
+      <button class="btn btn-primary" onclick="check('e9', 7)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e9')">Voir le corrigé</button>
+      <div class="feedback" id="fb-e9"></div>
+      <div class="solution-box" id="sol-e9">
+        <div class="solution-title">CORRIGÉ</div>
+        tan(35°) = h/10 → h = 10 × tan(35°) = 10 × 0,7002 ≈ <strong>7,00 m</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e10')">
+      <span class="exo-num">EX. 10</span>
+      <span class="exo-title">Symétrique d'un point</span>
+      <span class="exo-badge badge-med">Moyen</span>
+      <span class="exo-arrow" id="arrow-e10">›</span>
+    </div>
+    <div class="exo-body" id="body-e10">
+      <div class="problem-ctx">
+        <div class="problem-ctx-title">CONTEXTE</div>
+        Le point A a pour coordonnées (2 ; 5). O est l'origine du repère (0 ; 0).
+      </div>
+      <div class="exo-question">
+        Donner les coordonnées du symétrique A' de A par rapport à O.
+      </div>
+      <div class="mcq-options">
+        <button class="mcq-btn" onclick="mcq('e10','a')">A) A'(2 ; −5)</button>
+        <button class="mcq-btn" onclick="mcq('e10','b')">B) A'(−2 ; −5)</button>
+        <button class="mcq-btn" onclick="mcq('e10','c')">C) A'(−2 ; 5)</button>
+      </div>
+      <div class="feedback" id="fb-e10"></div>
+      <div class="solution-box" id="sol-e10">
+        <div class="solution-title">CORRIGÉ</div>
+        La symétrie centrale de centre O = origine : A'(−xₐ ; −yₐ) = A'(<strong>−2 ; −5</strong>). Réponse B.
+      </div>
+    </div>
+  </div>
+
+  <!-- ---- DIFFICILE ---- -->
+  <div id="div-hard" class="section-divider">Niveau Difficile</div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e11')">
+      <span class="exo-num">EX. 11</span>
+      <span class="exo-title">Démonstration complète — Thalès + réciproque</span>
+      <span class="exo-badge badge-hard">Difficile</span>
+      <span class="exo-arrow" id="arrow-e11">›</span>
+    </div>
+    <div class="exo-body" id="body-e11">
+      <div class="problem-ctx">
+        <div class="problem-ctx-title">CONTEXTE</div>
+        Dans un triangle SAB, M est un point sur [SA] tel que SM = 4, SA = 10.<br>
+        N est un point sur [SB] tel que SN = 6, SB = 15.
+      </div>
+      <div class="exo-question">
+        1) Montrer que (MN) est parallèle à (AB).<br>
+        2) Si AB = 12 cm, calculer MN.
+      </div>
+      <div class="exo-hint">💡 Réciproque de Thalès pour la 1re partie, puis Thalès direct pour la 2e.</div>
+      <button class="btn btn-show" onclick="showSolution('e11')">Voir le corrigé complet</button>
+      <div class="solution-box" id="sol-e11">
+        <div class="solution-title">CORRIGÉ</div>
+        <strong>1) Réciproque de Thalès :</strong><br>
+        Les points S, M, A sont alignés dans cet ordre (M sur [SA]).<br>
+        Les points S, N, B sont alignés dans cet ordre (N sur [SB]).<br>
+        SM/SA = 4/10 = 2/5 &nbsp;et&nbsp; SN/SB = 6/15 = 2/5<br>
+        Les deux rapports sont égaux → d'après la <strong>réciproque du théorème de Thalès</strong>, (MN) est parallèle à (AB).<br><br>
+        <strong>2) Théorème de Thalès :</strong><br>
+        D'après Thalès (car (MN)∥(AB)) : SM/SA = MN/AB<br>
+        2/5 = MN/12 → MN = 12 × 2/5 = 24/5 = <strong>4,8 cm</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e12')">
+      <span class="exo-num">EX. 12</span>
+      <span class="exo-title">Problème de géométrie mixte</span>
+      <span class="exo-badge badge-hard">Difficile</span>
+      <span class="exo-arrow" id="arrow-e12">›</span>
+    </div>
+    <div class="exo-body" id="body-e12">
+      <div class="problem-ctx">
+        <div class="problem-ctx-title">CONTEXTE</div>
+        Un triangle ABC est rectangle en C. AC = 9 cm, l'angle en A = 40°.
+      </div>
+      <div class="exo-question">
+        1) Calculer BC (arrondi au centième).<br>
+        2) Calculer AB (arrondi au centième).<br>
+        3) Vérifier par Pythagore que vos valeurs sont cohérentes.
+      </div>
+      <div class="exo-hint">💡 Utilise tan pour BC, puis cos pour AB. tan(40°)≈0,839 ; cos(40°)≈0,766</div>
+      <button class="btn btn-show" onclick="showSolution('e12')">Voir le corrigé complet</button>
+      <div class="solution-box" id="sol-e12">
+        <div class="solution-title">CORRIGÉ</div>
+        <strong>1) BC :</strong> Par rapport à A → AC est adjacent, BC est opposé.<br>
+        tan(40°) = BC/AC → BC = AC × tan(40°) = 9 × 0,839 ≈ <strong>7,55 cm</strong><br><br>
+        <strong>2) AB :</strong> Par rapport à A → AC est adjacent, AB est hypoténuse.<br>
+        cos(40°) = AC/AB → AB = AC / cos(40°) = 9 / 0,766 ≈ <strong>11,75 cm</strong><br><br>
+        <strong>3) Vérification Pythagore :</strong><br>
+        AB² = 11,75² ≈ 138,06<br>
+        AC² + BC² = 9² + 7,55² = 81 + 57,00 = 138,00 ≈ 138,06 ✓ (légère différence due aux arrondis)
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+<!-- ==================== RECAP ==================== -->
+<div id="sec-recap" class="section active">
+
+  <div class="card">
+    <div class="card-title">Toutes les formules à retenir</div>
+    <table class="summary-table">
+      <tbody><tr>
+        <th>Thème</th>
+        <th>Formule clé</th>
+        <th>Condition d'application</th>
+      </tr>
+      <tr>
+        <td><strong>Pythagore</strong></td>
+        <td style="font-family:'Space Mono',monospace;color:var(--accent)">c² = a² + b²</td>
+        <td>Triangle rectangle (c = hyp)</td>
+      </tr>
+      <tr>
+        <td><strong>Réciproque Pythagore</strong></td>
+        <td style="font-family:'Space Mono',monospace;color:var(--green)">c² = a² + b² ⟹ △ rect.</td>
+        <td>Tester avec le plus grand côté</td>
+      </tr>
+      <tr>
+        <td><strong>Thalès</strong></td>
+        <td style="font-family:'Space Mono',monospace;color:var(--accent2)">SA/SA' = SB/SB' = AB/A'B'</td>
+        <td>(AB) ∥ (A'B'), points alignés</td>
+      </tr>
+      <tr>
+        <td><strong>cos</strong></td>
+        <td style="font-family:'Space Mono',monospace;color:var(--accent)">cos α = Adj / Hyp</td>
+        <td>Triangle rectangle — CAH</td>
+      </tr>
+      <tr>
+        <td><strong>sin</strong></td>
+        <td style="font-family:'Space Mono',monospace;color:var(--accent2)">sin α = Opp / Hyp</td>
+        <td>Triangle rectangle — SOH</td>
+      </tr>
+      <tr>
+        <td><strong>tan</strong></td>
+        <td style="font-family:'Space Mono',monospace;color:var(--green)">tan α = Opp / Adj</td>
+        <td>Triangle rectangle — TOA</td>
+      </tr>
+      <tr>
+        <td><strong>Homothétie</strong></td>
+        <td style="font-family:'Space Mono',monospace;color:var(--accent4)">OM' = k × OM</td>
+        <td>Centre O + rapport k</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+  
+
+  <div class="card">
+    <div class="card-title purple">Méthode pour chaque théorème</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num yellow">△</div>
+        <div class="step-text"><strong>Pythagore :</strong> (1) Vérifier le triangle rectangle. (2) Identifier l'hypoténuse. (3) Appliquer c² = a² + b². (4) Prendre √ pour trouver le côté.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">∥</div>
+        <div class="step-text"><strong>Thalès :</strong> (1) Vérifier l'alignement des points. (2) Vérifier le parallélisme. (3) Écrire le rapport. (4) Produit en croix.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">📐</div>
+        <div class="step-text"><strong>Trigo :</strong> (1) Repérer l'angle. (2) Nommer Opp/Adj/Hyp. (3) Choisir cos/sin/tan (CAH-SOH-TOA). (4) Calculer — diviser si en bas, multiplier si en haut.</div>
+      </div>
+      <div class="step">
+        <div class="step-num purple">↻</div>
+        <div class="step-text"><strong>Transformations :</strong> (1) Identifier le type. (2) Tracer l'image point par point. (3) Relier les images pour obtenir la figure.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title teal">Erreurs à ne pas faire au brevet</div>
+    <div class="alert">
+      <div class="alert-title">⚠ Pythagore : ne pas oublier √</div>
+      Après avoir trouvé c² = 25, ne pas écrire c = 25. Il faut c = √25 = 5 !
+    </div>
+    <div class="alert">
+      <div class="alert-title">⚠ Thalès : vérifier l'ordre des points</div>
+      S, A, A' doivent être dans le bon ordre. En config papillon, S est entre A et A'.
+    </div>
+    <div class="alert">
+      <div class="alert-title">⚠ Trigo : mode DEG sur la calculatrice</div>
+      Toujours vérifier que la calculatrice est en degrés, pas en radians !
+    </div>
+    <div class="alert">
+      <div class="alert-title">⚠ Trigo : utilise REP pour l'arc</div>
+      Quand tu fais arccos/arcsin/arctan, utilise REP (ou ANS) pour la valeur, pas ton arrondi intermédiaire.
+    </div>
+    <div class="tip">
+      <div class="tip-title">💡 Au brevet, la rédaction compte</div>
+      Écrire la condition (rectangle en…, parallèles, alignés…), puis le théorème, puis le calcul, puis la conclusion avec l'unité.
+    </div>
+  </div>
+
+</div>
+
+</div><!-- /main-content -->
+<!-- /page-wrapper -->
+
+<script>
+// ==================== NAVIGATION ====================
+function showSection(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  const sec = document.getElementById('sec-' + id);
+  if (sec) sec.classList.add('active');
+  if (btn) btn.classList.add('active');
+  setTimeout(initGraphs, 80);
+}
+
+// ==================== CANVAS UTILITIES ====================
+function setupCanvas(canvas) {
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  const w = rect.width * dpr || canvas.parentElement.clientWidth * dpr;
+  const h = rect.height * dpr || canvas.parentElement.clientHeight * dpr;
+  canvas.width = w; canvas.height = h;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  return { ctx, w: w/dpr, h: h/dpr };
+}
+
+// ==================== PYTHAGORE INTRO ====================
+function drawPythIntro() {
+  const canvas = document.getElementById('canvas-pyth-intro');
+  if (!canvas) return;
+  const { ctx, w, h } = setupCanvas(canvas);
+  ctx.clearRect(0, 0, w, h);
+  const margin = 40;
+  const cx = margin + (w - 2*margin) * 0.15;
+  const cy = h - margin;
+  const bx = w - margin;
+  const by = h - margin;
+  const ax = cx;
+  const ay = margin + 20;
+
+  // Draw right angle marker
+  const sq = 14;
+  ctx.strokeStyle = '#5b8fff';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(cx + sq, cy);
+  ctx.lineTo(cx + sq, cy - sq);
+  ctx.lineTo(cx, cy - sq);
+  ctx.stroke();
+
+  // Draw triangle
+  ctx.strokeStyle = '#e8e8f0';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(ax, ay); ctx.lineTo(cx, cy); ctx.lineTo(bx, by); ctx.closePath();
+  ctx.stroke();
+
+  // Color the sides
+  // Hypotenuse (AB)
+  ctx.strokeStyle = '#f0c040';
+  ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
+
+  // Labels
+  ctx.font = "bold 14px 'Space Mono', monospace";
+  ctx.fillStyle = '#f0c040';
+  ctx.fillText('c (hypoténuse)', (ax+bx)/2 + 10, (ay+by)/2 - 10);
+
+  ctx.fillStyle = '#5b8fff';
+  ctx.font = "13px 'Space Mono', monospace";
+  ctx.fillText('a', cx - 18, (ay+cy)/2);
+  ctx.fillText('b', (cx+bx)/2, cy + 20);
+
+  // Vertices
+  ctx.fillStyle = '#e8e8f0';
+  ctx.font = "bold 14px 'Space Mono', monospace";
+  ctx.fillText('A', ax - 14, ay);
+  ctx.fillText('C', cx - 14, cy + 4);
+  ctx.fillText('B', bx + 6, by + 4);
+
+  // Dots
+  [[ax,ay],[cx,cy],[bx,by]].forEach(([x,y]) => {
+    ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI*2);
+    ctx.fillStyle = '#5b8fff'; ctx.fill();
+  });
+}
+
+// ==================== THALES CONFIG ====================
+function drawThalesConfig() {
+  const canvas = document.getElementById('canvas-thales-config');
+  if (!canvas) return;
+  const { ctx, w, h } = setupCanvas(canvas);
+  ctx.clearRect(0, 0, w, h);
+
+  const S = { x: w/2, y: 30 };
+  const A = { x: w*0.3, y: h*0.45 };
+  const B = { x: w*0.7, y: h*0.45 };
+  const Ap = { x: w*0.15, y: h*0.8 };
+  const Bp = { x: w*0.85, y: h*0.8 };
+
+  // Draw lines from S
+  ctx.strokeStyle = '#2a2a35';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([]);
+  [[A, Ap], [B, Bp]].forEach(([p1, p2]) => {
+    ctx.beginPath();
+    ctx.moveTo(S.x - (p1.x-S.x)*0.3, S.y - (p1.y-S.y)*0.3);
+    ctx.lineTo(p2.x + (p2.x-S.x)*0.1, p2.y + (p2.y-S.y)*0.1);
+    ctx.stroke();
+  });
+
+  // Draw parallel lines
+  ctx.strokeStyle = '#5b8fff';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath(); ctx.moveTo(A.x - 20, A.y); ctx.lineTo(B.x + 20, B.y); ctx.stroke();
+  ctx.strokeStyle = '#f0c040';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath(); ctx.moveTo(Ap.x - 20, Ap.y); ctx.lineTo(Bp.x + 20, Bp.y); ctx.stroke();
+
+  // Labels
+  ctx.font = "bold 13px 'Space Mono', monospace";
+  ctx.fillStyle = '#e8e8f0'; ctx.fillText('S', S.x - 6, S.y - 8);
+  ctx.fillStyle = '#5b8fff';
+  ctx.fillText('A', A.x - 16, A.y + 4); ctx.fillText('B', B.x + 8, B.y + 4);
+  ctx.fillStyle = '#f0c040';
+  ctx.fillText("A'", Ap.x - 22, Ap.y + 4); ctx.fillText("B'", Bp.x + 8, Bp.y + 4);
+
+  ctx.fillStyle = '#5b8fff'; ctx.font = "12px 'Space Mono', monospace";
+  ctx.fillText('(AB)', A.x + (B.x-A.x)/2 - 16, A.y - 10);
+  ctx.fillStyle = '#f0c040';
+  ctx.fillText("(A'B')", Ap.x + (Bp.x-Ap.x)/2 - 22, Ap.y - 10);
+
+  // Parallel arrows
+  ['⟺ ∥'].forEach(_ => {
+    ctx.fillStyle = '#4ecdc4';
+    ctx.font = "11px 'DM Sans', sans-serif";
+    ctx.fillText('∥', w*0.5 - 6, (A.y + Ap.y)/2 + 4);
+  });
+
+  // Dots
+  [S, A, B, Ap, Bp].forEach(p => {
+    ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI*2);
+    ctx.fillStyle = '#e8e8f0'; ctx.fill();
+  });
+}
+
+// ==================== TRIGO INTRO ====================
+function drawTrigoIntro() {
+  const canvas = document.getElementById('canvas-trigo-intro');
+  if (!canvas) return;
+  const { ctx, w, h } = setupCanvas(canvas);
+  ctx.clearRect(0, 0, w, h);
+
+  const C = { x: w*0.15, y: h - 50 };
+  const B = { x: w*0.15, y: 60 };
+  const A = { x: w*0.8, y: h - 50 };
+
+  // Right angle
+  const sq = 14;
+  ctx.strokeStyle = '#5b8fff'; ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(C.x + sq, C.y);
+  ctx.lineTo(C.x + sq, C.y - sq);
+  ctx.lineTo(C.x, C.y - sq);
+  ctx.stroke();
+
+  // Triangle
+  ctx.strokeStyle = '#e8e8f0'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(C.x, C.y); ctx.lineTo(B.x, B.y); ctx.closePath(); ctx.stroke();
+
+  // Highlight sides by rapport to alpha (angle A)
+  // Opposite = BC
+  ctx.strokeStyle = '#ff6b6b'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(B.x, B.y); ctx.lineTo(C.x, C.y); ctx.stroke();
+  // Adjacent = AC
+  ctx.strokeStyle = '#6bcb77'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(C.x, C.y); ctx.stroke();
+  // Hypotenuse = AB
+  ctx.strokeStyle = '#f0c040'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.stroke();
+
+  // Angle arc at A
+  ctx.strokeStyle = '#b57bee'; ctx.lineWidth = 2;
+  const angle1 = Math.atan2(B.y - A.y, B.x - A.x);
+  const angle2 = Math.atan2(C.y - A.y, C.x - A.x);
+  ctx.beginPath(); ctx.arc(A.x, A.y, 28, angle1, angle2); ctx.stroke();
+  ctx.fillStyle = '#b57bee'; ctx.font = "bold 14px 'Space Mono', monospace";
+  ctx.fillText('α', A.x - 42, A.y - 10);
+
+  // Labels
+  ctx.font = "bold 13px 'Space Mono', monospace";
+  ctx.fillStyle = '#e8e8f0';
+  ctx.fillText('A', A.x + 8, A.y + 4);
+  ctx.fillText('C', C.x - 20, C.y + 4);
+  ctx.fillText('B', B.x - 20, B.y);
+
+  ctx.fillStyle = '#ff6b6b'; ctx.font = "12px 'Space Mono', monospace";
+  ctx.fillText('Opposé', C.x - 60, (B.y + C.y)/2);
+  ctx.fillStyle = '#6bcb77';
+  ctx.fillText('Adjacent', (A.x + C.x)/2 - 30, C.y + 20);
+  ctx.fillStyle = '#f0c040';
+  ctx.save(); ctx.translate((A.x+B.x)/2 + 15, (A.y+B.y)/2 - 10);
+  ctx.rotate(Math.atan2(B.y-A.y, B.x-A.x));
+  ctx.fillText('Hypoténuse', -50, -8);
+  ctx.restore();
+}
+
+// ==================== PARALLELES ====================
+function drawParalleles() {
+  const canvas = document.getElementById('canvas-paralleles');
+  if (!canvas) return;
+  const { ctx, w, h } = setupCanvas(canvas);
+  ctx.clearRect(0, 0, w, h);
+
+  const d1y = h * 0.3;
+  const d2y = h * 0.72;
+  const secX = w * 0.55;
+  const slant = 0.5;
+
+  // Parallel lines
+  ctx.strokeStyle = '#5b8fff'; ctx.lineWidth = 2.5;
+  ctx.beginPath(); ctx.moveTo(10, d1y); ctx.lineTo(w - 10, d1y); ctx.stroke();
+  ctx.strokeStyle = '#f0c040'; ctx.lineWidth = 2.5;
+  ctx.beginPath(); ctx.moveTo(10, d2y); ctx.lineTo(w - 10, d2y); ctx.stroke();
+
+  // Secante
+  ctx.strokeStyle = '#e8e8f0'; ctx.lineWidth = 2;
+  const sx1 = secX - slant * d1y;
+  const sx2 = secX + slant * (h - d1y);
+  ctx.beginPath(); ctx.moveTo(sx1, 0); ctx.lineTo(sx2, h); ctx.stroke();
+
+  // Angle arcs
+  const ix1 = secX - slant * d1y + slant * d1y; // = secX
+  const ix2 = secX + slant * (d2y - d1y);
+
+  const angleS = Math.atan2(h, slant * h); // angle of secante
+
+  function drawAngleArc(x, y, r, startAngle, sweep, color, label, lx, ly) {
+    ctx.strokeStyle = color; ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(x, y, r, startAngle, startAngle + sweep, sweep < 0);
+    ctx.stroke();
+    if (label) {
+      ctx.fillStyle = color;
+      ctx.font = "bold 12px 'Space Mono', monospace";
+      ctx.fillText(label, lx, ly);
+    }
+  }
+
+  // Mark angle alpha (above d1, right of secante)
+  drawAngleArc(secX, d1y, 20, -Math.PI/2, 0.9, '#6bcb77', 'α', secX + 8, d1y - 8);
+  // Mark corresponding angle below d2 (right of secante) - same = alpha
+  drawAngleArc(ix2, d2y, 20, -Math.PI/2, 0.9, '#6bcb77', 'α', ix2 + 8, d2y - 8);
+  // Alternate-interior: below d1 left of secante
+  drawAngleArc(secX, d1y, 26, Math.PI/2, 0.9, '#ff6b6b', 'β', secX - 38, d1y + 14);
+  // Alternate-interior: above d2, right of secante
+  drawAngleArc(ix2, d2y, 26, -Math.PI + 0.9, 0.9, '#ff6b6b', 'β', ix2 + 5, d2y - 14);
+
+  // Labels
+  ctx.fillStyle = '#5b8fff'; ctx.font = "bold 12px 'Space Mono', monospace";
+  ctx.fillText('d₁', 16, d1y - 8);
+  ctx.fillStyle = '#f0c040';
+  ctx.fillText('d₂', 16, d2y - 8);
+
+  ctx.fillStyle = '#4ecdc4'; ctx.font = "11px 'DM Sans', sans-serif";
+  ctx.fillText('Angles correspondants (α = α) ✓', 10, h - 14);
+  ctx.fillStyle = '#ff6b6b';
+  ctx.fillText('Angles alternes-internes (β = β) ✓', 10, h - 2);
+}
+
+// ==================== CERCLE ====================
+function drawCercle() {
+  const canvas = document.getElementById('canvas-cercle');
+  if (!canvas) return;
+  const { ctx, w, h } = setupCanvas(canvas);
+  ctx.clearRect(0, 0, w, h);
+
+  const ox = w / 2, oy = h / 2, r = Math.min(w, h) * 0.38;
+
+  // Circle
+  ctx.strokeStyle = '#2a2a35'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(ox, oy, r, 0, Math.PI * 2); ctx.stroke();
+
+  // Center
+  ctx.fillStyle = '#5b8fff';
+  ctx.beginPath(); ctx.arc(ox, oy, 5, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = '#5b8fff'; ctx.font = "bold 13px 'Space Mono', monospace";
+  ctx.fillText('O', ox + 8, oy - 6);
+
+  // Points B and C on circle
+  const angB = -Math.PI * 0.7, angC = -Math.PI * 0.1;
+  const B = { x: ox + r * Math.cos(angB), y: oy + r * Math.sin(angB) };
+  const C = { x: ox + r * Math.cos(angC), y: oy + r * Math.sin(angC) };
+
+  // Point A on circle (other arc)
+  const angA = Math.PI * 0.55;
+  const A = { x: ox + r * Math.cos(angA), y: oy + r * Math.sin(angA) };
+
+  // Draw angle at center BOC
+  ctx.strokeStyle = '#f0c040'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(B.x, B.y); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(C.x, C.y); ctx.stroke();
+  ctx.strokeStyle = '#f0c040'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.arc(ox, oy, 25, angB, angC); ctx.stroke();
+  ctx.fillStyle = '#f0c040'; ctx.font = "bold 12px 'Space Mono', monospace";
+  ctx.fillText('130°', ox - 14, oy - 28);
+
+  // Draw inscribed angle BAC
+  ctx.strokeStyle = '#5b8fff'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(C.x, C.y); ctx.stroke();
+  const angAB = Math.atan2(B.y - A.y, B.x - A.x);
+  const angAC = Math.atan2(C.y - A.y, C.x - A.x);
+  ctx.strokeStyle = '#5b8fff'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.arc(A.x, A.y, 22, angAB, angAC); ctx.stroke();
+  ctx.fillStyle = '#5b8fff';
+  ctx.fillText('65°', A.x + 18, A.y + 14);
+
+  // Points labels
+  [[A,'A'],[B,'B'],[C,'C']].forEach(([p, name]) => {
+    ctx.beginPath(); ctx.arc(p.x, p.y, 5, 0, Math.PI*2);
+    ctx.fillStyle = '#e8e8f0'; ctx.fill();
+    ctx.fillStyle = '#e8e8f0'; ctx.font = "bold 13px 'Space Mono', monospace";
+    const dx = p.x - ox, dy = p.y - oy;
+    const norm = Math.sqrt(dx*dx+dy*dy);
+    ctx.fillText(name, p.x + dx/norm * 12, p.y + dy/norm * 12);
+  });
+
+  // Annotation
+  ctx.fillStyle = '#f0c040'; ctx.font = "11px 'DM Sans', sans-serif";
+  ctx.fillText('∠ au centre', 4, 18);
+  ctx.fillStyle = '#5b8fff';
+  ctx.fillText('∠ inscrit = ½ × ∠ centre', 4, 34);
+}
+
+// ==================== THALES PAPILLON ====================
+function drawThalesPapillon() {
+  const canvas = document.getElementById('canvas-thales-papillon');
+  if (!canvas) return;
+  const { ctx, w, h } = setupCanvas(canvas);
+  ctx.clearRect(0, 0, w, h);
+
+  const cx = w / 2, cy = h / 2;
+  // S is in the center
+  const S = { x: cx, y: cy };
+  // Two "arms" going out in opposite directions
+  const A  = { x: cx - w*0.28, y: cy - h*0.28 };
+  const B  = { x: cx + w*0.28, y: cy - h*0.28 };
+  const Ap = { x: cx + w*0.22, y: cy + h*0.25 };
+  const Bp = { x: cx - w*0.22, y: cy + h*0.25 };
+
+  // Draw lines through S
+  ctx.strokeStyle = '#2a2a35'; ctx.lineWidth = 1;
+  ctx.setLineDash([4, 4]);
+  ctx.beginPath(); ctx.moveTo(A.x - 10, A.y - 10); ctx.lineTo(Ap.x + 10, Ap.y + 10); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(B.x + 10, B.y - 10); ctx.lineTo(Bp.x - 10, Bp.y + 10); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Parallel line (AB) - top
+  ctx.strokeStyle = '#5b8fff'; ctx.lineWidth = 2.5;
+  ctx.beginPath(); ctx.moveTo(A.x - 20, A.y); ctx.lineTo(B.x + 20, B.y); ctx.stroke();
+  // Parallel line (A'B') - bottom
+  ctx.strokeStyle = '#4ecdc4'; ctx.lineWidth = 2.5;
+  ctx.beginPath(); ctx.moveTo(Ap.x + 20, Ap.y); ctx.lineTo(Bp.x - 20, Bp.y); ctx.stroke();
+
+  // Draw two triangles (the "butterfly")
+  ctx.strokeStyle = '#e8e8f0'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(S.x, S.y); ctx.lineTo(B.x, B.y); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(Ap.x, Ap.y); ctx.lineTo(S.x, S.y); ctx.lineTo(Bp.x, Bp.y); ctx.stroke();
+
+  // Points
+  const pts = [[S,'S'],[A,'A'],[B,'B'],[Ap,"A'"],[Bp,"B'"]];
+  pts.forEach(([p, name]) => {
+    ctx.beginPath(); ctx.arc(p.x, p.y, 5, 0, Math.PI*2);
+    ctx.fillStyle = '#e8e8f0'; ctx.fill();
+    ctx.fillStyle = '#e8e8f0'; ctx.font = "bold 13px 'Space Mono', monospace";
+    ctx.fillText(name, p.x + 9, p.y - 6);
+  });
+
+  // Labels
+  ctx.fillStyle = '#5b8fff'; ctx.font = "12px 'DM Sans', sans-serif";
+  ctx.fillText('(AB)', A.x - 36, A.y - 6);
+  ctx.fillStyle = '#4ecdc4';
+  ctx.fillText("(A'B')", Bp.x - 46, Bp.y + 18);
+  ctx.fillStyle = '#7a7a90'; ctx.font = "11px 'DM Sans', sans-serif";
+  ctx.fillText('(AB) ∥ (A\'B\')', cx - 40, cy + h*0.44);
+}
+
+// ==================== INIT ALL ====================
+function initGraphs() {
+  drawPythIntro();
+  drawThalesConfig();
+  drawThalesPapillon();
+  drawTrigoIntro();
+  drawParalleles();
+  drawCercle();
+}
+
+window.addEventListener('load', () => setTimeout(initGraphs, 120));
+window.addEventListener('resize', () => setTimeout(initGraphs, 100));
+
+// ==================== EXERCISES ====================
+let scores = {};
+const TOTAL = 27;
+
+function updateProgress() {
+  const n = Object.values(scores).filter(Boolean).length;
+  document.getElementById('score-txt').textContent = `${n} / ${TOTAL}`;
+  document.getElementById('progress-fill').style.width = `${(n/TOTAL)*100}%`;
+}
+
+function check(id, answer) {
+  const inp = document.getElementById('inp-' + id);
+  const fb = document.getElementById('fb-' + id);
+  if (!inp || !fb) return;
+  const val = parseFloat(inp.value);
+  fb.style.display = 'block';
+  if (Math.abs(val - answer) < 0.11) {
+    fb.className = 'feedback correct';
+    fb.textContent = '✓ Correct ! Parfait.';
+    if (!scores[id]) { scores[id] = true; updateProgress(); }
+  } else {
+    fb.className = 'feedback wrong';
+    fb.textContent = `✗ Pas tout à fait (ta réponse : ${val}). Consulte le corrigé.`;
+  }
+}
+
+const mcqAnswers = {
+  e3: 'c',
+  e10: 'b',
+};
+
+function mcq(exoId, choice) {
+  const fb = document.getElementById('fb-' + exoId);
+  if (!fb) return;
+  const btns = document.querySelectorAll(`#body-${exoId} .mcq-btn`);
+  btns.forEach(b => b.classList.remove('correct', 'wrong'));
+  const correct = mcqAnswers[exoId];
+  const labels = 'abcd';
+  btns.forEach((b, i) => {
+    if (labels[i] === choice) {
+      b.classList.add(choice === correct ? 'correct' : 'wrong');
+    }
+    if (labels[i] === correct && choice !== correct) {
+      b.classList.add('correct');
+    }
+  });
+  fb.style.display = 'block';
+  if (choice === correct) {
+    fb.className = 'feedback correct'; fb.textContent = '✓ Bonne réponse !';
+    if (!scores[exoId]) { scores[exoId] = true; updateProgress(); }
+  } else {
+    fb.className = 'feedback wrong'; fb.textContent = '✗ Mauvaise réponse. La bonne réponse est en vert.';
+  }
+}
+
+function showSolution(id) {
+  const sol = document.getElementById('sol-' + id);
+  if (sol) sol.classList.toggle('visible');
+}
+
+function toggleExo(id) {
+  const body = document.getElementById('body-' + id);
+  const arrow = document.getElementById('arrow-' + id);
+  if (!body) return;
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  if (arrow) arrow.classList.toggle('open', !isOpen);
+}
+
+// ==================== NAVIGATION ====================
+function showSection(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  const sec = document.getElementById('sec-' + id);
+  if (sec) sec.classList.add('active');
+  if (btn) btn.classList.add('active');
+  setTimeout(initGraphs, 120);
+}
+
+// ==================== FILTER ====================
+function filterExos(level, event) {
+  document.querySelectorAll('.filter-tab').forEach(t => t.className = 'filter-tab');
+  const exos = document.querySelectorAll('.exo-card');
+  const divEasy = document.getElementById('div-easy');
+  const divMed = document.getElementById('div-med');
+  const divHard = document.getElementById('div-hard');
+  if (level === 'all') {
+    if (event) event.target.className = 'filter-tab active-all';
+    exos.forEach(e => e.style.display = '');
+    if(divEasy) divEasy.style.display=''; if(divMed) divMed.style.display=''; if(divHard) divHard.style.display='';
+  } else if (level === 'easy') {
+    if (event) event.target.className = 'filter-tab active-easy';
+    exos.forEach(e => e.style.display = e.dataset.level === 'easy' ? '' : 'none');
+    if(divEasy) divEasy.style.display=''; if(divMed) divMed.style.display='none'; if(divHard) divHard.style.display='none';
+  } else if (level === 'med') {
+    if (event) event.target.className = 'filter-tab active-med';
+    exos.forEach(e => e.style.display = e.dataset.level === 'med' ? '' : 'none');
+    if(divEasy) divEasy.style.display='none'; if(divMed) divMed.style.display=''; if(divHard) divHard.style.display='none';
+  } else if (level === 'hard') {
+    if (event) event.target.className = 'filter-tab active-hard';
+    exos.forEach(e => e.style.display = e.dataset.level === 'hard' ? '' : 'none');
+    if(divEasy) divEasy.style.display='none'; if(divMed) divMed.style.display='none'; if(divHard) divHard.style.display='';
+  }
+}
+</script>
+
+</body></html>
