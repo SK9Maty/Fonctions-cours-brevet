@@ -1,0 +1,1863 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Probabilités — Brevet Complet</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0f;
+    --surface: #16161a;
+    --surface2: #1e1e24;
+    --surface3: #242430;
+    --border: #2a2a35;
+    --accent: #f0c040;
+    --accent2: #5b8fff;
+    --accent3: #ff6b6b;
+    --accent4: #4ecdc4;
+    --accent5: #b57bee;
+    --text: #e8e8f0;
+    --text-muted: #7a7a90;
+    --green: #6bcb77;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  .header {
+    background: var(--surface);
+    border-bottom: 2px solid var(--accent);
+    padding: 18px 18px 14px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-tag { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 3px; }
+  .header h1 { font-family: 'Space Mono', monospace; font-size: 19px; font-weight: 700; }
+  .header h1 span { color: var(--accent); }
+  .header-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .header-back { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text-muted); text-decoration: none; padding: 6px 12px; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; white-space: nowrap; }
+  .header-back:hover { color: var(--accent2); border-color: var(--accent2); }
+
+  .nav-scroll { display: flex; gap: 5px; padding: 10px 16px; overflow-x: auto; scrollbar-width: none; background: var(--surface); border-bottom: 1px solid var(--border); }
+  .nav-scroll::-webkit-scrollbar { display: none; }
+  .nav-tab { flex-shrink: 0; padding: 6px 13px; border-radius: 20px; font-family: 'Space Mono', monospace; font-size: 11px; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--text-muted); transition: all 0.2s; white-space: nowrap; }
+  .nav-tab.active { background: var(--accent); color: #0d0d0f; border-color: var(--accent); font-weight: 700; }
+
+  .section { display: none; padding: 16px; }
+  .section.active { display: block; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin-bottom: 15px; }
+  .card-title { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--accent); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .card-title::before { content: ''; width: 3px; height: 14px; background: var(--accent); border-radius: 2px; }
+  .card-title.blue { color: var(--accent2); }
+  .card-title.blue::before { background: var(--accent2); }
+  .card-title.green { color: var(--green); }
+  .card-title.green::before { background: var(--green); }
+  .card-title.red { color: var(--accent3); }
+  .card-title.red::before { background: var(--accent3); }
+  .card-title.purple { color: var(--accent5); }
+  .card-title.purple::before { background: var(--accent5); }
+
+  .formula { background: var(--surface2); border: 1px solid var(--accent); border-left: 4px solid var(--accent); border-radius: 8px; padding: 12px 16px; margin: 10px 0; font-family: 'Space Mono', monospace; font-size: 15px; color: var(--accent); text-align: center; }
+  .formula.blue { border-color: var(--accent2); border-left-color: var(--accent2); color: var(--accent2); }
+  .formula.green { border-color: var(--green); border-left-color: var(--green); color: var(--green); }
+  .formula.red { border-color: var(--accent3); border-left-color: var(--accent3); color: var(--accent3); }
+  .formula.purple { border-color: var(--accent5); border-left-color: var(--accent5); color: var(--accent5); }
+
+  .vocab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+  .vocab-item { background: var(--surface2); border-radius: 8px; padding: 10px 12px; border-left: 3px solid var(--accent2); }
+  .vocab-term { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent2); font-weight: 700; margin-bottom: 3px; }
+  .vocab-def { font-size: 12px; color: var(--text-muted); }
+
+  .val-table { width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 13px; margin: 12px 0; }
+  .val-table th { background: var(--surface2); color: var(--accent); padding: 8px 6px; text-align: center; border: 1px solid var(--border); font-size: 11px; }
+  .val-table td { padding: 8px 6px; text-align: center; border: 1px solid var(--border); color: var(--text); }
+  .val-table tr:hover td { background: var(--surface2); }
+  .val-table .hl { color: var(--accent); font-weight: 700; }
+  .val-table .hl-blue { color: var(--accent2); font-weight: 700; }
+  .val-table .hl-green { color: var(--green); font-weight: 700; }
+  .val-table .hl-red { color: var(--accent3); font-weight: 700; }
+
+  .steps { margin: 10px 0; }
+  .step { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 10px; }
+  .step-num { flex-shrink: 0; width: 26px; height: 26px; background: var(--accent); color: #0d0d0f; border-radius: 50%; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .step-num.blue { background: var(--accent2); color: white; }
+  .step-num.green { background: var(--green); color: #0d0d0f; }
+  .step-num.red { background: var(--accent3); color: white; }
+  .step-text { font-size: 14px; padding-top: 3px; }
+
+  .alert { background: rgba(255,107,107,0.1); border: 1px solid var(--accent3); border-radius: 8px; padding: 12px 14px; margin: 10px 0; font-size: 13px; color: var(--accent3); }
+  .alert-title { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; margin-bottom: 4px; letter-spacing: 1px; }
+  .tip { background: rgba(78,205,196,0.1); border: 1px solid var(--accent4); border-radius: 8px; padding: 12px 14px; margin: 10px 0; font-size: 13px; color: var(--accent4); }
+  .tip-title { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; margin-bottom: 4px; letter-spacing: 1px; }
+  .info { background: rgba(91,143,255,0.1); border: 1px solid var(--accent2); border-radius: 8px; padding: 12px 14px; margin: 10px 0; font-size: 13px; color: var(--accent2); }
+  .info-title { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; margin-bottom: 4px; letter-spacing: 1px; }
+  .success { background: rgba(107,203,119,0.1); border: 1px solid var(--green); border-radius: 8px; padding: 12px 14px; margin: 10px 0; font-size: 13px; color: var(--green); }
+  .success-title { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; margin-bottom: 4px; letter-spacing: 1px; }
+
+  .exo-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+  .exo-header { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; gap: 8px; }
+  .exo-header:hover { background: var(--surface2); }
+  .exo-badge { font-family: 'Space Mono', monospace; font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: 700; flex-shrink: 0; }
+  .badge-easy { background: rgba(107,203,119,0.2); color: var(--green); }
+  .badge-med { background: rgba(240,192,64,0.2); color: var(--accent); }
+  .badge-hard { background: rgba(255,107,107,0.2); color: var(--accent3); }
+  .exo-num { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-muted); flex-shrink: 0; }
+  .exo-title { font-size: 14px; font-weight: 500; flex: 1; }
+  .exo-arrow { color: var(--text-muted); font-size: 18px; transition: transform 0.2s; flex-shrink: 0; }
+  .exo-arrow.open { transform: rotate(90deg); }
+  .exo-body { display: none; padding: 0 16px 16px; border-top: 1px solid var(--border); padding-top: 14px; }
+  .exo-body.open { display: block; }
+  .exo-question { font-size: 14px; margin-bottom: 14px; color: var(--text); line-height: 1.7; }
+
+  .answer-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; color: var(--text); font-family: 'Space Mono', monospace; font-size: 14px; outline: none; transition: border-color 0.2s; margin-bottom: 10px; }
+  .answer-input:focus { border-color: var(--accent2); }
+
+  .btn { display: inline-block; padding: 10px 20px; border-radius: 8px; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; cursor: pointer; border: none; transition: all 0.15s; letter-spacing: 0.5px; }
+  .btn-primary { background: var(--accent); color: #0d0d0f; }
+  .btn-primary:active { transform: scale(0.97); }
+  .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-show { background: rgba(91,143,255,0.15); color: var(--accent2); border: 1px solid var(--accent2); margin-left: 8px; }
+
+  .feedback { margin-top: 10px; padding: 10px 14px; border-radius: 8px; font-size: 13px; font-family: 'Space Mono', monospace; display: none; }
+  .feedback.correct { background: rgba(107,203,119,0.15); color: var(--green); border: 1px solid var(--green); }
+  .feedback.wrong { background: rgba(255,107,107,0.15); color: var(--accent3); border: 1px solid var(--accent3); }
+
+  .solution-box { margin-top: 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-size: 13px; display: none; }
+  .solution-box.visible { display: block; }
+  .solution-title { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent2); margin-bottom: 8px; letter-spacing: 1px; }
+
+  .mcq-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+  .mcq-btn { padding: 10px 16px; border-radius: 8px; font-family: 'Space Mono', monospace; font-size: 13px; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text); text-align: left; transition: all 0.15s; }
+  .mcq-btn:hover { border-color: var(--accent2); color: var(--accent2); }
+  .mcq-btn.correct { background: rgba(107,203,119,0.15); color: var(--green); border-color: var(--green); }
+  .mcq-btn.wrong { background: rgba(255,107,107,0.15); color: var(--accent3); border-color: var(--accent3); }
+
+  .filter-tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+  .filter-tab { padding: 6px 14px; border-radius: 20px; font-family: 'Space Mono', monospace; font-size: 11px; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text-muted); transition: all 0.15s; }
+  .filter-tab.active-all { background: var(--surface3); color: var(--text); border-color: var(--text-muted); }
+  .filter-tab.active-easy { background: rgba(107,203,119,0.2); color: var(--green); border-color: var(--green); }
+  .filter-tab.active-med { background: rgba(240,192,64,0.2); color: var(--accent); border-color: var(--accent); }
+  .filter-tab.active-hard { background: rgba(255,107,107,0.2); color: var(--accent3); border-color: var(--accent3); }
+
+  .progress-bar-wrap { background: var(--surface2); border-radius: 10px; height: 8px; margin: 8px 0 16px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent)); border-radius: 10px; transition: width 0.4s ease; }
+  .progress-label { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text-muted); display: flex; justify-content: space-between; margin-bottom: 4px; }
+
+  .summary-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+  .summary-table th { background: var(--accent); color: #0d0d0f; padding: 8px 10px; font-family: 'Space Mono', monospace; font-size: 11px; text-align: left; }
+  .summary-table td { padding: 10px; border: 1px solid var(--border); vertical-align: top; font-size: 13px; }
+  .summary-table tr:nth-child(even) td { background: var(--surface2); }
+
+  /* ARBRE */
+  .arbre-wrap { background: var(--surface2); border-radius: 10px; padding: 16px; margin: 12px 0; overflow-x: auto; }
+  .arbre-svg { min-width: 320px; width: 100%; max-width: 560px; display: block; margin: 0 auto; }
+
+  /* SIMULATION */
+  .sim-display { font-family: 'Space Mono', monospace; font-size: 28px; text-align: center; padding: 20px; background: var(--surface2); border-radius: 10px; margin: 12px 0; border: 1px solid var(--border); }
+  .sim-result { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--text-muted); text-align: center; margin-top: 6px; }
+  .bar-wrap { display: flex; gap: 10px; align-items: flex-end; justify-content: center; height: 100px; margin: 16px 0; }
+  .bar-col { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .bar { width: 40px; background: var(--accent2); border-radius: 4px 4px 0 0; min-height: 2px; transition: height 0.3s; }
+  .bar-label { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text-muted); }
+  .bar-val { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent); }
+
+  .chip { display: inline-block; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; font-family: 'Space Mono', monospace; font-size: 12px; margin: 2px; }
+
+  p { margin-bottom: 8px; }
+  p:last-child { margin-bottom: 0; }
+  strong { color: var(--text); font-weight: 700; }
+  .highlight { color: var(--accent); font-family: 'Space Mono', monospace; }
+  .hl-blue { color: var(--accent2); font-family: 'Space Mono', monospace; }
+  .hl-green { color: var(--green); font-family: 'Space Mono', monospace; }
+  .hl-red { color: var(--accent3); font-family: 'Space Mono', monospace; }
+  .hl-purple { color: var(--accent5); font-family: 'Space Mono', monospace; }
+  small { font-size: 12px; color: var(--text-muted); }
+  hr { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+  .section-divider { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; margin: 20px 0 10px; padding: 0 4px; }
+
+  @media (min-width: 768px) {
+    body { font-size: 16px; }
+    .page-wrapper { display: flex; min-height: 100vh; }
+    .header { padding: 20px 40px 16px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .header-content { flex: 1; }
+    .header-tag { font-size: 11px; }
+    .header h1 { font-size: 26px; }
+    .header-sub { font-size: 13px; }
+    .nav-scroll { display: flex; flex-direction: column; gap: 4px; padding: 24px 14px; overflow-x: visible; overflow-y: auto; width: 200px; min-width: 200px; height: calc(100vh - 80px); position: sticky; top: 80px; border-bottom: none; border-right: 1px solid var(--border); background: var(--surface); align-self: flex-start; }
+    .nav-tab { width: 100%; text-align: left; border-radius: 8px; padding: 10px 14px; font-size: 12px; white-space: normal; }
+    .nav-tab.active { border-radius: 8px; }
+    .main-content { flex: 1; min-width: 0; padding: 0; }
+    .section { padding: 28px 36px; width: 100%; }
+    .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .cards-grid .card { margin-bottom: 0; }
+    .card { padding: 24px; margin-bottom: 20px; border-radius: 14px; }
+    .card-title { font-size: 13px; margin-bottom: 16px; }
+    .formula { font-size: 17px; padding: 14px 20px; }
+    .vocab-grid { grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .vocab-def { font-size: 13px; }
+    .val-table { font-size: 14px; }
+    .val-table th, .val-table td { padding: 10px 12px; }
+    .step-text { font-size: 15px; }
+    .exo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .section { padding: 32px 48px; width: 100%; }
+    .card { padding: 28px; }
+    .formula { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-tag">3ème — Brevet Mathématiques</div>
+    <h1>Les <span>Probabilités</span> — Cours Complet</h1>
+    <div class="header-sub">Univers · Événements · Arbres · Tableaux · Complémentaire</div>
+  </div>
+  <a href="../index.html" class="header-back">← Retour</a>
+</div>
+
+<div class="page-wrapper">
+<div class="nav-scroll">
+  <button class="nav-tab active" onclick="showSection('cours')">Cours</button>
+  <button class="nav-tab" onclick="showSection('formule')">La Formule</button>
+  <button class="nav-tab" onclick="showSection('complementaire')">Complémentaire</button>
+  <button class="nav-tab" onclick="showSection('arbre')">Arbre</button>
+  <button class="nav-tab" onclick="showSection('tableau')">Tableau</button>
+  <button class="nav-tab" onclick="showSection('simulation')">Simulation</button>
+  <button class="nav-tab" onclick="showSection('exercices')">35 Exos</button>
+  <button class="nav-tab" onclick="showSection('recap')">Récap Brevet</button>
+</div>
+<div class="main-content">
+
+<!-- ============================================================ -->
+<!-- COURS                                                         -->
+<!-- ============================================================ -->
+<div class="section active" id="section-cours">
+
+  <div class="section-divider">1 — Le hasard, ça se calcule</div>
+
+  <div class="card">
+    <div class="card-title">C'est quoi une probabilité ?</div>
+    <p>Une <strong>probabilité</strong>, c'est un nombre qui mesure la <strong>chance qu'un événement se produise</strong>.</p>
+    <p>Elle est toujours comprise entre <span class="highlight">0</span> (impossible) et <span class="highlight">1</span> (certain).</p>
+    <div class="formula">0 &nbsp;≤&nbsp; P(A) &nbsp;≤&nbsp; 1</div>
+    <div class="tip">
+      <div class="tip-title">INTUITION</div>
+      Si je lance un dé à 6 faces, j'ai 1 chance sur 6 d'obtenir un 4.<br>
+      <strong>P(obtenir 4) = 1/6 ≈ 0,167</strong>
+    </div>
+  </div>
+
+  <div class="section-divider">2 — Le vocabulaire essentiel</div>
+
+  <div class="card">
+    <div class="card-title blue">Vocabulaire fondamental</div>
+    <div class="vocab-grid">
+      <div class="vocab-item">
+        <div class="vocab-term">Expérience aléatoire</div>
+        <div class="vocab-def">Une expérience dont on ne peut pas prévoir le résultat à l'avance. Ex : lancer un dé, tirer une carte.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-term">Issue (ou résultat)</div>
+        <div class="vocab-def">Chacun des résultats possibles de l'expérience. Ex : obtenir 1, 2, 3, 4, 5 ou 6 avec un dé.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-term">Univers Ω (oméga)</div>
+        <div class="vocab-def">L'ensemble de TOUTES les issues possibles. Ex : Ω = {1 ; 2 ; 3 ; 4 ; 5 ; 6} pour un dé.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-term">Événement A</div>
+        <div class="vocab-def">Un sous-ensemble de l'univers. Regroupement d'issues. Ex : A = "obtenir un nombre pair" = {2 ; 4 ; 6}.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-term">Événement certain</div>
+        <div class="vocab-def">Il se réalise toujours. P = 1. Ex : "obtenir un nombre entre 1 et 6" avec un dé classique.</div>
+      </div>
+      <div class="vocab-item">
+        <div class="vocab-term">Événement impossible</div>
+        <div class="vocab-def">Il ne peut jamais se réaliser. P = 0. Ex : "obtenir 7" avec un dé à 6 faces.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider">3 — Équiprobabilité</div>
+
+  <div class="card">
+    <div class="card-title green">Situation d'équiprobabilité</div>
+    <p>On est en situation d'<strong>équiprobabilité</strong> lorsque toutes les issues ont la <strong>même probabilité</strong> de se réaliser.</p>
+    <p>C'est le cas pour :</p>
+    <p>
+      <span class="chip">Dé non truqué</span>
+      <span class="chip">Pièce de monnaie équilibrée</span>
+      <span class="chip">Tirage au sort</span>
+      <span class="chip">Urne avec boules identiques</span>
+    </p>
+    <div class="alert" style="margin-top:12px;">
+      <div class="alert-title">ATTENTION — Quand ce n'est PAS équiprobable</div>
+      Une urne avec 3 boules rouges et 7 boules bleues : les issues ne sont PAS équiprobables ! La probabilité de tirer rouge (3/10) est différente de tirer bleu (7/10).
+    </div>
+    <div class="tip" style="margin-top:10px;">
+      <div class="tip-title">RÈGLE CLEF</div>
+      En situation d'équiprobabilité, si l'univers contient <strong>n issues</strong>, chaque issue a une probabilité de <strong>1/n</strong>.
+    </div>
+  </div>
+
+  <div class="section-divider">4 — Exemple complet</div>
+
+  <div class="card">
+    <div class="card-title purple">Exemple : urne avec des boules</div>
+    <p>Une urne contient <strong>5 boules rouges</strong>, <strong>3 boules bleues</strong> et <strong>2 boules vertes</strong>. On tire une boule au hasard.</p>
+    <hr>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">L'univers : <span class="highlight">Ω = {R, R, R, R, R, B, B, B, V, V}</span> → <strong>10 issues au total</strong></div>
+      </div>
+      <div class="step">
+        <div class="step-num blue">2</div>
+        <div class="step-text">Est-ce équiprobable ? <strong>Oui</strong>, chaque boule a autant de chance d'être tirée.</div>
+      </div>
+      <div class="step">
+        <div class="step-num green">3</div>
+        <div class="step-text">P(tirer rouge) = <span class="hl-green">5/10 = 1/2</span> &nbsp;|&nbsp; P(tirer bleu) = <span class="hl-blue">3/10</span> &nbsp;|&nbsp; P(tirer vert) = <span class="highlight">2/10 = 1/5</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num red">4</div>
+        <div class="step-text">Vérification : 5/10 + 3/10 + 2/10 = <strong>10/10 = 1</strong> ✓ (la somme des probabilités vaut toujours 1)</div>
+      </div>
+    </div>
+    <div class="success">
+      <div class="success-title">PROPRIÉTÉ FONDAMENTALE</div>
+      La somme des probabilités de TOUTES les issues de l'univers est toujours égale à 1.
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- FORMULE                                                        -->
+<!-- ============================================================ -->
+<div class="section" id="section-formule">
+
+  <div class="section-divider">La formule centrale du brevet</div>
+
+  <div class="card">
+    <div class="card-title">La formule à connaître par cœur</div>
+    <p>En situation d'<strong>équiprobabilité</strong>, la probabilité d'un événement A est :</p>
+    <div class="formula">P(A) = Nombre d'issues favorables à A / Nombre total d'issues</div>
+    <p style="margin-top:10px;">Autrement dit : <em>"Combien de résultats me donnent ce que je veux ?"</em> divisé par <em>"Combien de résultats sont possibles en tout ?"</em></p>
+    <div class="tip">
+      <div class="tip-title">MOYEN MNÉMOTECHNIQUE</div>
+      <strong>P(A) = Ce que je veux / Ce qui peut arriver</strong>
+    </div>
+  </div>
+
+  <div class="section-divider">Exemples types du brevet</div>
+
+  <div class="card">
+    <div class="card-title blue">Exemple 1 — Dé à 6 faces</div>
+    <p>On lance un dé équilibré à 6 faces. Calculer P(obtenir un nombre pair).</p>
+    <hr>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><strong>Issues totales :</strong> {1 ; 2 ; 3 ; 4 ; 5 ; 6} → n = <span class="hl-blue">6</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num blue">2</div>
+        <div class="step-text"><strong>Issues favorables</strong> (nombres pairs) : {2 ; 4 ; 6} → <span class="hl-blue">3</span> issues</div>
+      </div>
+      <div class="step">
+        <div class="step-num green">3</div>
+        <div class="step-text"><strong>P(pair) = 3/6 = <span class="hl-green">1/2</span></strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title green">Exemple 2 — Tirage de cartes</div>
+    <p>Dans un jeu de 32 cartes, on tire une carte au hasard. Calculer P(obtenir un as).</p>
+    <hr>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><strong>Issues totales :</strong> 32 cartes → n = <span class="hl-blue">32</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num blue">2</div>
+        <div class="step-text"><strong>Issues favorables</strong> (as) : As de cœur, as de carreau, as de trèfle, as de pique → <span class="hl-blue">4</span> cartes</div>
+      </div>
+      <div class="step">
+        <div class="step-num green">3</div>
+        <div class="step-text"><strong>P(as) = 4/32 = <span class="hl-green">1/8</span></strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title red">Exemple 3 — Lettres dans un mot</div>
+    <p>On tire au hasard une lettre dans le mot <strong>MATHEMATIQUES</strong>. Calculer P(obtenir une voyelle).</p>
+    <hr>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><strong>Issues totales :</strong> M-A-T-H-E-M-A-T-I-Q-U-E-S → <span class="hl-blue">13</span> lettres</div>
+      </div>
+      <div class="step">
+        <div class="step-num blue">2</div>
+        <div class="step-text"><strong>Voyelles :</strong> A, E, A, I, U, E → <span class="hl-blue">6</span> voyelles (on compte les répétitions !)</div>
+      </div>
+      <div class="step">
+        <div class="step-num green">3</div>
+        <div class="step-text"><strong>P(voyelle) = 6/13</strong></div>
+      </div>
+    </div>
+    <div class="alert">
+      <div class="alert-title">PIÈGE CLASSIQUE</div>
+      On compte le nombre de lettres, pas le nombre de lettres différentes. Le mot MATHEMATIQUES a 13 lettres (avec les répétitions), pas 9.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title purple">Exemple 4 — Tableau de valeurs (type brevet)</div>
+    <p>Une classe de 30 élèves. Le tableau suivant donne leur sport préféré :</p>
+    <table class="val-table" style="margin:12px 0;">
+      <tr>
+        <th>Sport</th><th>Football</th><th>Natation</th><th>Tennis</th><th>Autre</th><th>Total</th>
+      </tr>
+      <tr>
+        <td>Garçons</td><td class="hl">8</td><td>4</td><td>2</td><td>1</td><td class="hl-blue">15</td>
+      </tr>
+      <tr>
+        <td>Filles</td><td>3</td><td class="hl">6</td><td>4</td><td>2</td><td class="hl-blue">15</td>
+      </tr>
+      <tr>
+        <td><strong>Total</strong></td><td class="hl-blue">11</td><td class="hl-blue">10</td><td class="hl-blue">6</td><td class="hl-blue">3</td><td class="hl-green">30</td>
+      </tr>
+    </table>
+    <p>On choisit un élève au hasard. P(cet élève fait de la natation) = ?</p>
+    <div class="formula green">P(natation) = 10 / 30 = 1/3</div>
+    <p>P(cet élève est une fille qui fait du football) = ?</p>
+    <div class="formula blue">P(fille + football) = 3 / 30 = 1/10</div>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- COMPLÉMENTAIRE                                                 -->
+<!-- ============================================================ -->
+<div class="section" id="section-complementaire">
+
+  <div class="section-divider">L'événement contraire</div>
+
+  <div class="card">
+    <div class="card-title">L'événement complémentaire</div>
+    <p>L'événement <strong>complémentaire</strong> de A (noté <span class="highlight">Ā</span>, lu "A barre") est l'événement <em>"A ne se réalise pas"</em>.</p>
+    <div class="formula red">P(Ā) = 1 − P(A)</div>
+    <p>Si j'ai une probabilité de gagner de 0,3, alors ma probabilité de perdre est :</p>
+    <div class="formula">P(perdre) = 1 − 0,3 = <span style="color:var(--accent3)">0,7</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title blue">Pourquoi ça marche ?</div>
+    <p>Parce que soit A se réalise, soit il ne se réalise pas. <strong>Il n'y a pas d'autre possibilité.</strong></p>
+    <p>Et on sait que la somme des probabilités de toutes les issues vaut 1. Donc :</p>
+    <div class="formula blue">P(A) + P(Ā) = 1</div>
+    <div class="tip">
+      <div class="tip-title">ASTUCE BREVET</div>
+      La formule du complémentaire est souvent <strong>plus rapide</strong> que de compter les issues favorables directement.<br>
+      Si l'événement A est compliqué à compter mais que son contraire Ā est simple → calcule P(Ā) d'abord, puis déduis P(A).
+    </div>
+  </div>
+
+  <div class="section-divider">Exemples</div>
+
+  <div class="card">
+    <div class="card-title green">Exemple 1 — Dé</div>
+    <p>On lance un dé. Calculer P(ne pas obtenir 6).</p>
+    <hr>
+    <p><strong>Méthode directe :</strong> issues favorables = {1,2,3,4,5} → P = 5/6</p>
+    <p><strong>Méthode complémentaire :</strong></p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">P(obtenir 6) = 1/6</div>
+      </div>
+      <div class="step">
+        <div class="step-num green">2</div>
+        <div class="step-text">P(ne pas obtenir 6) = 1 − 1/6 = <span class="hl-green">5/6</span> ✓</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title red">Exemple 2 — Urne (complémentaire plus efficace)</div>
+    <p>Une urne contient 2 boules rouges et 8 boules bleues. Calculer P(ne pas tirer rouge).</p>
+    <hr>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Total = 10 boules. P(tirer rouge) = 2/10 = 1/5</div>
+      </div>
+      <div class="step">
+        <div class="step-num red">2</div>
+        <div class="step-text">P(ne pas tirer rouge) = 1 − 1/5 = <span class="hl-red">4/5</span></div>
+      </div>
+    </div>
+    <div class="info">
+      <div class="info-title">VÉRIFICATION</div>
+      P(bleue) = 8/10 = 4/5 ✓ — Les deux méthodes donnent le même résultat, mais la méthode du complémentaire est parfois plus rapide.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title purple">Exemple 3 — Complémentaire obligatoire</div>
+    <p>On lance un dé. P(obtenir au moins 2) = ?</p>
+    <hr>
+    <p>"Au moins 2" = {2 ; 3 ; 4 ; 5 ; 6} → 5 issues → P = 5/6</p>
+    <p>Par le complémentaire : "au moins 2" contraire = "obtenir 1" → P = 1/6 → P(au moins 2) = 1 − 1/6 = 5/6</p>
+    <div class="alert">
+      <div class="alert-title">EXPRESSIONS À CONNAÎTRE</div>
+      "Au moins 1" = contraire de "aucun"<br>
+      "Au moins 2" = contraire de "0 ou 1"<br>
+      "Au plus 3" = contraire de "4 ou plus"
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- ARBRE                                                          -->
+<!-- ============================================================ -->
+<div class="section" id="section-arbre">
+
+  <div class="section-divider">Représenter plusieurs expériences successives</div>
+
+  <div class="card">
+    <div class="card-title">Qu'est-ce qu'un arbre de probabilités ?</div>
+    <p>Quand on répète une expérience aléatoire ou qu'on enchaîne plusieurs expériences, on utilise un <strong>arbre de probabilités</strong> pour lister et calculer toutes les possibilités.</p>
+    <div class="tip">
+      <div class="tip-title">RÈGLES DE L'ARBRE</div>
+      <strong>Règle 1 :</strong> Sur chaque branche, on écrit la probabilité.<br>
+      <strong>Règle 2 :</strong> La somme des branches partant d'un même nœud vaut toujours 1.<br>
+      <strong>Règle 3 :</strong> Pour un chemin, on <strong>multiplie</strong> les probabilités des branches.<br>
+      <strong>Règle 4 :</strong> Pour plusieurs chemins favorables, on <strong>additionne</strong> leurs probabilités.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title blue">Exemple — Pièce lancée 2 fois</div>
+    <p>On lance une pièce équilibrée deux fois. P(Face) = P(Pile) = 1/2.</p>
+
+    <div class="arbre-wrap">
+      <svg class="arbre-svg" viewBox="0 0 540 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Root -->
+        <circle cx="60" cy="140" r="14" fill="#242430" stroke="#2a2a35" stroke-width="2"/>
+        <text x="60" y="144" text-anchor="middle" font-family="Space Mono" font-size="11" fill="#7a7a90">Départ</text>
+
+        <!-- Level 1 branches -->
+        <line x1="74" y1="130" x2="196" y2="70" stroke="#5b8fff" stroke-width="2"/>
+        <line x1="74" y1="150" x2="196" y2="210" stroke="#f0c040" stroke-width="2"/>
+
+        <!-- Level 1 labels on branches -->
+        <text x="122" y="90" font-family="Space Mono" font-size="12" fill="#5b8fff" text-anchor="middle">1/2</text>
+        <text x="122" y="196" font-family="Space Mono" font-size="12" fill="#f0c040" text-anchor="middle">1/2</text>
+
+        <!-- Level 1 nodes -->
+        <circle cx="210" cy="70" r="20" fill="#1e1e24" stroke="#5b8fff" stroke-width="2"/>
+        <text x="210" y="74" text-anchor="middle" font-family="Space Mono" font-size="12" fill="#5b8fff">F</text>
+
+        <circle cx="210" cy="210" r="20" fill="#1e1e24" stroke="#f0c040" stroke-width="2"/>
+        <text x="210" y="214" text-anchor="middle" font-family="Space Mono" font-size="12" fill="#f0c040">P</text>
+
+        <!-- Level 2 branches from F -->
+        <line x1="230" y1="60" x2="360" y2="30" stroke="#5b8fff" stroke-width="2"/>
+        <line x1="230" y1="80" x2="360" y2="110" stroke="#f0c040" stroke-width="2"/>
+
+        <text x="290" y="36" font-family="Space Mono" font-size="11" fill="#5b8fff" text-anchor="middle">1/2</text>
+        <text x="290" y="108" font-family="Space Mono" font-size="11" fill="#f0c040" text-anchor="middle">1/2</text>
+
+        <!-- Level 2 nodes from F -->
+        <circle cx="375" cy="30" r="18" fill="#1e1e24" stroke="#5b8fff" stroke-width="2"/>
+        <text x="375" y="34" text-anchor="middle" font-family="Space Mono" font-size="12" fill="#5b8fff">F</text>
+
+        <circle cx="375" cy="110" r="18" fill="#1e1e24" stroke="#f0c040" stroke-width="2"/>
+        <text x="375" y="114" text-anchor="middle" font-family="Space Mono" font-size="12" fill="#f0c040">P</text>
+
+        <!-- Level 2 branches from P -->
+        <line x1="230" y1="200" x2="360" y2="170" stroke="#5b8fff" stroke-width="2"/>
+        <line x1="230" y1="220" x2="360" y2="250" stroke="#f0c040" stroke-width="2"/>
+
+        <text x="290" y="178" font-family="Space Mono" font-size="11" fill="#5b8fff" text-anchor="middle">1/2</text>
+        <text x="290" y="248" font-family="Space Mono" font-size="11" fill="#f0c040" text-anchor="middle">1/2</text>
+
+        <!-- Level 2 nodes from P -->
+        <circle cx="375" cy="170" r="18" fill="#1e1e24" stroke="#5b8fff" stroke-width="2"/>
+        <text x="375" y="174" text-anchor="middle" font-family="Space Mono" font-size="12" fill="#5b8fff">F</text>
+
+        <circle cx="375" cy="250" r="18" fill="#1e1e24" stroke="#f0c040" stroke-width="2"/>
+        <text x="375" y="254" text-anchor="middle" font-family="Space Mono" font-size="12" fill="#f0c040">P</text>
+
+        <!-- Final results -->
+        <text x="406" y="34" font-family="Space Mono" font-size="11" fill="#6bcb77" text-anchor="start">FF → 1/4</text>
+        <text x="406" y="114" font-family="Space Mono" font-size="11" fill="#e8e8f0" text-anchor="start">FP → 1/4</text>
+        <text x="406" y="174" font-family="Space Mono" font-size="11" fill="#e8e8f0" text-anchor="start">PF → 1/4</text>
+        <text x="406" y="254" font-family="Space Mono" font-size="11" fill="#e8e8f0" text-anchor="start">PP → 1/4</text>
+
+        <!-- F = Face label -->
+        <text x="60" y="268" font-family="Space Mono" font-size="10" fill="#7a7a90">F = Face &nbsp;|&nbsp; P = Pile</text>
+      </svg>
+    </div>
+
+    <p><strong>Lecture de l'arbre :</strong></p>
+    <p>P(FF) = 1/2 × 1/2 = <span class="hl-green">1/4</span> &nbsp;|&nbsp; P(FP) = 1/2 × 1/2 = 1/4 &nbsp;|&nbsp; P(PF) = 1/4 &nbsp;|&nbsp; P(PP) = 1/4</p>
+    <p>P(au moins une face) = P(FF) + P(FP) + P(PF) = 1/4 + 1/4 + 1/4 = <span class="hl-green">3/4</span></p>
+    <p>Par complémentaire : P(au moins une face) = 1 − P(PP) = 1 − 1/4 = <span class="hl-green">3/4</span> ✓</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title green">Exemple — Urne + dé (probabilités différentes)</div>
+    <p>Une urne contient 3 boules rouges (R) et 2 boules bleues (B). On tire une boule, puis on lance un dé.</p>
+    <p>Calculer P(tirer rouge ET obtenir un 6).</p>
+    <hr>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">P(rouge) = 3/5 &nbsp;|&nbsp; P(bleue) = 2/5</div>
+      </div>
+      <div class="step">
+        <div class="step-num blue">2</div>
+        <div class="step-text">P(obtenir 6 avec le dé) = 1/6</div>
+      </div>
+      <div class="step">
+        <div class="step-num green">3</div>
+        <div class="step-text">P(rouge ET 6) = 3/5 × 1/6 = <span class="hl-green">3/30 = 1/10</span></div>
+      </div>
+    </div>
+    <div class="info">
+      <div class="info-title">RÈGLE DE MULTIPLICATION</div>
+      Quand deux expériences sont <strong>indépendantes</strong> (le résultat de l'une ne dépend pas de l'autre), on multiplie les probabilités.
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- TABLEAU                                                        -->
+<!-- ============================================================ -->
+<div class="section" id="section-tableau">
+
+  <div class="section-divider">Lire les probabilités dans un tableau</div>
+
+  <div class="card">
+    <div class="card-title">Les tableaux à double entrée</div>
+    <p>Un <strong>tableau à double entrée</strong> permet d'organiser des données selon <strong>deux critères</strong>. Au brevet, on te demande souvent d'en déduire des probabilités.</p>
+    <div class="tip">
+      <div class="tip-title">MÉTHODE</div>
+      <strong>Étape 1 :</strong> Identifier le total général (cases "Total" du tableau).<br>
+      <strong>Étape 2 :</strong> Repérer les cases qui correspondent à l'événement demandé.<br>
+      <strong>Étape 3 :</strong> Appliquer P(A) = cases favorables / total général.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title blue">Exemple complet — Transport scolaire</div>
+    <p>Dans un collège de 200 élèves, on a relevé leur moyen de transport et leur classe :</p>
+
+    <table class="val-table">
+      <tr>
+        <th></th><th>Bus</th><th>Vélo</th><th>À pied</th><th>Voiture</th><th>TOTAL</th>
+      </tr>
+      <tr>
+        <td><strong>4ème</strong></td><td>28</td><td>12</td><td>20</td><td>15</td><td class="hl-blue">75</td>
+      </tr>
+      <tr>
+        <td><strong>3ème</strong></td><td>35</td><td>18</td><td>30</td><td>17</td><td class="hl-blue">100</td>
+      </tr>
+      <tr>
+        <td><strong>5ème</strong></td><td>10</td><td>5</td><td>8</td><td>2</td><td class="hl-blue">25</td>
+      </tr>
+      <tr>
+        <td><strong>TOTAL</strong></td><td class="hl">73</td><td class="hl">35</td><td class="hl">58</td><td class="hl">34</td><td class="hl-green">200</td>
+      </tr>
+    </table>
+
+    <p style="margin-top:14px;">On choisit un élève au hasard. Calculer :</p>
+    <hr>
+
+    <p><strong>1) P(l'élève vient à vélo)</strong></p>
+    <div class="formula blue">35 élèves à vélo / 200 total = 35/200 = 7/40</div>
+
+    <p><strong>2) P(l'élève est en 3ème)</strong></p>
+    <div class="formula">100 élèves en 3ème / 200 total = 100/200 = 1/2</div>
+
+    <p><strong>3) P(l'élève est en 3ème ET vient en bus)</strong></p>
+    <div class="formula green">35 / 200 = 7/40</div>
+
+    <p><strong>4) P(l'élève ne vient pas à pied)</strong></p>
+    <div class="formula red">1 − 58/200 = 142/200 = 71/100</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title red">Piège fréquent — Ne pas confondre les totaux</div>
+    <div class="alert">
+      <div class="alert-title">ERREUR CLASSIQUE</div>
+      Si on te demande P(un élève de 3ème vient à vélo | sachant qu'il est en 3ème), le dénominateur change ! Ce n'est plus 200 mais <strong>100</strong> (total des 3èmes).<br>
+      → P = 18/100 = 9/50<br><br>
+      <strong>Lire l'énoncé très attentivement</strong> : "parmi tous les élèves" → dénominateur = total général. "Parmi les élèves de 3ème" → dénominateur = total de la ligne 3ème.
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- SIMULATION                                                     -->
+<!-- ============================================================ -->
+<div class="section" id="section-simulation">
+
+  <div class="section-divider">La loi des grands nombres</div>
+
+  <div class="card">
+    <div class="card-title">Fréquence vs Probabilité</div>
+    <p>La <strong>fréquence</strong> est ce qu'on observe réellement après avoir réalisé l'expérience un certain nombre de fois.</p>
+    <p>La <strong>probabilité</strong> est la valeur théorique que la fréquence tend à atteindre quand on répète l'expérience un très grand nombre de fois.</p>
+    <div class="formula">Plus on répète → fréquence se rapproche de la probabilité</div>
+    <div class="info">
+      <div class="info-title">LOI DES GRANDS NOMBRES</div>
+      C'est la <strong>Loi des grands nombres</strong> : en répétant une expérience aléatoire un très grand nombre de fois, la fréquence d'un événement se rapproche de sa probabilité théorique.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title blue">Simulation — Lancer de dé</div>
+    <p>Clique sur le bouton pour simuler des lancers de dé et observer comment la fréquence se rapproche de la probabilité théorique (1/6 ≈ 0,167 pour chaque face).</p>
+
+    <div class="sim-display" id="dé-affichage">🎲</div>
+    <div id="freq-display" class="sim-result">Aucun lancer pour l'instant.</div>
+
+    <div class="bar-wrap" id="bar-wrap">
+      <div class="bar-col"><div class="bar" id="bar1" style="height:2px;"></div><div class="bar-val" id="bv1">0</div><div class="bar-label">1</div></div>
+      <div class="bar-col"><div class="bar" id="bar2" style="height:2px;background:var(--accent)"></div><div class="bar-val" id="bv2">0</div><div class="bar-label">2</div></div>
+      <div class="bar-col"><div class="bar" id="bar3" style="height:2px;background:var(--green)"></div><div class="bar-val" id="bv3">0</div><div class="bar-label">3</div></div>
+      <div class="bar-col"><div class="bar" id="bar4" style="height:2px;background:var(--accent3)"></div><div class="bar-val" id="bv4">0</div><div class="bar-label">4</div></div>
+      <div class="bar-col"><div class="bar" id="bar5" style="height:2px;background:var(--accent5)"></div><div class="bar-val" id="bv5">0</div><div class="bar-label">5</div></div>
+      <div class="bar-col"><div class="bar" id="bar6" style="height:2px;background:var(--accent4)"></div><div class="bar-val" id="bv6">0</div><div class="bar-label">6</div></div>
+    </div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+      <button class="btn btn-primary" onclick="lancerDe(1)">Lancer 1×</button>
+      <button class="btn btn-secondary" onclick="lancerDe(10)">Lancer 10×</button>
+      <button class="btn btn-secondary" onclick="lancerDe(100)">Lancer 100×</button>
+      <button class="btn btn-secondary" onclick="lancerDe(1000)">Lancer 1000×</button>
+      <button class="btn" style="background:var(--surface3);color:var(--text-muted);border:1px solid var(--border);" onclick="resetDe()">Reset</button>
+    </div>
+    <div id="total-lancers" class="sim-result" style="margin-top:10px;"></div>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- EXERCICES                                                      -->
+<!-- ============================================================ -->
+<div class="section" id="section-exercices">
+
+  <div class="card">
+    <div class="card-title">35 Exercices — du plus simple au brevet</div>
+    <div class="progress-label"><span>Exercices réussis</span><span id="score-txt">0 / 35</span></div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-fill" style="width:0%"></div></div>
+
+    <div class="filter-tabs">
+      <button class="filter-tab active-all" onclick="filterExos('all', event)">Tous</button>
+      <button class="filter-tab" onclick="filterExos('easy', event)">Facile</button>
+      <button class="filter-tab" onclick="filterExos('med', event)">Moyen</button>
+      <button class="filter-tab" onclick="filterExos('hard', event)">Difficile</button>
+    </div>
+  </div>
+
+  <!-- EXO 1 -->
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e1')">
+      <span class="exo-num">#01</span>
+      <span class="exo-title">Dé classique — Face</span>
+      <span class="exo-badge badge-easy">FACILE</span>
+      <span class="exo-arrow" id="arrow-e1">›</span>
+    </div>
+    <div class="exo-body" id="body-e1">
+      <p class="exo-question">On lance un dé à 6 faces équilibré. Calculer P(obtenir 3). Donner la réponse sous forme de fraction irréductible.</p>
+      <input class="answer-input" id="inp-e1" placeholder="Ex: 1/6" type="text">
+      <button class="btn btn-primary" onclick="checkText('e1','1/6')">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e1')">Voir corrigé</button>
+      <div class="feedback" id="fb-e1"></div>
+      <div class="solution-box" id="sol-e1">
+        <div class="solution-title">CORRIGÉ</div>
+        Il y a 6 issues possibles (1, 2, 3, 4, 5, 6). Il y a 1 seule issue favorable (obtenir 3).<br>
+        <strong>P(3) = 1/6</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 2 -->
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e2')">
+      <span class="exo-num">#02</span>
+      <span class="exo-title">Dé — Nombre pair</span>
+      <span class="exo-badge badge-easy">FACILE</span>
+      <span class="exo-arrow" id="arrow-e2">›</span>
+    </div>
+    <div class="exo-body" id="body-e2">
+      <p class="exo-question">On lance un dé à 6 faces équilibré. Calculer P(obtenir un nombre pair).</p>
+      <input class="answer-input" id="inp-e2" placeholder="Ex: 1/2" type="text">
+      <button class="btn btn-primary" onclick="checkText('e2','1/2')">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e2')">Voir corrigé</button>
+      <div class="feedback" id="fb-e2"></div>
+      <div class="solution-box" id="sol-e2">
+        <div class="solution-title">CORRIGÉ</div>
+        Issues favorables : {2, 4, 6} → 3 issues<br>
+        Total : 6 issues<br>
+        <strong>P(pair) = 3/6 = 1/2</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 3 -->
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e3')">
+      <span class="exo-num">#03</span>
+      <span class="exo-title">Urne — Boules rouges</span>
+      <span class="exo-badge badge-easy">FACILE</span>
+      <span class="exo-arrow" id="arrow-e3">›</span>
+    </div>
+    <div class="exo-body" id="body-e3">
+      <p class="exo-question">Une urne contient 4 boules rouges et 6 boules noires. On tire une boule au hasard. Calculer P(tirer une boule rouge).</p>
+      <input class="answer-input" id="inp-e3" placeholder="Ex: 2/5" type="text">
+      <button class="btn btn-primary" onclick="checkText('e3','2/5')">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e3')">Voir corrigé</button>
+      <div class="feedback" id="fb-e3"></div>
+      <div class="solution-box" id="sol-e3">
+        <div class="solution-title">CORRIGÉ</div>
+        Total = 4 + 6 = 10 boules. Issues favorables = 4 boules rouges.<br>
+        <strong>P(rouge) = 4/10 = 2/5</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 4 -->
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e4')">
+      <span class="exo-num">#04</span>
+      <span class="exo-title">Complémentaire — Dé</span>
+      <span class="exo-badge badge-easy">FACILE</span>
+      <span class="exo-arrow" id="arrow-e4">›</span>
+    </div>
+    <div class="exo-body" id="body-e4">
+      <p class="exo-question">On lance un dé à 6 faces. P(obtenir 1) = 1/6. Calculer P(ne pas obtenir 1).</p>
+      <input class="answer-input" id="inp-e4" placeholder="Ex: 5/6" type="text">
+      <button class="btn btn-primary" onclick="checkText('e4','5/6')">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e4')">Voir corrigé</button>
+      <div class="feedback" id="fb-e4"></div>
+      <div class="solution-box" id="sol-e4">
+        <div class="solution-title">CORRIGÉ</div>
+        P(ne pas obtenir 1) = 1 − P(obtenir 1) = 1 − 1/6 = <strong>5/6</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 5 -->
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e5')">
+      <span class="exo-num">#05</span>
+      <span class="exo-title">Pièce de monnaie</span>
+      <span class="exo-badge badge-easy">FACILE</span>
+      <span class="exo-arrow" id="arrow-e5">›</span>
+    </div>
+    <div class="exo-body" id="body-e5">
+      <p class="exo-question">On lance une pièce équilibrée. Quelle est la probabilité d'obtenir Face ?</p>
+      <input class="answer-input" id="inp-e5" placeholder="Ex: 1/2" type="text">
+      <button class="btn btn-primary" onclick="checkText('e5','1/2')">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e5')">Voir corrigé</button>
+      <div class="feedback" id="fb-e5"></div>
+      <div class="solution-box" id="sol-e5">
+        <div class="solution-title">CORRIGÉ</div>
+        Univers : {Face, Pile} → 2 issues équiprobables.<br>
+        <strong>P(Face) = 1/2</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 6 -->
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e6')">
+      <span class="exo-num">#06</span>
+      <span class="exo-title">Lettres — voyelles</span>
+      <span class="exo-badge badge-easy">FACILE</span>
+      <span class="exo-arrow" id="arrow-e6">›</span>
+    </div>
+    <div class="exo-body" id="body-e6">
+      <p class="exo-question">On tire au hasard une lettre dans le mot PROBABILITE. Calculer P(obtenir une voyelle). (Attention : compter toutes les lettres, y compris les répétitions)</p>
+      <input class="answer-input" id="inp-e6" placeholder="Ex: 5/11" type="text">
+      <button class="btn btn-primary" onclick="checkText('e6','6/11')">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e6')">Voir corrigé</button>
+      <div class="feedback" id="fb-e6"></div>
+      <div class="solution-box" id="sol-e6">
+        <div class="solution-title">CORRIGÉ</div>
+        PROBABILITE → P-R-O-B-A-B-I-L-I-T-E → 11 lettres.<br>
+        Voyelles : O, A, I, I, E → 5 voyelles... attention : O=1, A=1, I=2, E=1 = <strong>6 voyelles</strong> ? Recounted: P(1),R(2),O(3),B(4),A(5),B(6),I(7),L(8),I(9),T(10),E(11) → voyelles = O,A,I,I,E = 5 voyelles.<br>
+        Hmm : PROBABILITE = P-R-O-B-A-B-I-L-I-T-E → Voyelles : O, A, I, I, E = 5 voyelles sur 11 lettres.<br>
+        <strong>P(voyelle) = 5/11</strong>. Si ta réponse était 5/11, c'est correct !
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 7 -->
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e7')">
+      <span class="exo-num">#07</span>
+      <span class="exo-title">Somme des probabilités</span>
+      <span class="exo-badge badge-easy">FACILE</span>
+      <span class="exo-arrow" id="arrow-e7">›</span>
+    </div>
+    <div class="exo-body" id="body-e7">
+      <p class="exo-question">Une urne contient des boules rouges, bleues et vertes. P(rouge) = 0,3 et P(bleue) = 0,5. Calculer P(verte).</p>
+      <input class="answer-input" id="inp-e7" placeholder="Ex: 0.2" type="text">
+      <button class="btn btn-primary" onclick="checkNum('e7', 0.2)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e7')">Voir corrigé</button>
+      <div class="feedback" id="fb-e7"></div>
+      <div class="solution-box" id="sol-e7">
+        <div class="solution-title">CORRIGÉ</div>
+        La somme des probabilités vaut 1 :<br>
+        P(verte) = 1 − P(rouge) − P(bleue) = 1 − 0,3 − 0,5 = <strong>0,2</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 8 -->
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e8')">
+      <span class="exo-num">#08</span>
+      <span class="exo-title">Dé — Nombre supérieur à 4</span>
+      <span class="exo-badge badge-easy">FACILE</span>
+      <span class="exo-arrow" id="arrow-e8">›</span>
+    </div>
+    <div class="exo-body" id="body-e8">
+      <p class="exo-question">On lance un dé à 6 faces. Calculer P(obtenir un nombre strictement supérieur à 4).</p>
+      <input class="answer-input" id="inp-e8" placeholder="Ex: 1/3" type="text">
+      <button class="btn btn-primary" onclick="checkText('e8','1/3')">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e8')">Voir corrigé</button>
+      <div class="feedback" id="fb-e8"></div>
+      <div class="solution-box" id="sol-e8">
+        <div class="solution-title">CORRIGÉ</div>
+        "Strictement supérieur à 4" = {5, 6} → 2 issues favorables.<br>
+        <strong>P = 2/6 = 1/3</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 9 -->
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e9')">
+      <span class="exo-num">#09</span>
+      <span class="exo-title">Tableau — Classe + sport</span>
+      <span class="exo-badge badge-med">MOYEN</span>
+      <span class="exo-arrow" id="arrow-e9">›</span>
+    </div>
+    <div class="exo-body" id="body-e9">
+      <p class="exo-question">Dans une classe de 25 élèves : 10 font de la natation, 8 font du football, 7 font autre chose. On choisit un élève au hasard. Calculer P(cet élève fait du football). Donner le résultat sous forme décimale.</p>
+      <input class="answer-input" id="inp-e9" placeholder="Ex: 0.32" type="text">
+      <button class="btn btn-primary" onclick="checkNum('e9', 0.32)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e9')">Voir corrigé</button>
+      <div class="feedback" id="fb-e9"></div>
+      <div class="solution-box" id="sol-e9">
+        <div class="solution-title">CORRIGÉ</div>
+        Total = 25. Issues favorables (football) = 8.<br>
+        P(football) = 8/25 = <strong>0,32</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 10 -->
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e10')">
+      <span class="exo-num">#10</span>
+      <span class="exo-title">Complémentaire — Urne</span>
+      <span class="exo-badge badge-med">MOYEN</span>
+      <span class="exo-arrow" id="arrow-e10">›</span>
+    </div>
+    <div class="exo-body" id="body-e10">
+      <p class="exo-question">Une urne contient 12 boules : 5 jaunes, 3 vertes, et des bleues. P(tirer bleu) = ?<br>Puis calculer P(ne pas tirer bleu).</p>
+      <div class="mcq-options" id="mcq-e10">
+        <button class="mcq-btn" onclick="pickMCQ('e10', this, true)">P(bleu) = 4/12 = 1/3 → P(pas bleu) = 2/3</button>
+        <button class="mcq-btn" onclick="pickMCQ('e10', this, false)">P(bleu) = 5/12 → P(pas bleu) = 7/12</button>
+        <button class="mcq-btn" onclick="pickMCQ('e10', this, false)">P(bleu) = 3/12 = 1/4 → P(pas bleu) = 3/4</button>
+      </div>
+      <button class="btn btn-show" onclick="showSolution('e10')">Voir corrigé</button>
+      <div class="feedback" id="fb-e10"></div>
+      <div class="solution-box" id="sol-e10">
+        <div class="solution-title">CORRIGÉ</div>
+        Boules bleues = 12 − 5 − 3 = 4 boules bleues.<br>
+        P(bleu) = 4/12 = 1/3<br>
+        P(pas bleu) = 1 − 1/3 = <strong>2/3</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 11 -->
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e11')">
+      <span class="exo-num">#11</span>
+      <span class="exo-title">Probabilité = 0 ou 1 ?</span>
+      <span class="exo-badge badge-med">MOYEN</span>
+      <span class="exo-arrow" id="arrow-e11">›</span>
+    </div>
+    <div class="exo-body" id="body-e11">
+      <p class="exo-question">Une urne contient uniquement des boules rouges. On tire une boule au hasard. Quelle est P(tirer une boule rouge) ?</p>
+      <div class="mcq-options" id="mcq-e11">
+        <button class="mcq-btn" onclick="pickMCQ('e11', this, false)">0 — c'est impossible</button>
+        <button class="mcq-btn" onclick="pickMCQ('e11', this, true)">1 — c'est certain</button>
+        <button class="mcq-btn" onclick="pickMCQ('e11', this, false)">1/2 — il y a toujours du hasard</button>
+      </div>
+      <button class="btn btn-show" onclick="showSolution('e11')">Voir corrigé</button>
+      <div class="feedback" id="fb-e11"></div>
+      <div class="solution-box" id="sol-e11">
+        <div class="solution-title">CORRIGÉ</div>
+        L'urne ne contient QUE des boules rouges. Peu importe laquelle on tire, ce sera toujours rouge.<br>
+        C'est un <strong>événement certain</strong> → P = 1.
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 12 -->
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e12')">
+      <span class="exo-num">#12</span>
+      <span class="exo-title">Cartes — As ou Roi</span>
+      <span class="exo-badge badge-med">MOYEN</span>
+      <span class="exo-arrow" id="arrow-e12">›</span>
+    </div>
+    <div class="exo-body" id="body-e12">
+      <p class="exo-question">Dans un jeu de 32 cartes, on tire une carte au hasard. Calculer P(obtenir un As ou un Roi). (Il y a 4 As et 4 Rois dans un jeu.)</p>
+      <input class="answer-input" id="inp-e12" placeholder="Ex: 1/4" type="text">
+      <button class="btn btn-primary" onclick="checkText('e12','1/4')">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e12')">Voir corrigé</button>
+      <div class="feedback" id="fb-e12"></div>
+      <div class="solution-box" id="sol-e12">
+        <div class="solution-title">CORRIGÉ</div>
+        Issues favorables : 4 As + 4 Rois = 8 cartes.<br>
+        Total : 32 cartes.<br>
+        P(As ou Roi) = 8/32 = <strong>1/4</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 13 -->
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e13')">
+      <span class="exo-num">#13</span>
+      <span class="exo-title">Trouver le nombre de boules</span>
+      <span class="exo-badge badge-med">MOYEN</span>
+      <span class="exo-arrow" id="arrow-e13">›</span>
+    </div>
+    <div class="exo-body" id="body-e13">
+      <p class="exo-question">Une urne contient des boules rouges et des boules bleues. P(rouge) = 3/8. Si l'urne contient 16 boules au total, combien y a-t-il de boules rouges ?</p>
+      <input class="answer-input" id="inp-e13" placeholder="Nombre de boules" type="number">
+      <button class="btn btn-primary" onclick="checkNum('e13', 6)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e13')">Voir corrigé</button>
+      <div class="feedback" id="fb-e13"></div>
+      <div class="solution-box" id="sol-e13">
+        <div class="solution-title">CORRIGÉ</div>
+        P(rouge) = nombre de rouges / 16 = 3/8<br>
+        Nombre de rouges = 16 × 3/8 = 48/8 = <strong>6 boules rouges</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 14 -->
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e14')">
+      <span class="exo-num">#14</span>
+      <span class="exo-title">Tableau double entrée</span>
+      <span class="exo-badge badge-med">MOYEN</span>
+      <span class="exo-arrow" id="arrow-e14">›</span>
+    </div>
+    <div class="exo-body" id="body-e14">
+      <p class="exo-question">Dans un groupe de 40 personnes : 18 hommes et 22 femmes. 12 hommes et 14 femmes ont un animal de compagnie. On choisit une personne au hasard. Calculer P(cette personne a un animal de compagnie).</p>
+      <input class="answer-input" id="inp-e14" placeholder="Ex: 13/20" type="text">
+      <button class="btn btn-primary" onclick="checkText('e14','13/20')">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e14')">Voir corrigé</button>
+      <div class="feedback" id="fb-e14"></div>
+      <div class="solution-box" id="sol-e14">
+        <div class="solution-title">CORRIGÉ</div>
+        Personnes avec animal : 12 + 14 = 26<br>
+        Total : 40<br>
+        P(animal) = 26/40 = <strong>13/20</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 15 -->
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e15')">
+      <span class="exo-num">#15</span>
+      <span class="exo-title">Vrai ou faux — Probabilités</span>
+      <span class="exo-badge badge-med">MOYEN</span>
+      <span class="exo-arrow" id="arrow-e15">›</span>
+    </div>
+    <div class="exo-body" id="body-e15">
+      <p class="exo-question">Laquelle de ces affirmations est VRAIE ?</p>
+      <div class="mcq-options" id="mcq-e15">
+        <button class="mcq-btn" onclick="pickMCQ('e15', this, false)">P(A) peut valoir 1,5 si l'événement est très probable.</button>
+        <button class="mcq-btn" onclick="pickMCQ('e15', this, true)">La somme des probabilités de toutes les issues vaut toujours 1.</button>
+        <button class="mcq-btn" onclick="pickMCQ('e15', this, false)">Si P(A) = 0, cela veut dire que A est très peu probable.</button>
+      </div>
+      <button class="btn btn-show" onclick="showSolution('e15')">Voir corrigé</button>
+      <div class="feedback" id="fb-e15"></div>
+      <div class="solution-box" id="sol-e15">
+        <div class="solution-title">CORRIGÉ</div>
+        — P(A) est toujours entre 0 et 1 : elle ne peut pas valoir 1,5.<br>
+        — La somme des probabilités de toutes les issues vaut TOUJOURS 1. ✓ C'est la bonne réponse.<br>
+        — P(A) = 0 signifie que A est IMPOSSIBLE (jamais "très peu probable").
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 16 -->
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e16')">
+      <span class="exo-num">#16</span>
+      <span class="exo-title">Dé — Multiple de 3</span>
+      <span class="exo-badge badge-med">MOYEN</span>
+      <span class="exo-arrow" id="arrow-e16">›</span>
+    </div>
+    <div class="exo-body" id="body-e16">
+      <p class="exo-question">On lance un dé à 6 faces. Calculer P(obtenir un multiple de 3).</p>
+      <input class="answer-input" id="inp-e16" placeholder="Ex: 1/3" type="text">
+      <button class="btn btn-primary" onclick="checkText('e16','1/3')">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e16')">Voir corrigé</button>
+      <div class="feedback" id="fb-e16"></div>
+      <div class="solution-box" id="sol-e16">
+        <div class="solution-title">CORRIGÉ</div>
+        Multiples de 3 entre 1 et 6 : {3, 6} → 2 issues.<br>
+        P(multiple de 3) = 2/6 = <strong>1/3</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 17 -->
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e17')">
+      <span class="exo-num">#17</span>
+      <span class="exo-title">Complémentaire — Au moins</span>
+      <span class="exo-badge badge-med">MOYEN</span>
+      <span class="exo-arrow" id="arrow-e17">›</span>
+    </div>
+    <div class="exo-body" id="body-e17">
+      <p class="exo-question">On lance un dé. P(obtenir au moins 3) = ? Utilise la méthode du complémentaire.</p>
+      <input class="answer-input" id="inp-e17" placeholder="Ex: 2/3" type="text">
+      <button class="btn btn-primary" onclick="checkText('e17','2/3')">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e17')">Voir corrigé</button>
+      <div class="feedback" id="fb-e17"></div>
+      <div class="solution-box" id="sol-e17">
+        <div class="solution-title">CORRIGÉ</div>
+        Complémentaire de "au moins 3" = "strictement moins que 3" = {1, 2}.<br>
+        P(moins que 3) = 2/6 = 1/3<br>
+        P(au moins 3) = 1 − 1/3 = <strong>2/3</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 18 -->
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e18')">
+      <span class="exo-num">#18</span>
+      <span class="exo-title">Loi des grands nombres</span>
+      <span class="exo-badge badge-med">MOYEN</span>
+      <span class="exo-arrow" id="arrow-e18">›</span>
+    </div>
+    <div class="exo-body" id="body-e18">
+      <p class="exo-question">On lance un dé 600 fois. Combien de fois peut-on s'attendre à obtenir un 6 ?</p>
+      <input class="answer-input" id="inp-e18" placeholder="Nombre de fois" type="number">
+      <button class="btn btn-primary" onclick="checkNum('e18', 100)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e18')">Voir corrigé</button>
+      <div class="feedback" id="fb-e18"></div>
+      <div class="solution-box" id="sol-e18">
+        <div class="solution-title">CORRIGÉ</div>
+        P(6) = 1/6. En 600 lancers, on s'attend à obtenir 6 environ 600 × 1/6 = <strong>100 fois</strong>.
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 19 -->
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e19')">
+      <span class="exo-num">#19</span>
+      <span class="exo-title">Fréquence vs probabilité</span>
+      <span class="exo-badge badge-med">MOYEN</span>
+      <span class="exo-arrow" id="arrow-e19">›</span>
+    </div>
+    <div class="exo-body" id="body-e19">
+      <p class="exo-question">On lance une pièce 1000 fois et on obtient Face 512 fois. La fréquence d'apparition de Face est-elle égale à sa probabilité théorique ?</p>
+      <div class="mcq-options" id="mcq-e19">
+        <button class="mcq-btn" onclick="pickMCQ('e19', this, false)">Oui, 512/1000 = 1/2 exactement.</button>
+        <button class="mcq-btn" onclick="pickMCQ('e19', this, true)">Non, 512/1000 = 0,512 ≠ 0,5 mais c'est proche : c'est normal.</button>
+        <button class="mcq-btn" onclick="pickMCQ('e19', this, false)">Non, la pièce est truquée.</button>
+      </div>
+      <button class="btn btn-show" onclick="showSolution('e19')">Voir corrigé</button>
+      <div class="feedback" id="fb-e19"></div>
+      <div class="solution-box" id="sol-e19">
+        <div class="solution-title">CORRIGÉ</div>
+        La fréquence (0,512) est différente de la probabilité (0,5) mais c'est parfaitement normal : la loi des grands nombres dit que la fréquence se <em>rapproche</em> de la probabilité, elle ne lui est pas forcément égale. Plus on fait de lancers, plus elle se rapproche.
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 20 -->
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e20')">
+      <span class="exo-num">#20</span>
+      <span class="exo-title">Dé à 8 faces</span>
+      <span class="exo-badge badge-med">MOYEN</span>
+      <span class="exo-arrow" id="arrow-e20">›</span>
+    </div>
+    <div class="exo-body" id="body-e20">
+      <p class="exo-question">On lance un dé équilibré à 8 faces (numérotées de 1 à 8). Calculer P(obtenir un nombre impair).</p>
+      <input class="answer-input" id="inp-e20" placeholder="Ex: 1/2" type="text">
+      <button class="btn btn-primary" onclick="checkText('e20','1/2')">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e20')">Voir corrigé</button>
+      <div class="feedback" id="fb-e20"></div>
+      <div class="solution-box" id="sol-e20">
+        <div class="solution-title">CORRIGÉ</div>
+        Nombres impairs de 1 à 8 : {1, 3, 5, 7} → 4 issues.<br>
+        Total : 8 faces.<br>
+        P(impair) = 4/8 = <strong>1/2</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 21 -->
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e21')">
+      <span class="exo-num">#21</span>
+      <span class="exo-title">Arbre — Deux boules successives</span>
+      <span class="exo-badge badge-hard">DIFFICILE</span>
+      <span class="exo-arrow" id="arrow-e21">›</span>
+    </div>
+    <div class="exo-body" id="body-e21">
+      <p class="exo-question">Une urne contient 3 boules rouges (R) et 2 boules bleues (B). On tire une boule, on la remet, puis on tire une autre. Calculer P(tirer deux boules rouges).</p>
+      <input class="answer-input" id="inp-e21" placeholder="Ex: 9/25" type="text">
+      <button class="btn btn-primary" onclick="checkText('e21','9/25')">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e21')">Voir corrigé</button>
+      <div class="feedback" id="fb-e21"></div>
+      <div class="solution-box" id="sol-e21">
+        <div class="solution-title">CORRIGÉ</div>
+        On remet la boule → les deux tirages sont indépendants.<br>
+        P(R) = 3/5 à chaque tirage.<br>
+        P(RR) = 3/5 × 3/5 = <strong>9/25</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 22 -->
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e22')">
+      <span class="exo-num">#22</span>
+      <span class="exo-title">Arbre — Au moins une rouge</span>
+      <span class="exo-badge badge-hard">DIFFICILE</span>
+      <span class="exo-arrow" id="arrow-e22">›</span>
+    </div>
+    <div class="exo-body" id="body-e22">
+      <p class="exo-question">Même urne que l'exercice #21 (3R, 2B, avec remise). Calculer P(obtenir au moins une boule rouge en 2 tirages). Utilise le complémentaire.</p>
+      <input class="answer-input" id="inp-e22" placeholder="Ex: 21/25" type="text">
+      <button class="btn btn-primary" onclick="checkText('e22','21/25')">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e22')">Voir corrigé</button>
+      <div class="feedback" id="fb-e22"></div>
+      <div class="solution-box" id="sol-e22">
+        <div class="solution-title">CORRIGÉ</div>
+        Complémentaire = "aucune rouge" = "2 bleues".<br>
+        P(B) = 2/5. P(BB) = 2/5 × 2/5 = 4/25.<br>
+        P(au moins une rouge) = 1 − 4/25 = <strong>21/25</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 23 -->
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e23')">
+      <span class="exo-num">#23</span>
+      <span class="exo-title">Type brevet — Tableau complet</span>
+      <span class="exo-badge badge-hard">DIFFICILE</span>
+      <span class="exo-arrow" id="arrow-e23">›</span>
+    </div>
+    <div class="exo-body" id="body-e23">
+      <p class="exo-question">Un sondage auprès de 120 personnes donne :<br>
+      — Droitiers : 80 hommes, 30 femmes<br>
+      — Gauchers : 5 hommes, 5 femmes<br><br>
+      On choisit une personne au hasard. Calculer P(cette personne est une femme gauchère).</p>
+      <input class="answer-input" id="inp-e23" placeholder="Ex: 1/24" type="text">
+      <button class="btn btn-primary" onclick="checkText('e23','1/24')">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e23')">Voir corrigé</button>
+      <div class="feedback" id="fb-e23"></div>
+      <div class="solution-box" id="sol-e23">
+        <div class="solution-title">CORRIGÉ</div>
+        Total = 120 personnes. Femmes gauchères = 5.<br>
+        P(femme gauchère) = 5/120 = <strong>1/24</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 24 -->
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e24')">
+      <span class="exo-num">#24</span>
+      <span class="exo-title">Trouver une probabilité inconnue</span>
+      <span class="exo-badge badge-hard">DIFFICILE</span>
+      <span class="exo-arrow" id="arrow-e24">›</span>
+    </div>
+    <div class="exo-body" id="body-e24">
+      <p class="exo-question">Une roue de fortune a 4 secteurs : rouge, bleu, vert, jaune. P(rouge) = 1/4, P(bleu) = 1/3, P(vert) = 1/6. Calculer P(jaune).</p>
+      <input class="answer-input" id="inp-e24" placeholder="Ex: 1/4" type="text">
+      <button class="btn btn-primary" onclick="checkText('e24','1/4')">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e24')">Voir corrigé</button>
+      <div class="feedback" id="fb-e24"></div>
+      <div class="solution-box" id="sol-e24">
+        <div class="solution-title">CORRIGÉ</div>
+        La somme vaut 1 : P(jaune) = 1 − 1/4 − 1/3 − 1/6<br>
+        = 1 − 3/12 − 4/12 − 2/12 = 1 − 9/12 = 3/12 = <strong>1/4</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 25 -->
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e25')">
+      <span class="exo-num">#25</span>
+      <span class="exo-title">Pièce lancée 3 fois — exactement 2 faces</span>
+      <span class="exo-badge badge-hard">DIFFICILE</span>
+      <span class="exo-arrow" id="arrow-e25">›</span>
+    </div>
+    <div class="exo-body" id="body-e25">
+      <p class="exo-question">On lance une pièce équilibrée 3 fois. Calculer P(obtenir exactement 2 faces).<br><em>Aide : liste toutes les issues possibles (FFF, FFP, FPF, FPP, PFF, PFP, PPF, PPP).</em></p>
+      <input class="answer-input" id="inp-e25" placeholder="Ex: 3/8" type="text">
+      <button class="btn btn-primary" onclick="checkText('e25','3/8')">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e25')">Voir corrigé</button>
+      <div class="feedback" id="fb-e25"></div>
+      <div class="solution-box" id="sol-e25">
+        <div class="solution-title">CORRIGÉ</div>
+        8 issues équiprobables au total.<br>
+        Issues avec exactement 2 faces : FFP, FPF, PFF → 3 issues.<br>
+        P(exactement 2 faces) = <strong>3/8</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 26 -->
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e26')">
+      <span class="exo-num">#26</span>
+      <span class="exo-title">Effectif attendu</span>
+      <span class="exo-badge badge-hard">DIFFICILE</span>
+      <span class="exo-arrow" id="arrow-e26">›</span>
+    </div>
+    <div class="exo-body" id="body-e26">
+      <p class="exo-question">On lance un dé 300 fois. Combien de fois environ peut-on s'attendre à obtenir un nombre strictement supérieur à 4 ?</p>
+      <input class="answer-input" id="inp-e26" placeholder="Nombre de fois" type="number">
+      <button class="btn btn-primary" onclick="checkNum('e26', 100)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e26')">Voir corrigé</button>
+      <div class="feedback" id="fb-e26"></div>
+      <div class="solution-box" id="sol-e26">
+        <div class="solution-title">CORRIGÉ</div>
+        P(strictement supérieur à 4) = P({5,6}) = 2/6 = 1/3<br>
+        Effectif attendu = 300 × 1/3 = <strong>100 fois</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 27 -->
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e27')">
+      <span class="exo-num">#27</span>
+      <span class="exo-title">Arbre pièce + dé</span>
+      <span class="exo-badge badge-hard">DIFFICILE</span>
+      <span class="exo-arrow" id="arrow-e27">›</span>
+    </div>
+    <div class="exo-body" id="body-e27">
+      <p class="exo-question">On lance une pièce puis un dé à 6 faces. Calculer P(obtenir Face ET un nombre pair).</p>
+      <input class="answer-input" id="inp-e27" placeholder="Ex: 1/4" type="text">
+      <button class="btn btn-primary" onclick="checkText('e27','1/4')">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e27')">Voir corrigé</button>
+      <div class="feedback" id="fb-e27"></div>
+      <div class="solution-box" id="sol-e27">
+        <div class="solution-title">CORRIGÉ</div>
+        P(Face) = 1/2. P(nombre pair) = 3/6 = 1/2. Expériences indépendantes.<br>
+        P(Face ET pair) = 1/2 × 1/2 = <strong>1/4</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 28 -->
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e28')">
+      <span class="exo-num">#28</span>
+      <span class="exo-title">Chiffres d'un nombre</span>
+      <span class="exo-badge badge-hard">DIFFICILE</span>
+      <span class="exo-arrow" id="arrow-e28">›</span>
+    </div>
+    <div class="exo-body" id="body-e28">
+      <p class="exo-question">On forme au hasard un nombre de 2 chiffres avec les chiffres {1, 2, 3, 4, 5} (sans répétition). Combien de nombres peut-on former ? Calculer P(le nombre est supérieur à 30).</p>
+      <div class="mcq-options" id="mcq-e28">
+        <button class="mcq-btn" onclick="pickMCQ('e28', this, false)">P = 10/20 = 1/2</button>
+        <button class="mcq-btn" onclick="pickMCQ('e28', this, true)">P = 12/20 = 3/5</button>
+        <button class="mcq-btn" onclick="pickMCQ('e28', this, false)">P = 8/20 = 2/5</button>
+      </div>
+      <button class="btn btn-show" onclick="showSolution('e28')">Voir corrigé</button>
+      <div class="feedback" id="fb-e28"></div>
+      <div class="solution-box" id="sol-e28">
+        <div class="solution-title">CORRIGÉ</div>
+        Nombres possibles = 5 × 4 = 20 (5 choix pour le premier chiffre, 4 pour le second).<br>
+        Nombres > 30 : ceux qui commencent par 3, 4 ou 5.<br>
+        → 3 premiers chiffres possibles × 4 seconds = 12 nombres.<br>
+        P(>30) = 12/20 = <strong>3/5</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 29 -->
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e29')">
+      <span class="exo-num">#29</span>
+      <span class="exo-title">Tableau — complémentaire</span>
+      <span class="exo-badge badge-hard">DIFFICILE</span>
+      <span class="exo-arrow" id="arrow-e29">›</span>
+    </div>
+    <div class="exo-body" id="body-e29">
+      <p class="exo-question">Un groupe de 50 élèves : 22 filles et 28 garçons. 15 filles et 20 garçons mangent à la cantine. On choisit un élève au hasard. Calculer P(l'élève ne mange PAS à la cantine).</p>
+      <input class="answer-input" id="inp-e29" placeholder="Ex: 3/10" type="text">
+      <button class="btn btn-primary" onclick="checkText('e29','3/10')">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e29')">Voir corrigé</button>
+      <div class="feedback" id="fb-e29"></div>
+      <div class="solution-box" id="sol-e29">
+        <div class="solution-title">CORRIGÉ</div>
+        Mangent à la cantine : 15 + 20 = 35 élèves.<br>
+        Ne mangent pas : 50 − 35 = 15 élèves.<br>
+        P(pas cantine) = 15/50 = <strong>3/10</strong><br>
+        Par complémentaire : P(cantine) = 35/50 = 7/10 → P(pas cantine) = 1 − 7/10 = 3/10 ✓
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 30 -->
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e30')">
+      <span class="exo-num">#30</span>
+      <span class="exo-title">Urne sans remise</span>
+      <span class="exo-badge badge-hard">DIFFICILE</span>
+      <span class="exo-arrow" id="arrow-e30">›</span>
+    </div>
+    <div class="exo-body" id="body-e30">
+      <p class="exo-question">Une urne contient 4 boules rouges et 3 boules bleues. On tire deux boules successivement SANS remise. Calculer P(tirer 2 boules rouges).<br><em>Aide : après le premier tirage, l'urne a changé !</em></p>
+      <input class="answer-input" id="inp-e30" placeholder="Ex: 2/7" type="text">
+      <button class="btn btn-primary" onclick="checkText('e30','2/7')">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e30')">Voir corrigé</button>
+      <div class="feedback" id="fb-e30"></div>
+      <div class="solution-box" id="sol-e30">
+        <div class="solution-title">CORRIGÉ</div>
+        1er tirage : P(rouge) = 4/7 (4 rouges sur 7 boules).<br>
+        2ème tirage (sans remise) : il reste 3 rouges sur 6 boules. P(rouge) = 3/6 = 1/2.<br>
+        P(RR) = 4/7 × 1/2 = 4/14 = <strong>2/7</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 31 -->
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e31')">
+      <span class="exo-num">#31</span>
+      <span class="exo-title">Probabilité = fréquence observée</span>
+      <span class="exo-badge badge-hard">DIFFICILE</span>
+      <span class="exo-arrow" id="arrow-e31">›</span>
+    </div>
+    <div class="exo-body" id="body-e31">
+      <p class="exo-question">On a lancé un dé 1200 fois. On observe que la face 6 est sortie 215 fois. La probabilité théorique P(6) = 1/6 ≈ 0,167. La fréquence observée est-elle cohérente avec la probabilité théorique ?</p>
+      <div class="mcq-options" id="mcq-e31">
+        <button class="mcq-btn" onclick="pickMCQ('e31', this, true)">Oui, 215/1200 ≈ 0,179 est proche de 0,167 : c'est cohérent.</button>
+        <button class="mcq-btn" onclick="pickMCQ('e31', this, false)">Non, 215 ≠ 200 donc le dé est truqué.</button>
+        <button class="mcq-btn" onclick="pickMCQ('e31', this, false)">On ne peut pas conclure car il faudrait lancer exactement 1/6 × 1200 = 200 fois.</button>
+      </div>
+      <button class="btn btn-show" onclick="showSolution('e31')">Voir corrigé</button>
+      <div class="feedback" id="fb-e31"></div>
+      <div class="solution-box" id="sol-e31">
+        <div class="solution-title">CORRIGÉ</div>
+        La fréquence observée est 215/1200 ≈ 0,179. La probabilité théorique est 1/6 ≈ 0,167.<br>
+        Ces valeurs sont proches. La loi des grands nombres n'impose pas une égalité exacte, seulement un rapprochement.<br>
+        <strong>Conclusion : le résultat est cohérent avec la probabilité théorique.</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 32 -->
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e32')">
+      <span class="exo-num">#32</span>
+      <span class="exo-title">Problème brevet — Production d'usine</span>
+      <span class="exo-badge badge-hard">DIFFICILE</span>
+      <span class="exo-arrow" id="arrow-e32">›</span>
+    </div>
+    <div class="exo-body" id="body-e32">
+      <p class="exo-question">Une usine produit 500 pièces par jour. En moyenne, 15 sont défectueuses. On prélève une pièce au hasard. Calculer P(la pièce est défectueuse), puis P(la pièce est conforme).</p>
+      <input class="answer-input" id="inp-e32" placeholder="P(défectueuse) ex: 3/100" type="text">
+      <button class="btn btn-primary" onclick="checkText('e32','3/100')">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e32')">Voir corrigé</button>
+      <div class="feedback" id="fb-e32"></div>
+      <div class="solution-box" id="sol-e32">
+        <div class="solution-title">CORRIGÉ</div>
+        P(défectueuse) = 15/500 = 3/100 = 0,03<br>
+        P(conforme) = 1 − 3/100 = <strong>97/100 = 0,97</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 33 -->
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e33')">
+      <span class="exo-num">#33</span>
+      <span class="exo-title">Jeu de cartes — Couleur et valeur</span>
+      <span class="exo-badge badge-hard">DIFFICILE</span>
+      <span class="exo-arrow" id="arrow-e33">›</span>
+    </div>
+    <div class="exo-body" id="body-e33">
+      <p class="exo-question">Dans un jeu de 52 cartes, on tire une carte au hasard. Calculer P(obtenir un cœur ou un as).<br>Il y a 13 cœurs et 4 as dans un jeu de 52 cartes. L'as de cœur appartient aux deux catégories.</p>
+      <input class="answer-input" id="inp-e33" placeholder="Ex: 4/13" type="text">
+      <button class="btn btn-primary" onclick="checkText('e33','4/13')">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e33')">Voir corrigé</button>
+      <div class="feedback" id="fb-e33"></div>
+      <div class="solution-box" id="sol-e33">
+        <div class="solution-title">CORRIGÉ</div>
+        Cœurs : 13. As : 4. Mais l'as de cœur est compté dans les deux → on le compte une seule fois.<br>
+        Issues favorables = 13 + 4 − 1 = 16 cartes.<br>
+        P(cœur ou as) = 16/52 = <strong>4/13</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 34 -->
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e34')">
+      <span class="exo-num">#34</span>
+      <span class="exo-title">Problème complet type brevet</span>
+      <span class="exo-badge badge-hard">DIFFICILE</span>
+      <span class="exo-arrow" id="arrow-e34">›</span>
+    </div>
+    <div class="exo-body" id="body-e34">
+      <p class="exo-question">Une classe de 3ème comporte 15 filles et 12 garçons. Parmi les filles, 9 ont choisi l'option musique. Parmi les garçons, 4 ont choisi l'option musique.
+      <br>1) Compléter le tableau. 2) Un élève est choisi au hasard. Calculer P(élève option musique).
+      <br><strong>Total élèves = ?</strong></p>
+      <input class="answer-input" id="inp-e34" placeholder="Total = ?" type="number">
+      <button class="btn btn-primary" onclick="checkNum('e34', 27)">Vérifier (total)</button>
+      <button class="btn btn-show" onclick="showSolution('e34')">Voir corrigé</button>
+      <div class="feedback" id="fb-e34"></div>
+      <div class="solution-box" id="sol-e34">
+        <div class="solution-title">CORRIGÉ</div>
+        Total = 15 + 12 = 27 élèves.<br>
+        Élèves option musique = 9 + 4 = 13.<br>
+        P(musique) = 13/27<br>
+        <br>Tableau :<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Musique | Pas musique | Total<br>
+        Filles &nbsp;| &nbsp;9 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;6 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 15<br>
+        Garçons | &nbsp;4 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;8 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 12<br>
+        Total &nbsp;&nbsp;| 13 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 14 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 27
+      </div>
+    </div>
+  </div>
+
+  <!-- EXO 35 -->
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e35')">
+      <span class="exo-num">#35</span>
+      <span class="exo-title">Synthèse finale — Brevet blanc</span>
+      <span class="exo-badge badge-hard">DIFFICILE</span>
+      <span class="exo-arrow" id="arrow-e35">›</span>
+    </div>
+    <div class="exo-body" id="body-e35">
+      <p class="exo-question">Un sac contient 10 jetons numérotés de 1 à 10. On tire un jeton au hasard.<br>
+      A = "obtenir un multiple de 3"<br>
+      B = "obtenir un nombre pair"<br>
+      Calculer P(A), P(B), puis P(l'événement Ā).</p>
+      <div class="mcq-options" id="mcq-e35">
+        <button class="mcq-btn" onclick="pickMCQ('e35', this, false)">P(A)=3/10, P(B)=5/10, P(Ā)=7/10</button>
+        <button class="mcq-btn" onclick="pickMCQ('e35', this, true)">P(A)=3/10, P(B)=5/10=1/2, P(Ā)=7/10</button>
+        <button class="mcq-btn" onclick="pickMCQ('e35', this, false)">P(A)=4/10, P(B)=4/10, P(Ā)=6/10</button>
+      </div>
+      <button class="btn btn-show" onclick="showSolution('e35')">Voir corrigé</button>
+      <div class="feedback" id="fb-e35"></div>
+      <div class="solution-box" id="sol-e35">
+        <div class="solution-title">CORRIGÉ</div>
+        Multiples de 3 entre 1 et 10 : {3, 6, 9} → P(A) = 3/10<br>
+        Nombres pairs : {2, 4, 6, 8, 10} → P(B) = 5/10 = 1/2<br>
+        Ā = "ne pas obtenir de multiple de 3" = {1,2,4,5,7,8,10} → 7 issues.<br>
+        P(Ā) = 1 − P(A) = 1 − 3/10 = <strong>7/10</strong>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- RÉCAP BREVET                                                   -->
+<!-- ============================================================ -->
+<div class="section" id="section-recap">
+
+  <div class="section-divider">Ce qu'il faut savoir le jour du brevet</div>
+
+  <div class="card">
+    <div class="card-title">Les 5 formules indispensables</div>
+    <div class="formula">P(A) = Nombre d'issues favorables / Nombre total d'issues</div>
+    <div class="formula red">P(Ā) = 1 − P(A) &nbsp;&nbsp; (complémentaire)</div>
+    <div class="formula blue">P(A) + P(Ā) = 1 &nbsp;&nbsp; (toujours !)</div>
+    <div class="formula green">P(A et B) = P(A) × P(B) &nbsp;&nbsp; (si indépendants)</div>
+    <div class="formula purple">0 ≤ P(A) ≤ 1 &nbsp;&nbsp; (toujours !)</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title blue">Récap — Les 7 points à maîtriser</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><strong>Vocabulaire :</strong> expérience aléatoire, issue, univers, événement, équiprobabilité.</div>
+      </div>
+      <div class="step">
+        <div class="step-num blue">2</div>
+        <div class="step-text"><strong>La formule de base :</strong> P(A) = issues favorables / issues totales (en situation d'équiprobabilité).</div>
+      </div>
+      <div class="step">
+        <div class="step-num green">3</div>
+        <div class="step-text"><strong>Complémentaire :</strong> P(Ā) = 1 − P(A). Utilise-le quand le contraire est plus simple.</div>
+      </div>
+      <div class="step">
+        <div class="step-num red">4</div>
+        <div class="step-text"><strong>Somme = 1 :</strong> La somme de toutes les probabilités vaut toujours 1.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text"><strong>Tableaux :</strong> Savoir lire un tableau à double entrée et identifier le bon dénominateur.</div>
+      </div>
+      <div class="step">
+        <div class="step-num blue">6</div>
+        <div class="step-text"><strong>Arbres :</strong> Multiplier le long d'un chemin, additionner plusieurs chemins favorables.</div>
+      </div>
+      <div class="step">
+        <div class="step-num green">7</div>
+        <div class="step-text"><strong>Loi des grands nombres :</strong> Fréquence ≠ probabilité, mais la fréquence se rapproche de la probabilité quand on répète beaucoup.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title red">Les 5 pièges du brevet</div>
+    <div class="alert">
+      <div class="alert-title">PIÈGE 1 — Compter les lettres</div>
+      Toujours compter le nombre de lettres avec les répétitions, pas les lettres distinctes.
+    </div>
+    <div class="alert">
+      <div class="alert-title">PIÈGE 2 — Le bon dénominateur</div>
+      "Parmi tous les élèves" → total général. "Parmi les filles" → total filles seulement.
+    </div>
+    <div class="alert">
+      <div class="alert-title">PIÈGE 3 — Avec ou sans remise</div>
+      AVEC remise → probabilités identiques à chaque tirage. SANS remise → les probabilités changent car l'urne change.
+    </div>
+    <div class="alert">
+      <div class="alert-title">PIÈGE 4 — "Au moins" et "au plus"</div>
+      "Au moins 1" = contraire de "aucun". Penser systématiquement au complémentaire.
+    </div>
+    <div class="alert">
+      <div class="alert-title">PIÈGE 5 — Fréquence ≠ Probabilité</div>
+      Ce ne sont pas la même chose. La fréquence est observée sur un échantillon. La probabilité est théorique.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title green">Tableau récapitulatif</div>
+    <table class="summary-table">
+      <tr>
+        <th>Concept</th><th>Définition</th><th>Formule / exemple</th>
+      </tr>
+      <tr>
+        <td>Probabilité</td>
+        <td>Mesure la chance qu'un événement se produise</td>
+        <td>P(A) = favorables / total</td>
+      </tr>
+      <tr>
+        <td>Événement certain</td>
+        <td>Se réalise toujours</td>
+        <td>P = 1</td>
+      </tr>
+      <tr>
+        <td>Événement impossible</td>
+        <td>Ne se réalise jamais</td>
+        <td>P = 0</td>
+      </tr>
+      <tr>
+        <td>Complémentaire</td>
+        <td>Événement contraire</td>
+        <td>P(Ā) = 1 − P(A)</td>
+      </tr>
+      <tr>
+        <td>Indépendance (arbre)</td>
+        <td>Le résultat de l'un n'influence pas l'autre</td>
+        <td>P(A et B) = P(A) × P(B)</td>
+      </tr>
+      <tr>
+        <td>Loi des grands nombres</td>
+        <td>Fréquence → probabilité quand n → ∞</td>
+        <td>Fréquence ≠ probabilité mais se rapproche</td>
+      </tr>
+    </table>
+  </div>
+
+</div>
+
+</div><!-- /main-content -->
+</div><!-- /page-wrapper -->
+
+<script>
+// ==================== NAVIGATION ====================
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ==================== EXERCISES ====================
+let scores = {};
+const TOTAL = 35;
+
+function updateProgress() {
+  const n = Object.values(scores).filter(Boolean).length;
+  document.getElementById('score-txt').textContent = n + ' / ' + TOTAL;
+  document.getElementById('progress-fill').style.width = (n / TOTAL * 100) + '%';
+}
+
+function checkText(id, answer) {
+  const inp = document.getElementById('inp-' + id);
+  const fb = document.getElementById('fb-' + id);
+  if (!inp || !fb) return;
+  const val = inp.value.trim().replace(',', '.').replace(' ', '');
+  fb.style.display = 'block';
+  if (val === answer) {
+    fb.className = 'feedback correct';
+    fb.textContent = '✓ Correct ! Bien joué.';
+    if (!scores[id]) { scores[id] = true; updateProgress(); }
+  } else {
+    fb.className = 'feedback wrong';
+    fb.textContent = '✗ Pas tout à fait. Ta réponse : ' + val + '. Regarde le corrigé pour comprendre l\'erreur.';
+  }
+}
+
+function checkNum(id, answer) {
+  const inp = document.getElementById('inp-' + id);
+  const fb = document.getElementById('fb-' + id);
+  if (!inp || !fb) return;
+  const val = parseFloat(inp.value.replace(',', '.'));
+  fb.style.display = 'block';
+  if (Math.abs(val - answer) < 0.001) {
+    fb.className = 'feedback correct';
+    fb.textContent = '✓ Correct !';
+    if (!scores[id]) { scores[id] = true; updateProgress(); }
+  } else {
+    fb.className = 'feedback wrong';
+    fb.textContent = '✗ Pas tout à fait. Ta réponse : ' + val + '. Regarde le corrigé.';
+  }
+}
+
+function pickMCQ(id, btn, isCorrect) {
+  const container = document.getElementById('mcq-' + id);
+  const fb = document.getElementById('fb-' + id);
+  container.querySelectorAll('.mcq-btn').forEach(b => b.disabled = true);
+  fb.style.display = 'block';
+  if (isCorrect) {
+    btn.className = 'mcq-btn correct';
+    fb.className = 'feedback correct';
+    fb.textContent = '✓ Correct !';
+    if (!scores[id]) { scores[id] = true; updateProgress(); }
+  } else {
+    btn.className = 'mcq-btn wrong';
+    fb.className = 'feedback wrong';
+    fb.textContent = '✗ Ce n\'est pas la bonne réponse. Regarde le corrigé.';
+  }
+}
+
+function showSolution(id) {
+  const sol = document.getElementById('sol-' + id);
+  if (sol) sol.classList.toggle('visible');
+}
+
+function toggleExo(id) {
+  const body = document.getElementById('body-' + id);
+  const arrow = document.getElementById('arrow-' + id);
+  if (!body) return;
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  arrow.classList.toggle('open', !isOpen);
+}
+
+function filterExos(level, e) {
+  document.querySelectorAll('.filter-tab').forEach(t => t.className = 'filter-tab');
+  const exos = document.querySelectorAll('.exo-card');
+  if (level === 'all') {
+    e.target.className = 'filter-tab active-all';
+    exos.forEach(ex => ex.style.display = '');
+  } else {
+    e.target.className = 'filter-tab active-' + level;
+    exos.forEach(ex => ex.style.display = ex.dataset.level === level ? '' : 'none');
+  }
+}
+
+// ==================== SIMULATION DÉ ====================
+let counts = [0,0,0,0,0,0];
+let totalLancers = 0;
+const faces = ['⚀','⚁','⚂','⚃','⚄','⚅'];
+
+function lancerDe(n) {
+  for (let i = 0; i < n; i++) {
+    const r = Math.floor(Math.random() * 6);
+    counts[r]++;
+    totalLancers++;
+  }
+  const last = Math.floor(Math.random() * 6);
+  document.getElementById('dé-affichage').textContent = faces[last];
+  const max = Math.max(...counts);
+  for (let i = 0; i < 6; i++) {
+    const bar = document.getElementById('bar' + (i+1));
+    const bv = document.getElementById('bv' + (i+1));
+    const h = max > 0 ? Math.max(2, (counts[i] / max) * 90) : 2;
+    bar.style.height = h + 'px';
+    bv.textContent = counts[i];
+  }
+  const freqs = counts.map(c => (c / totalLancers * 100).toFixed(1) + '%');
+  document.getElementById('freq-display').textContent = 'Fréquences : ' + freqs.join(' | ');
+  document.getElementById('total-lancers').textContent = 'Total lancers : ' + totalLancers + ' | Probabilité théorique par face : 16,7%';
+}
+
+function resetDe() {
+  counts = [0,0,0,0,0,0];
+  totalLancers = 0;
+  document.getElementById('dé-affichage').textContent = '🎲';
+  document.getElementById('freq-display').textContent = 'Aucun lancer pour l\'instant.';
+  document.getElementById('total-lancers').textContent = '';
+  for (let i = 0; i < 6; i++) {
+    document.getElementById('bar' + (i+1)).style.height = '2px';
+    document.getElementById('bv' + (i+1)).textContent = '0';
+  }
+}
+</script>
+
+</body>
+</html>
