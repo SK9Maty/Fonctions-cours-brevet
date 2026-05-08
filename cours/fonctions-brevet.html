@@ -43,6 +43,8 @@
   .header h1 { font-family: 'Space Mono', monospace; font-size: 19px; font-weight: 700; }
   .header h1 span { color: var(--accent); }
   .header-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.header-back { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text-muted); text-decoration: none; padding: 6px 12px; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; white-space: nowrap; }
+.header-back:hover { color: var(--accent2); border-color: var(--accent2); }
 
   .nav-scroll { display: flex; gap: 5px; padding: 10px 16px; overflow-x: auto; scrollbar-width: none; background: var(--surface); border-bottom: 1px solid var(--border); }
   .nav-scroll::-webkit-scrollbar { display: none; }
@@ -346,7 +348,7 @@
 <div class="header">
   <div class="header-tag">3ème — Brevet Mathématiques</div>
   <h1>Les <span>Fonctions</span> — Cours Complet</h1>
-  <div class="header-sub">Cours · Exercices · L'intégrale pour le brevet by Maty !</div>
+  <a href="../index.html" class="header-back">← Retour</a>
 </div>
 
 <div class="page-wrapper">

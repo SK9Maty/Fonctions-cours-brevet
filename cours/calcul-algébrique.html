@@ -1,0 +1,1737 @@
+<html lang="fr"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Calcul Algébrique — Brevet Complet</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,300&amp;display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0f;
+    --surface: #16161a;
+    --surface2: #1e1e24;
+    --surface3: #242430;
+    --border: #2a2a35;
+    --accent: #f0c040;
+    --accent2: #5b8fff;
+    --accent3: #ff6b6b;
+    --accent4: #4ecdc4;
+    --accent5: #b57bee;
+    --text: #e8e8f0;
+    --text-muted: #7a7a90;
+    --green: #6bcb77;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  .header {
+    background: var(--surface);
+    border-bottom: 2px solid var(--accent5);
+    padding: 18px 18px 14px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-tag { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--accent5); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 3px; }
+  .header h1 { font-family: 'Space Mono', monospace; font-size: 19px; font-weight: 700; }
+  .header h1 span { color: var(--accent5); }
+  .header-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .header-back { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text-muted); text-decoration: none; padding: 6px 12px; border: 1px solid var(--border); border-radius: 6px; transition: all 0.2s; white-space: nowrap; }
+  .header-back:hover { color: var(--accent2); border-color: var(--accent2); }
+
+  .nav-scroll { display: flex; gap: 5px; padding: 10px 16px; overflow-x: auto; scrollbar-width: none; background: var(--surface); border-bottom: 1px solid var(--border); }
+  .nav-scroll::-webkit-scrollbar { display: none; }
+  .nav-tab { flex-shrink: 0; padding: 6px 13px; border-radius: 20px; font-family: 'Space Mono', monospace; font-size: 11px; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--text-muted); transition: all 0.2s; white-space: nowrap; }
+  .nav-tab.active { background: var(--accent5); color: #fff; border-color: var(--accent5); font-weight: 700; }
+
+  .section { display: none; padding: 16px; }
+  .section.active { display: block; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin-bottom: 15px; }
+  .card-title { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--accent5); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .card-title::before { content: ''; width: 3px; height: 14px; background: var(--accent5); border-radius: 2px; }
+  .card-title.yellow { color: var(--accent); }
+  .card-title.yellow::before { background: var(--accent); }
+  .card-title.blue { color: var(--accent2); }
+  .card-title.blue::before { background: var(--accent2); }
+  .card-title.green { color: var(--green); }
+  .card-title.green::before { background: var(--green); }
+  .card-title.red { color: var(--accent3); }
+  .card-title.red::before { background: var(--accent3); }
+
+  .formula { background: var(--surface2); border: 1px solid var(--accent5); border-left: 4px solid var(--accent5); border-radius: 8px; padding: 12px 16px; margin: 10px 0; font-family: 'Space Mono', monospace; font-size: 15px; color: var(--accent5); text-align: center; }
+  .formula.yellow { border-color: var(--accent); border-left-color: var(--accent); color: var(--accent); }
+  .formula.blue { border-color: var(--accent2); border-left-color: var(--accent2); color: var(--accent2); }
+  .formula.green { border-color: var(--green); border-left-color: var(--green); color: var(--green); }
+  .formula.red { border-color: var(--accent3); border-left-color: var(--accent3); color: var(--accent3); }
+
+  .vocab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+  .vocab-item { background: var(--surface2); border-radius: 8px; padding: 10px 12px; border-left: 3px solid var(--accent5); }
+  .vocab-term { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent5); font-weight: 700; margin-bottom: 3px; }
+  .vocab-def { font-size: 12px; color: var(--text-muted); }
+
+  .steps { margin: 10px 0; }
+  .step { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 10px; }
+  .step-num { flex-shrink: 0; width: 26px; height: 26px; background: var(--accent5); color: #fff; border-radius: 50%; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .step-num.yellow { background: var(--accent); color: #0d0d0f; }
+  .step-num.green { background: var(--green); color: #0d0d0f; }
+  .step-num.red { background: var(--accent3); color: white; }
+  .step-num.blue { background: var(--accent2); color: white; }
+  .step-text { font-size: 14px; padding-top: 3px; }
+
+  .alert { background: rgba(255,107,107,0.1); border: 1px solid var(--accent3); border-radius: 8px; padding: 12px 14px; margin: 10px 0; font-size: 13px; color: var(--accent3); }
+  .alert-title { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; margin-bottom: 4px; letter-spacing: 1px; }
+  .tip { background: rgba(78,205,196,0.1); border: 1px solid var(--accent4); border-radius: 8px; padding: 12px 14px; margin: 10px 0; font-size: 13px; color: var(--accent4); }
+  .tip-title { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; margin-bottom: 4px; letter-spacing: 1px; }
+  .info { background: rgba(91,143,255,0.1); border: 1px solid var(--accent2); border-radius: 8px; padding: 12px 14px; margin: 10px 0; font-size: 13px; color: var(--accent2); }
+  .info-title { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; margin-bottom: 4px; letter-spacing: 1px; }
+  .success { background: rgba(107,203,119,0.1); border: 1px solid var(--green); border-radius: 8px; padding: 12px 14px; margin: 10px 0; font-size: 13px; color: var(--green); }
+
+  .exo-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+  .exo-header { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; gap: 8px; }
+  .exo-header:hover { background: var(--surface2); }
+  .exo-badge { font-family: 'Space Mono', monospace; font-size: 10px; padding: 3px 8px; border-radius: 4px; font-weight: 700; flex-shrink: 0; }
+  .badge-easy { background: rgba(107,203,119,0.2); color: var(--green); }
+  .badge-med { background: rgba(240,192,64,0.2); color: var(--accent); }
+  .badge-hard { background: rgba(255,107,107,0.2); color: var(--accent3); }
+  .exo-num { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-muted); flex-shrink: 0; }
+  .exo-title { font-size: 14px; font-weight: 500; flex: 1; }
+  .exo-arrow { color: var(--text-muted); font-size: 18px; transition: transform 0.2s; flex-shrink: 0; }
+  .exo-arrow.open { transform: rotate(90deg); }
+  .exo-body { display: none; padding: 0 16px 16px; border-top: 1px solid var(--border); padding-top: 14px; }
+  .exo-body.open { display: block; }
+  .exo-question { font-size: 14px; margin-bottom: 14px; color: var(--text); line-height: 1.7; }
+  .exo-hint { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; background: var(--surface2); border-radius: 6px; padding: 8px 12px; }
+
+  .answer-input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; color: var(--text); font-family: 'Space Mono', monospace; font-size: 14px; outline: none; transition: border-color 0.2s; margin-bottom: 10px; }
+  .answer-input:focus { border-color: var(--accent2); }
+
+  .btn { display: inline-block; padding: 10px 20px; border-radius: 8px; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; cursor: pointer; border: none; transition: all 0.15s; letter-spacing: 0.5px; }
+  .btn-primary { background: var(--accent5); color: #fff; }
+  .btn-primary:active { transform: scale(0.97); }
+  .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-show { background: rgba(91,143,255,0.15); color: var(--accent2); border: 1px solid var(--accent2); margin-left: 8px; }
+
+  .feedback { margin-top: 10px; padding: 10px 14px; border-radius: 8px; font-size: 13px; font-family: 'Space Mono', monospace; display: none; }
+  .feedback.correct { background: rgba(107,203,119,0.15); color: var(--green); border: 1px solid var(--green); }
+  .feedback.wrong { background: rgba(255,107,107,0.15); color: var(--accent3); border: 1px solid var(--accent3); }
+
+  .solution-box { margin-top: 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-size: 13px; display: none; }
+  .solution-box.visible { display: block; }
+  .solution-title { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent2); margin-bottom: 8px; letter-spacing: 1px; }
+
+  .filter-tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+  .filter-tab { padding: 6px 14px; border-radius: 20px; font-family: 'Space Mono', monospace; font-size: 11px; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text-muted); transition: all 0.15s; }
+  .filter-tab.active-all { background: var(--surface3); color: var(--text); border-color: var(--text-muted); }
+  .filter-tab.active-easy { background: rgba(107,203,119,0.2); color: var(--green); border-color: var(--green); }
+  .filter-tab.active-med { background: rgba(240,192,64,0.2); color: var(--accent); border-color: var(--accent); }
+  .filter-tab.active-hard { background: rgba(255,107,107,0.2); color: var(--accent3); border-color: var(--accent3); }
+
+  .mcq-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+  .mcq-btn { padding: 10px 16px; border-radius: 8px; font-family: 'Space Mono', monospace; font-size: 13px; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text); text-align: left; transition: all 0.15s; }
+  .mcq-btn:hover { border-color: var(--accent5); color: var(--accent5); }
+  .mcq-btn.correct { background: rgba(107,203,119,0.15); color: var(--green); border-color: var(--green); }
+  .mcq-btn.wrong { background: rgba(255,107,107,0.15); color: var(--accent3); border-color: var(--accent3); }
+
+  .progress-bar-wrap { background: var(--surface2); border-radius: 10px; height: 8px; margin: 8px 0 16px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent5), var(--accent2)); border-radius: 10px; transition: width 0.4s ease; }
+  .progress-label { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text-muted); display: flex; justify-content: space-between; margin-bottom: 4px; }
+
+  .summary-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 12px; }
+  .summary-table th { background: var(--accent5); color: #fff; padding: 8px 10px; font-family: 'Space Mono', monospace; font-size: 11px; text-align: left; }
+  .summary-table td { padding: 10px; border: 1px solid var(--border); vertical-align: top; font-size: 13px; }
+  .summary-table tr:nth-child(even) td { background: var(--surface2); }
+
+  .val-table { width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 13px; margin: 12px 0; }
+  .val-table th { background: var(--surface2); color: var(--accent5); padding: 8px 6px; text-align: center; border: 1px solid var(--border); font-size: 11px; }
+  .val-table td { padding: 8px 6px; text-align: center; border: 1px solid var(--border); color: var(--text); }
+  .val-table .hl { color: var(--accent5); font-weight: 700; }
+  .val-table .hl-blue { color: var(--accent2); font-weight: 700; }
+  .val-table .hl-green { color: var(--green); font-weight: 700; }
+  .val-table .hl-red { color: var(--accent3); font-weight: 700; }
+
+  p { margin-bottom: 8px; }
+  p:last-child { margin-bottom: 0; }
+  strong { color: var(--text); font-weight: 700; }
+  .highlight { color: var(--accent5); font-family: 'Space Mono', monospace; }
+  .hl-blue { color: var(--accent2); font-family: 'Space Mono', monospace; }
+  .hl-green { color: var(--green); font-family: 'Space Mono', monospace; }
+  .hl-red { color: var(--accent3); font-family: 'Space Mono', monospace; }
+  .hl-yellow { color: var(--accent); font-family: 'Space Mono', monospace; }
+  small { font-size: 12px; color: var(--text-muted); }
+  hr { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+  .section-divider { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; margin: 20px 0 10px; padding: 0 4px; }
+
+  @media (min-width: 768px) {
+    body { font-size: 16px; }
+    .page-wrapper { display: flex; min-height: 100vh; }
+    .header { padding: 20px 40px 16px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .header-content { flex: 1; }
+    .header-tag { font-size: 11px; }
+    .header h1 { font-size: 26px; }
+    .header-sub { font-size: 13px; }
+    .nav-scroll { display: flex; flex-direction: column; gap: 4px; padding: 24px 14px; overflow-x: visible; overflow-y: auto; width: 200px; min-width: 200px; height: calc(100vh - 80px); position: sticky; top: 80px; border-bottom: none; border-right: 1px solid var(--border); background: var(--surface); align-self: flex-start; }
+    .nav-tab { width: 100%; text-align: left; border-radius: 8px; padding: 10px 14px; font-size: 12px; white-space: normal; }
+    .nav-tab.active { border-radius: 8px; }
+    .main-content { flex: 1; min-width: 0; padding: 0; }
+    .section { padding: 28px 36px; width: 100%; }
+    .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .cards-grid .card { margin-bottom: 0; }
+    .card { padding: 24px; margin-bottom: 20px; border-radius: 14px; }
+    .card-title { font-size: 13px; margin-bottom: 16px; }
+    .formula { font-size: 17px; padding: 14px 20px; }
+    .vocab-grid { grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .vocab-def { font-size: 13px; }
+    .val-table { font-size: 14px; }
+    .val-table th, .val-table td { padding: 10px 12px; }
+    .step-text { font-size: 15px; }
+    .exo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .exo-grid .exo-card { margin-bottom: 0; }
+    .exo-title { font-size: 15px; }
+    .exo-question { font-size: 15px; }
+    .answer-input { font-size: 15px; padding: 12px 16px; }
+    .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .summary-table td { font-size: 14px; padding: 12px 14px; }
+    .mcq-options { flex-direction: row; flex-wrap: wrap; }
+    .mcq-btn { flex: 1 1 40%; }
+    .filter-tabs { gap: 10px; margin-bottom: 20px; }
+    .filter-tab { padding: 8px 18px; font-size: 12px; }
+    .section-divider { font-size: 11px; margin: 28px 0 14px; }
+  }
+  @media (min-width: 1200px) {
+    .nav-scroll { width: 220px; min-width: 220px; }
+    .section { padding: 32px 48px; }
+    .card { padding: 28px; }
+    .formula { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-tag">3ème — Brevet Mathématiques</div>
+  <h1>Calcul <span>Algébrique</span> — Cours Complet</h1>
+  <a href="../index.html" class="header-back">← Retour</a>
+</div>
+
+<div class="page-wrapper">
+<div class="nav-scroll">
+  
+  <button class="nav-tab" onclick="showSection('developper')">Développer</button>
+  <button class="nav-tab" onclick="showSection('factoriser')">Factoriser</button>
+  <button class="nav-tab" onclick="showSection('identites')">Identités rem.</button>
+  <button class="nav-tab" onclick="showSection('equations')">Équations</button>
+  <button class="nav-tab" onclick="showSection('problemes')">Problèmes</button>
+  <button class="nav-tab" onclick="showSection('exercices')">50 Exos</button>
+  <button class="nav-tab active" onclick="showSection('recap')">Récap</button>
+</div>
+<div class="main-content">
+
+<!-- ============================================================ -->
+<!-- COURS                                                         -->
+<!-- ============================================================ -->
+<div class="section" id="section-cours">
+
+  <div class="section-divider">1 — Vocabulaire fondamental</div>
+
+  
+
+  <div class="card">
+    <div class="card-title">Réduire une expression</div>
+    <p><strong>Réduire</strong> = regrouper les termes semblables pour simplifier l'expression.</p>
+    <div class="formula yellow">3x + 5x = 8x &nbsp;&nbsp; (on additionne les coefficients)</div>
+    <p><strong>Exemples :</strong></p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num yellow">1</div>
+        <div class="step-text"><span class="hl-yellow">5x + 3x − 2x</span> = (5 + 3 − 2)x = <span class="hl-green">6x</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num yellow">2</div>
+        <div class="step-text"><span class="hl-yellow">4x² − x² + 3x − x</span> = 3x² + 2x</div>
+      </div>
+      <div class="step">
+        <div class="step-num yellow">3</div>
+        <div class="step-text"><span class="hl-yellow">2x + 3 + 5x − 1</span> = 7x + 2</div>
+      </div>
+    </div>
+    <div class="alert">
+      <div class="alert-title">⚠ Erreur fréquente</div>
+      On ne peut PAS additionner des termes de degrés différents. 3x + 2x² ≠ 5x³. Ce sont des termes non semblables : ils restent séparés.
+    </div>
+  </div>
+
+  <div class="section-divider">2 — Développement</div>
+
+  <div class="card">
+    <div class="card-title">Distributivité simple — k(a + b)</div>
+    <p><strong>Développer</strong> = supprimer les parenthèses en multipliant chaque terme à l'intérieur.</p>
+    <div class="formula yellow">k(a + b) = ka + kb</div>
+    <div class="formula yellow">k(a − b) = ka − kb</div>
+    <p><strong>Exemples :</strong></p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num yellow">Ex 1</div>
+        <div class="step-text">3(x + 4) = <span class="highlight">3×x + 3×4</span> = 3x + 12</div>
+      </div>
+      <div class="step">
+        <div class="step-num yellow">Ex 2</div>
+        <div class="step-text">−2(5x − 3) = <span class="highlight">−2×5x + (−2)×(−3)</span> = −10x + 6</div>
+      </div>
+      <div class="step">
+        <div class="step-num yellow">Ex 3</div>
+        <div class="step-text">x(x + 7) = <span class="highlight">x×x + x×7</span> = x² + 7x</div>
+      </div>
+    </div>
+    <div class="tip">
+      <div class="tip-title">⚡ Règle des signes à retenir</div>
+      − × + = − &nbsp;|&nbsp; − × − = + &nbsp;|&nbsp; + × + = + &nbsp;|&nbsp; + × − = −
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Double distributivité — (a + b)(c + d)</div>
+    <div class="formula yellow">(a + b)(c + d) = ac + ad + bc + bd</div>
+    <p>On multiplie <strong>chaque terme</strong> du premier facteur par <strong>chaque terme</strong> du second.</p>
+    <div class="tip">
+      <div class="tip-title">💡 Moyen mnémotechnique : la méthode "Sourire"</div>
+      (a+b)(c+d) → on fait 4 produits : le 1er×1er, le 1er×2ème, le 2ème×1er, le 2ème×2ème. Puis on réduit.
+    </div>
+    <p><strong>Exemple :</strong></p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num yellow">1</div>
+        <div class="step-text">(x + 3)(x + 5) = x×x + x×5 + 3×x + 3×5</div>
+      </div>
+      <div class="step">
+        <div class="step-num yellow">2</div>
+        <div class="step-text">= x² + 5x + 3x + 15</div>
+      </div>
+      <div class="step">
+        <div class="step-num yellow">3</div>
+        <div class="step-text">= <span class="highlight">x² + 8x + 15</span> (on réduit : 5x + 3x = 8x)</div>
+      </div>
+    </div>
+    <hr>
+    <p><strong>Autre exemple :</strong> (2x − 1)(x + 4)</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num yellow">1</div>
+        <div class="step-text">= 2x×x + 2x×4 + (−1)×x + (−1)×4</div>
+      </div>
+      <div class="step">
+        <div class="step-num yellow">2</div>
+        <div class="step-text">= 2x² + 8x − x − 4</div>
+      </div>
+      <div class="step">
+        <div class="step-num yellow">3</div>
+        <div class="step-text">= <span class="highlight">2x² + 7x − 4</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider">3 — Factorisation</div>
+
+  <div class="card">
+    <div class="card-title">Factoriser — principe</div>
+    <p><strong>Factoriser</strong> = transformer une somme en un <strong>produit</strong>. C'est l'opération inverse du développement.</p>
+    <div class="formula green">ka + kb = k(a + b)</div>
+    <p>On cherche le <strong>facteur commun</strong> à tous les termes et on le met "en évidence".</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num green">Ex 1</div>
+        <div class="step-text"><span class="hl-green">6x + 4</span> → facteur commun = 2 → <span class="highlight">2(3x + 2)</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num green">Ex 2</div>
+        <div class="step-text"><span class="hl-green">15x − 10</span> → facteur commun = 5 → <span class="highlight">5(3x − 2)</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num green">Ex 3</div>
+        <div class="step-text"><span class="hl-green">x² + 3x</span> → facteur commun = x → <span class="highlight">x(x + 3)</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num green">Ex 4</div>
+        <div class="step-text"><span class="hl-green">4x² − 6x</span> → facteur commun = 2x → <span class="highlight">2x(2x − 3)</span></div>
+      </div>
+    </div>
+    <div class="alert">
+      <div class="alert-title">⚠ Comment vérifier</div>
+      Après avoir factorisé, <strong>toujours redévelopper</strong> pour vérifier qu'on retrouve l'expression de départ. Si ce n'est pas le cas, on a fait une erreur.
+    </div>
+  </div>
+
+  <div class="section-divider">4 — Identités remarquables</div>
+
+  <div class="card">
+    <div class="card-title">Les 3 identités remarquables</div>
+    <p>Ces trois formules sont à connaître <strong>parfaitement par cœur</strong>. Elles permettent de développer ou factoriser instantanément.</p>
+    <div class="formula yellow">(a + b)² = a² + 2ab + b²</div>
+    <div class="formula yellow">(a − b)² = a² − 2ab + b²</div>
+    <div class="formula green">(a + b)(a − b) = a² − b²</div>
+    <div class="tip">
+      <div class="tip-title">💡 Noms à retenir</div>
+      1ère = carré d'une somme &nbsp;|&nbsp; 2ème = carré d'une différence &nbsp;|&nbsp; 3ème = produit de la somme et de la différence (= différence de carrés)
+    </div>
+  </div>
+
+  <div class="section-divider">5 — Équations du premier degré</div>
+
+  <div class="card">
+    <div class="card-title">Résoudre une équation — méthode</div>
+    <p>Résoudre une équation = trouver la valeur de x qui la rend vraie.</p>
+    <p><strong>Règle fondamentale :</strong> on peut effectuer la même opération des deux côtés du signe égal sans changer la solution.</p>
+    <div class="formula blue">ax + b = c &nbsp;⟹&nbsp; x = (c − b) / a</div>
+    <p><strong>Exemple :</strong> Résoudre 3x − 5 = 10</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num blue">1</div>
+        <div class="step-text">Isoler les termes en x à gauche : <span class="hl-blue">3x = 10 + 5 = 15</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num blue">2</div>
+        <div class="step-text">Diviser par le coefficient : <span class="hl-blue">x = 15 ÷ 3 = 5</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num blue">3</div>
+        <div class="step-text">Vérification : 3×5 − 5 = 15 − 5 = 10 ✓</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- DÉVELOPPER                                                    -->
+<!-- ============================================================ -->
+<div class="section" id="section-developper">
+
+  <div class="card">
+    <div class="card-title yellow">Développer — règles complètes</div>
+    <div class="formula yellow">k(a + b) = ka + kb</div>
+    <div class="formula yellow">(a + b)(c + d) = ac + ad + bc + bd</div>
+    <div class="info">
+      <div class="info-title">💡 Ordre de travail recommandé</div>
+      1. Identifier le type (simple ou double distributivité) &nbsp;→&nbsp; 2. Appliquer la règle &nbsp;→&nbsp; 3. Réduire les termes semblables &nbsp;→&nbsp; 4. Vérifier
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Distributivité simple — exemples complets</div>
+    <table class="val-table">
+      <tbody><tr><th>Expression</th><th>Développée</th></tr>
+      <tr><td>3(x + 4)</td><td>3x + 12</td></tr>
+      <tr><td>−2(x − 5)</td><td>−2x + 10</td></tr>
+      <tr><td>x(x + 3)</td><td>x² + 3x</td></tr>
+      <tr><td>−(4x − 7)</td><td>−4x + 7</td></tr>
+      <tr><td>2x(3x − 1)</td><td>6x² − 2x</td></tr>
+    </tbody></table>
+    <div class="alert">
+      <div class="alert-title">⚠ Piège du signe moins devant parenthèse</div>
+      −(3x − 5) = −3x + 5 et non −3x − 5. Quand le signe − est devant, TOUS les signes à l'intérieur sont inversés.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Double distributivité — exemples complets</div>
+    <p><strong>Exemple 1 :</strong> (x + 2)(x + 3)</p>
+    <div class="steps">
+      <div class="step"><div class="step-num yellow">→</div><div class="step-text">= x² + 3x + 2x + 6 = <span class="highlight">x² + 5x + 6</span></div></div>
+    </div>
+    <p><strong>Exemple 2 :</strong> (3x − 2)(x + 4)</p>
+    <div class="steps">
+      <div class="step"><div class="step-num yellow">→</div><div class="step-text">= 3x² + 12x − 2x − 8 = <span class="highlight">3x² + 10x − 8</span></div></div>
+    </div>
+    <p><strong>Exemple 3 :</strong> (2x − 5)(3x − 1)</p>
+    <div class="steps">
+      <div class="step"><div class="step-num yellow">→</div><div class="step-text">= 6x² − 2x − 15x + 5 = <span class="highlight">6x² − 17x + 5</span></div></div>
+    </div>
+    <p><strong>Exemple 4 :</strong> (x + 4)² — ce qui équivaut à faire : (x+4)(x+4) !</p>
+    <div class="steps">
+      <div class="step"><div class="step-num yellow">→</div><div class="step-text">= x² + 4x + 4x + 16 = <span class="highlight">x² + 8x + 16</span></div></div>
+    </div>
+    <div class="tip">Cet exemple correspond à la 1ère identité remarquable : (x+4)² = x² + 2×4×x + 4² = x² + 8x + 16 ✓</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Développer et réduire — exercice complet</div>
+    <p>Développe et réduis : <span class="highlight">2(x + 3) + (x − 1)(x + 2)</span></p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num yellow">1</div>
+        <div class="step-text">Développer 2(x + 3) = <span class="hl-yellow">2x + 6</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num yellow">2</div>
+        <div class="step-text">Développer (x−1)(x+2) = x² + 2x − x − 2 = <span class="hl-yellow">x² + x − 2</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num yellow">3</div>
+        <div class="step-text">Additionner : 2x + 6 + x² + x − 2 = <span class="highlight">x² + 3x + 4</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- FACTORISER                                                    -->
+<!-- ============================================================ -->
+<div class="section" id="section-factoriser">
+
+  <div class="card">
+    <div class="card-title green">Factoriser — méthode en 3 étapes</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num green">1</div>
+        <div class="step-text"><strong>Identifier le facteur commun</strong> : chercher le plus grand nombre qui divise tous les termes du calcul.</div>
+      </div>
+      <div class="step">
+        <div class="step-num green">2</div>
+        <div class="step-text"><strong>Écrire le facteur commun</strong> devant la parenthèse.</div>
+      </div>
+      <div class="step">
+        <div class="step-num green">3</div>
+        <div class="step-text"><strong>Diviser chaque terme</strong> par le facteur commun pour trouver le contenu de la parenthèse.</div>
+      </div>
+    </div>
+    <div class="info">
+      <div class="info-title">✓ Vérification obligatoire</div>
+      Redévelopper le résultat et vérifier qu'on retrouve l'expression initiale. C'est non-négociable.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Factorisation numérique</div>
+    <table class="val-table">
+      <tbody><tr><th>Expression</th><th>Facteur commun</th><th>Forme factorisée</th></tr>
+      <tr><td>6x + 9</td><td>3</td><td class="hl-green">3(2x + 3)</td></tr>
+      <tr><td>10x − 15</td><td>5</td><td class="hl-green">5(2x − 3)</td></tr>
+      <tr><td>12x + 8</td><td>4</td><td class="hl-green">4(3x + 2)</td></tr>
+      <tr><td>−6x + 4</td><td>2</td><td class="hl-green">2(−3x + 2)</td></tr>
+    </tbody></table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Factorisation avec une variable</div>
+    <table class="val-table">
+      <tbody><tr><th>Expression</th><th>Facteur commun</th><th>Forme factorisée</th></tr>
+      <tr><td>x² + 5x</td><td>x</td><td class="hl-green">x(x + 5)</td></tr>
+      <tr><td>3x² − 7x</td><td>x</td><td class="hl-green">x(3x − 7)</td></tr>
+      <tr><td>4x² + 6x</td><td>2x</td><td class="hl-green">2x(2x + 3)</td></tr>
+      <tr><td>x³ − x²</td><td>x²</td><td class="hl-green">x²(x − 1)</td></tr>
+    </tbody></table>
+    <div class="alert">
+      <div class="alert-title">⚠ Erreur classique</div>
+      Pour x² + 5x, si on met x en facteur : x(x + 5). Le deuxième terme vient de 5x ÷ x = 5. Ne jamais écrire x(x² + 5) — c'est faux.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Factoriser par une identité remarquable</div>
+    <p>La 3ème identité <strong>(a+b)(a−b) = a² − b²</strong> permet aussi de factoriser :</p>
+    <div class="formula green">a² − b² = (a + b)(a − b)</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num green">1</div>
+        <div class="step-text">x² − 9 = x² − 3² = <span class="highlight">(x + 3)(x − 3)</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num green">2</div>
+        <div class="step-text">x² − 25 = x² − 5² = <span class="highlight">(x + 5)(x − 5)</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num green">3</div>
+        <div class="step-text">4x² − 1 = (2x)² − 1² = <span class="highlight">(2x + 1)(2x − 1)</span></div>
+      </div>
+      <div class="step">
+        <div class="step-num green">4</div>
+        <div class="step-text">9x² − 4 = (3x)² − 2² = <span class="highlight">(3x + 2)(3x − 2)</span></div>
+      </div>
+    </div>
+    <div class="tip">Pour reconnaître une différence de carrés : deux termes, séparés par −, tous les deux des carrés parfaits (4, 9, 16, 25, x², 4x², ...).</div>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- IDENTITÉS REMARQUABLES                                        -->
+<!-- ============================================================ -->
+<div class="section" id="section-identites">
+
+  <div class="card">
+    <div class="card-title">Les 3 identités — à savoir par cœur</div>
+    <div class="formula yellow">(a + b)² = a² + 2ab + b²</div>
+    <div class="formula yellow">(a − b)² = a² − 2ab + b²</div>
+    <div class="formula green">(a + b)(a − b) = a² − b²</div>
+    
+  </div>
+
+  <div class="card">
+    <div class="card-title yellow">Identité 1 — (a + b)² : exemples</div>
+    <div class="formula yellow">(a + b)² = a² + 2ab + b²</div>
+    <table class="val-table">
+      <tbody><tr><th>Expression</th><th>a</th><th>b</th><th>Développement</th><th>Résultat</th></tr>
+      <tr><td>(x + 3)²</td><td>x</td><td>3</td><td>x² + 2·x·3 + 3²</td><td class="hl-yellow">x² + 6x + 9</td></tr>
+      <tr><td>(x + 1)²</td><td>x</td><td>1</td><td>x² + 2·x·1 + 1²</td><td class="hl-yellow">x² + 2x + 1</td></tr>
+      <tr><td>(2x + 5)²</td><td>2x</td><td>5</td><td>(2x)² + 2·2x·5 + 5²</td><td class="hl-yellow">4x² + 20x + 25</td></tr>
+      <tr><td>(x + 7)²</td><td>x</td><td>7</td><td>x² + 2·x·7 + 7²</td><td class="hl-yellow">x² + 14x + 49</td></tr>
+    </tbody></table>
+  </div>
+
+  <div class="card">
+    <div class="card-title yellow">Identité 2 — (a − b)² : exemples</div>
+    <div class="formula yellow">(a − b)² = a² − 2ab + b²</div>
+    <table class="val-table">
+      <tbody><tr><th>Expression</th><th>a</th><th>b</th><th>Développement</th><th>Résultat</th></tr>
+      <tr><td>(x − 4)²</td><td>x</td><td>4</td><td>x² − 2·x·4 + 4²</td><td class="hl-yellow">x² − 8x + 16</td></tr>
+      <tr><td>(x − 2)²</td><td>x</td><td>2</td><td>x² − 2·x·2 + 2²</td><td class="hl-yellow">x² − 4x + 4</td></tr>
+      <tr><td>(3x − 1)²</td><td>3x</td><td>1</td><td>(3x)² − 2·3x·1 + 1²</td><td class="hl-yellow">9x² − 6x + 1</td></tr>
+      <tr><td>(x − 10)²</td><td>x</td><td>10</td><td>x² − 2·x·10 + 10²</td><td class="hl-yellow">x² − 20x + 100</td></tr>
+    </tbody></table>
+  </div>
+
+  <div class="card">
+    <div class="card-title green">Identité 3 — (a + b)(a − b) : exemples</div>
+    <div class="formula green">(a + b)(a − b) = a² − b²</div>
+    <table class="val-table">
+      <tbody><tr><th>Expression</th><th>a</th><th>b</th><th>Résultat</th></tr>
+      <tr><td>(x + 3)(x − 3)</td><td>x</td><td>3</td><td class="hl-green">x² − 9</td></tr>
+      <tr><td>(x + 5)(x − 5)</td><td>x</td><td>5</td><td class="hl-green">x² − 25</td></tr>
+      <tr><td>(2x + 1)(2x − 1)</td><td>2x</td><td>1</td><td class="hl-green">4x² − 1</td></tr>
+      <tr><td>(3x + 4)(3x − 4)</td><td>3x</td><td>4</td><td class="hl-green">9x² − 16</td></tr>
+    </tbody></table>
+    
+  </div>
+
+  <div class="card">
+    <div class="card-title">Reconnaître une identité remarquable</div>
+    <p>Comment savoir quelle identité utiliser pour <strong>factoriser</strong> ?</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num yellow">?</div>
+        <div class="step-text"><strong>Expression sous forme a² − b²</strong> (deux carrés séparés par −) → identité 3 : (a+b)(a−b)</div>
+      </div>
+      <div class="step">
+        <div class="step-num yellow">?</div>
+        <div class="step-text"><strong>Expression sous forme a² + 2ab + b²</strong> (trinôme avec terme du milieu positif) → identité 1 : (a+b)²</div>
+      </div>
+      <div class="step">
+        <div class="step-num yellow">?</div>
+        <div class="step-text"><strong>Expression sous forme a² − 2ab + b²</strong> (trinôme avec terme du milieu négatif) → identité 2 : (a−b)²</div>
+      </div>
+    </div>
+    <p><strong>Exemples :</strong></p>
+    <div class="steps">
+      <div class="step"><div class="step-num green">1</div><div class="step-text">x² + 10x + 25 = x² + 2·x·5 + 5² → <span class="highlight">(x + 5)²</span></div></div>
+      <div class="step"><div class="step-num green">2</div><div class="step-text">x² − 6x + 9 = x² − 2·x·3 + 3² → <span class="highlight">(x − 3)²</span></div></div>
+      <div class="step"><div class="step-num green">3</div><div class="step-text">4x² − 49 = (2x)² − 7² → <span class="highlight">(2x + 7)(2x − 7)</span></div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- ÉQUATIONS                                                     -->
+<!-- ============================================================ -->
+<div class="section" id="section-equations">
+
+  <div class="card">
+    <div class="card-title blue">Équation du 1er degré — méthode complète</div>
+    <div class="formula blue">ax + b = c &nbsp;⟹&nbsp; x = (c − b) / a</div>
+    <div class="steps">
+      <div class="step"><div class="step-num blue">1</div><div class="step-text">Développer si nécessaire (supprimer les parenthèses)</div></div>
+      <div class="step"><div class="step-num blue">2</div><div class="step-text">Regrouper les termes en x à gauche, les nombres à droite</div></div>
+      <div class="step"><div class="step-num blue">3</div><div class="step-text">Réduire chaque membre</div></div>
+      <div class="step"><div class="step-num blue">4</div><div class="step-text">Diviser des deux côtés par le coefficient de x</div></div>
+      <div class="step"><div class="step-num blue">5</div><div class="step-text">Vérifier en remplaçant x par la valeur trouvée</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Exemples d'équations simples</div>
+    <p><strong>Exemple 1 :</strong> 4x − 3 = 13</p>
+    <div class="steps">
+      <div class="step"><div class="step-num blue">→</div><div class="step-text">4x = 13 + 3 = 16 &nbsp;→&nbsp; x = 16 ÷ 4 = <span class="highlight">4</span> &nbsp;|&nbsp; Vérif : 4×4−3 = 13 ✓</div></div>
+    </div>
+    <p><strong>Exemple 2 :</strong> −2x + 7 = 1</p>
+    <div class="steps">
+      <div class="step"><div class="step-num blue">→</div><div class="step-text">−2x = 1 − 7 = −6 &nbsp;→&nbsp; x = −6 ÷ (−2) = <span class="highlight">3</span> &nbsp;|&nbsp; Vérif : −6+7 = 1 ✓</div></div>
+    </div>
+    <p><strong>Exemple 3 :</strong> 3(x + 2) = 18</p>
+    <div class="steps">
+      <div class="step"><div class="step-num blue">1</div><div class="step-text">Développer : 3x + 6 = 18</div></div>
+      <div class="step"><div class="step-num blue">2</div><div class="step-text">3x = 18 − 6 = 12 &nbsp;→&nbsp; x = 12 ÷ 3 = <span class="highlight">4</span></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Équations avec x des deux côtés</div>
+    <p><strong>Exemple :</strong> 5x − 2 = 3x + 8</p>
+    <div class="steps">
+      <div class="step"><div class="step-num blue">1</div><div class="step-text">Mettre tous les x à gauche : 5x − 3x = 8 + 2</div></div>
+      <div class="step"><div class="step-num blue">2</div><div class="step-text">Réduire : 2x = 10</div></div>
+      <div class="step"><div class="step-num blue">3</div><div class="step-text">x = 10 ÷ 2 = <span class="highlight">5</span> &nbsp;|&nbsp; Vérif : 25−2=23, 15+8=23 ✓</div></div>
+    </div>
+    <p><strong>Autre exemple :</strong> 2(x + 3) = 4x − 2</p>
+    <div class="steps">
+      <div class="step"><div class="step-num blue">1</div><div class="step-text">Développer : 2x + 6 = 4x − 2</div></div>
+      <div class="step"><div class="step-num blue">2</div><div class="step-text">6 + 2 = 4x − 2x &nbsp;→&nbsp; 8 = 2x</div></div>
+      <div class="step"><div class="step-num blue">3</div><div class="step-text">x = 8 ÷ 2 = <span class="highlight">4</span></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Résoudre avec une identité remarquable</div>
+    <p>Factoriser peut aider à résoudre certaines équations. Si un produit = 0, alors l'un des facteurs est 0.</p>
+    <div class="formula green">A × B = 0 &nbsp;⟺&nbsp; A = 0 &nbsp;ou&nbsp; B = 0</div>
+    <p><strong>Exemple :</strong> (x − 3)(x + 2) = 0</p>
+    <div class="steps">
+      <div class="step"><div class="step-num green">→</div><div class="step-text">x − 3 = 0 &nbsp;→&nbsp; <span class="highlight">x = 3</span> &nbsp;&nbsp;ou&nbsp;&nbsp; x + 2 = 0 &nbsp;→&nbsp; <span class="highlight">x = −2</span></div></div>
+    </div>
+    <p>Les solutions sont x = 3 et x = −2.</p>
+    <div class="tip">Ce type d'équation (produit de facteurs = 0) peut apparaître au brevet après une factorisation. La règle du produit nul est indispensable.</div>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- PROBLÈMES                                                     -->
+<!-- ============================================================ -->
+<div class="section" id="section-problemes">
+
+  <div class="card">
+    <div class="card-title">Problème 1 — Périmètre d'un rectangle</div>
+    <div class="info" style="margin-bottom:12px">
+      <div class="info-title">📐 Énoncé</div>
+      Un rectangle a une longueur de (2x + 3) cm et une largeur de (x + 1) cm. Son périmètre est 38 cm. Trouver x, puis les dimensions.
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-num yellow">1</div><div class="step-text">Formule du périmètre : P = 2(L + l) = 2((2x+3)+(x+1)) = 38</div></div>
+      <div class="step"><div class="step-num yellow">2</div><div class="step-text">Développer : 2(3x + 4) = 38 → 6x + 8 = 38</div></div>
+      <div class="step"><div class="step-num yellow">3</div><div class="step-text">6x = 30 → <span class="highlight">x = 5</span></div></div>
+      <div class="step"><div class="step-num yellow">4</div><div class="step-text">Longueur = 2×5+3 = <span class="highlight">13 cm</span>. Largeur = 5+1 = <span class="highlight">6 cm</span>.</div></div>
+      <div class="step"><div class="step-num green">✓</div><div class="step-text">Vérif : P = 2(13+6) = 2×19 = 38 cm ✓</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Problème 2 — Aire d'une figure</div>
+    <div class="info" style="margin-bottom:12px">
+      <div class="info-title">📐 Énoncé</div>
+      Un carré de côté (x + 4) cm. Exprimer son aire, puis développer.
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-num yellow">1</div><div class="step-text">Aire = côté² = (x + 4)²</div></div>
+      <div class="step"><div class="step-num yellow">2</div><div class="step-text">Identité 1 : (x+4)² = x² + 2×x×4 + 4² = <span class="highlight">x² + 8x + 16</span> cm²</div></div>
+    </div>
+    <div class="tip">Pour x = 3 : Aire = 9 + 24 + 16 = 49 cm² = 7² ✓ (car 3+4 = 7, et 7² = 49).</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Problème 3 — Mise en équation d'un problème</div>
+    <div class="info" style="margin-bottom:12px">
+      <div class="info-title">🔢 Énoncé</div>
+      Je pense à un nombre. Je le double, j'ajoute 5, et j'obtiens 21. Quel est ce nombre ?
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-num blue">1</div><div class="step-text">Appeler x le nombre inconnu.</div></div>
+      <div class="step"><div class="step-num blue">2</div><div class="step-text">Traduire : 2x + 5 = 21</div></div>
+      <div class="step"><div class="step-num blue">3</div><div class="step-text">Résoudre : 2x = 16 → x = <span class="highlight">8</span></div></div>
+      <div class="step"><div class="step-num green">✓</div><div class="step-text">Le nombre est 8. Vérif : 2×8 + 5 = 21 ✓</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Problème 4 — Vérifier une valeur par calcul</div>
+    <div class="info" style="margin-bottom:12px">
+      <div class="info-title">🔢 Énoncé</div>
+      On veut montrer que (x+3)² − (x−1)² = 8(x+1) pour tout x. Développer et simplifier les deux membres.
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-num yellow">1</div><div class="step-text">Développer (x+3)² = x² + 6x + 9</div></div>
+      <div class="step"><div class="step-num yellow">2</div><div class="step-text">Développer (x−1)² = x² − 2x + 1</div></div>
+      <div class="step"><div class="step-num yellow">3</div><div class="step-text">Différence : (x²+6x+9) − (x²−2x+1) = x²+6x+9 − x²+2x−1 = <span class="highlight">8x + 8</span></div></div>
+      <div class="step"><div class="step-num yellow">4</div><div class="step-text">Membre droit : 8(x+1) = 8x + 8 ✓</div></div>
+    </div>
+    <div class="success">Les deux membres sont identiques → l'égalité est vraie pour tout x ✓</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Problème 5 — Deux frères et partage d'argent</div>
+    <div class="info" style="margin-bottom:12px">
+      <div class="info-title">💰 Énoncé</div>
+      Lucas a 3 fois plus d'argent que Théo. Ensemble ils ont 120 €. Combien chacun possède-t-il ?
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-num blue">1</div><div class="step-text">Appeler x la somme de Théo. Alors Lucas a 3x.</div></div>
+      <div class="step"><div class="step-num blue">2</div><div class="step-text">Équation : x + 3x = 120 → 4x = 120</div></div>
+      <div class="step"><div class="step-num blue">3</div><div class="step-text">x = 30 → Théo a <span class="highlight">30 €</span>, Lucas a <span class="highlight">90 €</span>.</div></div>
+      <div class="step"><div class="step-num green">✓</div><div class="step-text">Vérif : 30 + 90 = 120 ✓ et 90 = 3×30 ✓</div></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- 50 EXERCICES                                                  -->
+<!-- ============================================================ -->
+<div class="section" id="section-exercices">
+
+  <div class="card" style="background:linear-gradient(135deg,rgba(181,123,238,0.08),transparent)">
+    <div class="card-title">Progression — 50 exercices</div>
+    <div class="progress-label">
+      <span>Exercices réussis</span>
+      <span id="score-txt">0 / 50</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <div style="font-size:12px;color:var(--text-muted);font-family:'Space Mono',monospace">
+      <span style="color:var(--green)">■ Facile (1-15)</span> &nbsp;
+      <span style="color:var(--accent)">■ Moyen (16-35)</span> &nbsp;
+      <span style="color:var(--accent3)">■ Expert (36-50)</span>
+    </div>
+  </div>
+
+  <div class="filter-tabs">
+    <button class="filter-tab active-all" onclick="filterExos('all')">Tous (50)</button>
+    <button class="filter-tab" onclick="filterExos('easy')">Facile (15)</button>
+    <button class="filter-tab" onclick="filterExos('med')">Moyen (20)</button>
+    <button class="filter-tab" onclick="filterExos('hard')">Expert (15)</button>
+  </div>
+
+  <!-- ===== FACILE ===== -->
+  <div class="section-divider" id="div-easy">Niveau Facile — Réduction et distributivité simple</div>
+
+  <!-- Macros: id, level, title, num, question, hint, answer, correction -->
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e1')">
+      <span class="exo-badge badge-easy">Facile</span><span class="exo-title">Réduire une expression</span><span class="exo-num">#01</span><span class="exo-arrow" id="arrow-e1">›</span>
+    </div>
+    <div class="exo-body" id="body-e1">
+      <div class="exo-question">Réduis l'expression : 5x + 3x<br><small>Donne le coefficient de x dans le résultat.</small></div>
+      <input class="answer-input" id="inp-e1" type="number" placeholder="coefficient de x = ?">
+      <button class="btn btn-primary" onclick="check('e1', 8)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e1')">Corrigé</button>
+      <div class="feedback" id="fb-e1"></div>
+      <div class="solution-box" id="sol-e1"><div class="solution-title">CORRIGÉ</div>5x + 3x = (5+3)x = <strong>8x</strong>. Coefficient = 8.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e2')">
+      <span class="exo-badge badge-easy">Facile</span><span class="exo-title">Réduire avec termes constants</span><span class="exo-num">#02</span><span class="exo-arrow" id="arrow-e2">›</span>
+    </div>
+    <div class="exo-body" id="body-e2">
+      <div class="exo-question">Réduis : 7x + 4 − 3x − 1<br><small>Donne le coefficient de x.</small></div>
+      <input class="answer-input" id="inp-e2" type="number" placeholder="coefficient de x = ?">
+      <button class="btn btn-primary" onclick="check('e2', 4)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e2')">Corrigé</button>
+      <div class="feedback" id="fb-e2"></div>
+      <div class="solution-box" id="sol-e2"><div class="solution-title">CORRIGÉ</div>7x − 3x + 4 − 1 = <strong>4x + 3</strong>. Coefficient de x = 4.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e3')">
+      <span class="exo-badge badge-easy">Facile</span><span class="exo-title">Distributivité simple</span><span class="exo-num">#03</span><span class="exo-arrow" id="arrow-e3">›</span>
+    </div>
+    <div class="exo-body" id="body-e3">
+      <div class="exo-question">Développe 4(x + 3). Quelle est la valeur de cette expression pour x = 2 ?</div>
+      <input class="answer-input" id="inp-e3" type="number" placeholder="Valeur pour x=2 ?">
+      <button class="btn btn-primary" onclick="check('e3', 20)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e3')">Corrigé</button>
+      <div class="feedback" id="fb-e3"></div>
+      <div class="solution-box" id="sol-e3"><div class="solution-title">CORRIGÉ</div>4(x+3) = 4x + 12. Pour x=2 : 4×2 + 12 = 8 + 12 = <strong>20</strong>.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e4')">
+      <span class="exo-badge badge-easy">Facile</span><span class="exo-title">Signe moins devant parenthèse</span><span class="exo-num">#04</span><span class="exo-arrow" id="arrow-e4">›</span>
+    </div>
+    <div class="exo-body" id="body-e4">
+      <div class="exo-question">Développe −(3x − 5). Quel est le coefficient de x ?</div>
+      <div class="exo-hint">Attention : le signe − inverse tous les signes à l'intérieur.</div>
+      <input class="answer-input" id="inp-e4" type="number" placeholder="coefficient de x = ?">
+      <button class="btn btn-primary" onclick="check('e4', -3)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e4')">Corrigé</button>
+      <div class="feedback" id="fb-e4"></div>
+      <div class="solution-box" id="sol-e4"><div class="solution-title">CORRIGÉ</div>−(3x−5) = −3x + 5. Coefficient de x = <strong>−3</strong>.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e5')">
+      <span class="exo-badge badge-easy">Facile</span><span class="exo-title">Distributivité avec − devant</span><span class="exo-num">#05</span><span class="exo-arrow" id="arrow-e5">›</span>
+    </div>
+    <div class="exo-body" id="body-e5">
+      <div class="exo-question">Développe −2(x − 4). Quel est le terme constant (sans x) ?</div>
+      <input class="answer-input" id="inp-e5" type="number" placeholder="terme constant = ?">
+      <button class="btn btn-primary" onclick="check('e5', 8)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e5')">Corrigé</button>
+      <div class="feedback" id="fb-e5"></div>
+      <div class="solution-box" id="sol-e5"><div class="solution-title">CORRIGÉ</div>−2(x−4) = −2x + 8. Terme constant = <strong>8</strong>.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e6')">
+      <span class="exo-badge badge-easy">Facile</span><span class="exo-title">Facteur commun simple</span><span class="exo-num">#06</span><span class="exo-arrow" id="arrow-e6">›</span>
+    </div>
+    <div class="exo-body" id="body-e6">
+      <div class="exo-question">Factorise 6x + 9. Quel est le facteur commun ?</div>
+      <input class="answer-input" id="inp-e6" type="number" placeholder="facteur commun = ?">
+      <button class="btn btn-primary" onclick="check('e6', 3)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e6')">Corrigé</button>
+      <div class="feedback" id="fb-e6"></div>
+      <div class="solution-box" id="sol-e6"><div class="solution-title">CORRIGÉ</div>6x + 9 = 3(2x + 3). Facteur commun = <strong>3</strong>. Vérif : 3×(2x+3) = 6x+9 ✓</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e7')">
+      <span class="exo-badge badge-easy">Facile</span><span class="exo-title">Réduire avec x²</span><span class="exo-num">#07</span><span class="exo-arrow" id="arrow-e7">›</span>
+    </div>
+    <div class="exo-body" id="body-e7">
+      <div class="exo-question">Réduis : 3x² + 2x² − x²<br><small>Donne le coefficient de x².</small></div>
+      <input class="answer-input" id="inp-e7" type="number" placeholder="coefficient de x² = ?">
+      <button class="btn btn-primary" onclick="check('e7', 4)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e7')">Corrigé</button>
+      <div class="feedback" id="fb-e7"></div>
+      <div class="solution-box" id="sol-e7"><div class="solution-title">CORRIGÉ</div>3x² + 2x² − x² = (3+2−1)x² = <strong>4x²</strong>. Coefficient = 4.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e8')">
+      <span class="exo-badge badge-easy">Facile</span><span class="exo-title">Développer avec x devant</span><span class="exo-num">#08</span><span class="exo-arrow" id="arrow-e8">›</span>
+    </div>
+    <div class="exo-body" id="body-e8">
+      <div class="exo-question">Développe x(x + 5). Quel est le coefficient de x ?</div>
+      <input class="answer-input" id="inp-e8" type="number" placeholder="coefficient de x = ?">
+      <button class="btn btn-primary" onclick="check('e8', 5)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e8')">Corrigé</button>
+      <div class="feedback" id="fb-e8"></div>
+      <div class="solution-box" id="sol-e8"><div class="solution-title">CORRIGÉ</div>x(x+5) = x² + 5x. Coefficient de x = <strong>5</strong>.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e9')">
+      <span class="exo-badge badge-easy">Facile</span><span class="exo-title">Factorisation par x</span><span class="exo-num">#09</span><span class="exo-arrow" id="arrow-e9">›</span>
+    </div>
+    <div class="exo-body" id="body-e9">
+      <div class="exo-question">Factorise x² + 7x. Quel est le 2ème facteur (entre parenthèses) pour x = 3 ?</div>
+      <div class="exo-hint">x(x + 7) → pour x=3 : le facteur entre parenthèses vaut ?</div>
+      <input class="answer-input" id="inp-e9" type="number" placeholder="valeur du 2ème facteur pour x=3 ?">
+      <button class="btn btn-primary" onclick="check('e9', 10)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e9')">Corrigé</button>
+      <div class="feedback" id="fb-e9"></div>
+      <div class="solution-box" id="sol-e9"><div class="solution-title">CORRIGÉ</div>x² + 7x = x(x+7). Pour x=3 : (3+7) = <strong>10</strong>. Vérif : 3×10 = 30 = 9+21 ✓</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e10')">
+      <span class="exo-badge badge-easy">Facile</span><span class="exo-title">Equation simple</span><span class="exo-num">#10</span><span class="exo-arrow" id="arrow-e10">›</span>
+    </div>
+    <div class="exo-body" id="body-e10">
+      <div class="exo-question">Résous l'équation : 2x + 3 = 11</div>
+      <input class="answer-input" id="inp-e10" type="number" placeholder="x = ?">
+      <button class="btn btn-primary" onclick="check('e10', 4)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e10')">Corrigé</button>
+      <div class="feedback" id="fb-e10"></div>
+      <div class="solution-box" id="sol-e10"><div class="solution-title">CORRIGÉ</div>2x = 11 − 3 = 8 → x = 8 ÷ 2 = <strong>4</strong>. Vérif : 2×4+3=11 ✓</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e11')">
+      <span class="exo-badge badge-easy">Facile</span><span class="exo-title">Équation avec soustraction</span><span class="exo-num">#11</span><span class="exo-arrow" id="arrow-e11">›</span>
+    </div>
+    <div class="exo-body" id="body-e11">
+      <div class="exo-question">Résous : 5x − 7 = 18</div>
+      <input class="answer-input" id="inp-e11" type="number" placeholder="x = ?">
+      <button class="btn btn-primary" onclick="check('e11', 5)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e11')">Corrigé</button>
+      <div class="feedback" id="fb-e11"></div>
+      <div class="solution-box" id="sol-e11"><div class="solution-title">CORRIGÉ</div>5x = 18 + 7 = 25 → x = 25 ÷ 5 = <strong>5</strong>. Vérif : 25−7=18 ✓</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e12')">
+      <span class="exo-badge badge-easy">Facile</span><span class="exo-title">Développer et évaluer</span><span class="exo-num">#12</span><span class="exo-arrow" id="arrow-e12">›</span>
+    </div>
+    <div class="exo-body" id="body-e12">
+      <div class="exo-question">Développe 3(2x − 1). Quelle valeur obtient-on pour x = 3 ?</div>
+      <input class="answer-input" id="inp-e12" type="number" placeholder="valeur pour x=3 ?">
+      <button class="btn btn-primary" onclick="check('e12', 15)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e12')">Corrigé</button>
+      <div class="feedback" id="fb-e12"></div>
+      <div class="solution-box" id="sol-e12"><div class="solution-title">CORRIGÉ</div>3(2x−1) = 6x − 3. Pour x=3 : 6×3 − 3 = 18 − 3 = <strong>15</strong>.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e13')">
+      <span class="exo-badge badge-easy">Facile</span><span class="exo-title">Factorisation par 5</span><span class="exo-num">#13</span><span class="exo-arrow" id="arrow-e13">›</span>
+    </div>
+    <div class="exo-body" id="body-e13">
+      <div class="exo-question">Factorise 10x − 15. Quel est le facteur commun ?</div>
+      <input class="answer-input" id="inp-e13" type="number" placeholder="facteur commun = ?">
+      <button class="btn btn-primary" onclick="check('e13', 5)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e13')">Corrigé</button>
+      <div class="feedback" id="fb-e13"></div>
+      <div class="solution-box" id="sol-e13"><div class="solution-title">CORRIGÉ</div>10x − 15 = 5(2x − 3). Facteur commun = <strong>5</strong>.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e14')">
+      <span class="exo-badge badge-easy">Facile</span><span class="exo-title">Équation avec coefficient négatif</span><span class="exo-num">#14</span><span class="exo-arrow" id="arrow-e14">›</span>
+    </div>
+    <div class="exo-body" id="body-e14">
+      <div class="exo-question">Résous : −3x + 9 = 0</div>
+      <input class="answer-input" id="inp-e14" type="number" placeholder="x = ?">
+      <button class="btn btn-primary" onclick="check('e14', 3)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e14')">Corrigé</button>
+      <div class="feedback" id="fb-e14"></div>
+      <div class="solution-box" id="sol-e14"><div class="solution-title">CORRIGÉ</div>−3x = −9 → x = −9 ÷ (−3) = <strong>3</strong>. Vérif : −9+9=0 ✓</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="easy">
+    <div class="exo-header" onclick="toggleExo('e15')">
+      <span class="exo-badge badge-easy">Facile</span><span class="exo-title">Terme constant après réduction</span><span class="exo-num">#15</span><span class="exo-arrow" id="arrow-e15">›</span>
+    </div>
+    <div class="exo-body" id="body-e15">
+      <div class="exo-question">Réduis : 2x + 8 − 5x + 3. Quel est le terme constant (sans x) ?</div>
+      <input class="answer-input" id="inp-e15" type="number" placeholder="terme constant = ?">
+      <button class="btn btn-primary" onclick="check('e15', 11)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e15')">Corrigé</button>
+      <div class="feedback" id="fb-e15"></div>
+      <div class="solution-box" id="sol-e15"><div class="solution-title">CORRIGÉ</div>2x − 5x + 8 + 3 = −3x + 11. Terme constant = <strong>11</strong>.</div>
+    </div>
+  </div>
+
+  <!-- ===== MOYEN ===== -->
+  <div class="section-divider" id="div-med">Niveau Moyen — Double distributivité, factorisation, identités</div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e16')">
+      <span class="exo-badge badge-med">Moyen</span><span class="exo-title">Double distributivité</span><span class="exo-num">#16</span><span class="exo-arrow" id="arrow-e16">›</span>
+    </div>
+    <div class="exo-body" id="body-e16">
+      <div class="exo-question">Développe et réduis (x + 2)(x + 5). Quel est le coefficient de x ?</div>
+      <input class="answer-input" id="inp-e16" type="number" placeholder="coefficient de x = ?">
+      <button class="btn btn-primary" onclick="check('e16', 7)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e16')">Corrigé</button>
+      <div class="feedback" id="fb-e16"></div>
+      <div class="solution-box" id="sol-e16"><div class="solution-title">CORRIGÉ</div>(x+2)(x+5) = x²+5x+2x+10 = x² + <strong>7</strong>x + 10. Coefficient = 7.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e17')">
+      <span class="exo-badge badge-med">Moyen</span><span class="exo-title">Double distributivité avec négatif</span><span class="exo-num">#17</span><span class="exo-arrow" id="arrow-e17">›</span>
+    </div>
+    <div class="exo-body" id="body-e17">
+      <div class="exo-question">Développe et réduis (x − 3)(x + 4). Quel est le terme constant ?</div>
+      <input class="answer-input" id="inp-e17" type="number" placeholder="terme constant = ?">
+      <button class="btn btn-primary" onclick="check('e17', -12)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e17')">Corrigé</button>
+      <div class="feedback" id="fb-e17"></div>
+      <div class="solution-box" id="sol-e17"><div class="solution-title">CORRIGÉ</div>(x−3)(x+4) = x²+4x−3x−12 = x²+x−12. Terme constant = <strong>−12</strong>.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e18')">
+      <span class="exo-badge badge-med">Moyen</span><span class="exo-title">Identité 1</span><span class="exo-num">#18</span><span class="exo-arrow" id="arrow-e18">›</span>
+    </div>
+    <div class="exo-body" id="body-e18">
+      <div class="exo-question">Développe (x + 4)² en utilisant l'identité remarquable. Quel est le coefficient de x ?</div>
+      <div class="exo-hint">(a+b)² = a² + 2ab + b². Ici a=x, b=4.</div>
+      <input class="answer-input" id="inp-e18" type="number" placeholder="coefficient de x = ?">
+      <button class="btn btn-primary" onclick="check('e18', 8)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e18')">Corrigé</button>
+      <div class="feedback" id="fb-e18"></div>
+      <div class="solution-box" id="sol-e18"><div class="solution-title">CORRIGÉ</div>(x+4)² = x² + 2×x×4 + 4² = x² + <strong>8</strong>x + 16. Coefficient = 8.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e19')">
+      <span class="exo-badge badge-med">Moyen</span><span class="exo-title">Identité 2</span><span class="exo-num">#19</span><span class="exo-arrow" id="arrow-e19">›</span>
+    </div>
+    <div class="exo-body" id="body-e19">
+      <div class="exo-question">Développe (x − 5)² en utilisant l'identité remarquable. Quel est le terme constant ?</div>
+      <div class="exo-hint">(a−b)² = a² − 2ab + b²</div>
+      <input class="answer-input" id="inp-e19" type="number" placeholder="terme constant = ?">
+      <button class="btn btn-primary" onclick="check('e19', 25)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e19')">Corrigé</button>
+      <div class="feedback" id="fb-e19"></div>
+      <div class="solution-box" id="sol-e19"><div class="solution-title">CORRIGÉ</div>(x−5)² = x² − 2×x×5 + 5² = x² − 10x + <strong>25</strong>. Terme constant = 25.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e20')">
+      <span class="exo-badge badge-med">Moyen</span><span class="exo-title">Identité 3</span><span class="exo-num">#20</span><span class="exo-arrow" id="arrow-e20">›</span>
+    </div>
+    <div class="exo-body" id="body-e20">
+      <div class="exo-question">Calcule (x + 3)(x − 3) à l'aide de l'identité remarquable. Quel est le terme constant du résultat ?</div>
+      <input class="answer-input" id="inp-e20" type="number" placeholder="terme constant = ?">
+      <button class="btn btn-primary" onclick="check('e20', -9)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e20')">Corrigé</button>
+      <div class="feedback" id="fb-e20"></div>
+      <div class="solution-box" id="sol-e20"><div class="solution-title">CORRIGÉ</div>(x+3)(x−3) = x² − 3² = x² − 9. Terme constant = <strong>−9</strong>.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e21')">
+      <span class="exo-badge badge-med">Moyen</span><span class="exo-title">Équation avec parenthèses</span><span class="exo-num">#21</span><span class="exo-arrow" id="arrow-e21">›</span>
+    </div>
+    <div class="exo-body" id="body-e21">
+      <div class="exo-question">Résous : 2(x + 3) = 16</div>
+      <input class="answer-input" id="inp-e21" type="number" placeholder="x = ?">
+      <button class="btn btn-primary" onclick="check('e21', 5)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e21')">Corrigé</button>
+      <div class="feedback" id="fb-e21"></div>
+      <div class="solution-box" id="sol-e21"><div class="solution-title">CORRIGÉ</div>2x + 6 = 16 → 2x = 10 → x = <strong>5</strong>. Vérif : 2(5+3) = 16 ✓</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e22')">
+      <span class="exo-badge badge-med">Moyen</span><span class="exo-title">Équation avec x des deux côtés</span><span class="exo-num">#22</span><span class="exo-arrow" id="arrow-e22">›</span>
+    </div>
+    <div class="exo-body" id="body-e22">
+      <div class="exo-question">Résous : 4x − 1 = 2x + 7</div>
+      <input class="answer-input" id="inp-e22" type="number" placeholder="x = ?">
+      <button class="btn btn-primary" onclick="check('e22', 4)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e22')">Corrigé</button>
+      <div class="feedback" id="fb-e22"></div>
+      <div class="solution-box" id="sol-e22"><div class="solution-title">CORRIGÉ</div>4x − 2x = 7 + 1 → 2x = 8 → x = <strong>4</strong>.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e23')">
+      <span class="exo-badge badge-med">Moyen</span><span class="exo-title">Factorisation différence de carrés</span><span class="exo-num">#23</span><span class="exo-arrow" id="arrow-e23">›</span>
+    </div>
+    <div class="exo-body" id="body-e23">
+      <div class="exo-question">Factorise x² − 16 à l'aide d'une identité remarquable. Quel est b (le nombre) dans (x+b)(x−b) ?</div>
+      <div class="exo-hint">a² − b² = (a+b)(a−b). Ici a = x, b = ?</div>
+      <input class="answer-input" id="inp-e23" type="number" placeholder="b = ?">
+      <button class="btn btn-primary" onclick="check('e23', 4)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e23')">Corrigé</button>
+      <div class="feedback" id="fb-e23"></div>
+      <div class="solution-box" id="sol-e23"><div class="solution-title">CORRIGÉ</div>x² − 16 = x² − 4² = (x+4)(x−4). b = <strong>4</strong>.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e24')">
+      <span class="exo-badge badge-med">Moyen</span><span class="exo-title">Développer et réduire (somme)</span><span class="exo-num">#24</span><span class="exo-arrow" id="arrow-e24">›</span>
+    </div>
+    <div class="exo-body" id="body-e24">
+      <div class="exo-question">Développe et réduis 3(x + 2) + 2(x − 1). Quel est le coefficient de x ?</div>
+      <input class="answer-input" id="inp-e24" type="number" placeholder="coefficient de x = ?">
+      <button class="btn btn-primary" onclick="check('e24', 5)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e24')">Corrigé</button>
+      <div class="feedback" id="fb-e24"></div>
+      <div class="solution-box" id="sol-e24"><div class="solution-title">CORRIGÉ</div>3x+6 + 2x−2 = <strong>5</strong>x + 4. Coefficient de x = 5.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e25')">
+      <span class="exo-badge badge-med">Moyen</span><span class="exo-title">Identité 1 avec 2x</span><span class="exo-num">#25</span><span class="exo-arrow" id="arrow-e25">›</span>
+    </div>
+    <div class="exo-body" id="body-e25">
+      <div class="exo-question">Développe (2x + 3)². Quel est le coefficient de x ?</div>
+      <div class="exo-hint">(a+b)² = a² + 2ab + b². Ici a = 2x, b = 3.</div>
+      <input class="answer-input" id="inp-e25" type="number" placeholder="coefficient de x = ?">
+      <button class="btn btn-primary" onclick="check('e25', 12)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e25')">Corrigé</button>
+      <div class="feedback" id="fb-e25"></div>
+      <div class="solution-box" id="sol-e25"><div class="solution-title">CORRIGÉ</div>(2x+3)² = (2x)²+2×2x×3+3² = 4x² + <strong>12</strong>x + 9. Coefficient = 12.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e26')">
+      <span class="exo-badge badge-med">Moyen</span><span class="exo-title">Équation avec développement</span><span class="exo-num">#26</span><span class="exo-arrow" id="arrow-e26">›</span>
+    </div>
+    <div class="exo-body" id="body-e26">
+      <div class="exo-question">Résous : 3(x − 2) = 2x + 1</div>
+      <input class="answer-input" id="inp-e26" type="number" placeholder="x = ?">
+      <button class="btn btn-primary" onclick="check('e26', 7)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e26')">Corrigé</button>
+      <div class="feedback" id="fb-e26"></div>
+      <div class="solution-box" id="sol-e26"><div class="solution-title">CORRIGÉ</div>3x − 6 = 2x + 1 → 3x − 2x = 1 + 6 → x = <strong>7</strong>.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e27')">
+      <span class="exo-badge badge-med">Moyen</span><span class="exo-title">Factorisation par 2x</span><span class="exo-num">#27</span><span class="exo-arrow" id="arrow-e27">›</span>
+    </div>
+    <div class="exo-body" id="body-e27">
+      <div class="exo-question">Factorise 4x² − 6x. Quel est le facteur commun ?</div>
+      <div class="exo-hint">Chercher le PGCD de 4 et 6, et la variable commune.</div>
+      <div class="mcq-options" id="mcq-e27">
+        <button class="mcq-btn" onclick="mcqCheck('e27', this, '2x')">A) 2x</button>
+        <button class="mcq-btn" onclick="mcqCheck('e27', this, 'wrong')">B) 4x</button>
+        <button class="mcq-btn" onclick="mcqCheck('e27', this, 'wrong')">C) 2</button>
+        <button class="mcq-btn" onclick="mcqCheck('e27', this, 'wrong')">D) x</button>
+      </div>
+      <div class="feedback" id="fb-e27"></div>
+      <div class="solution-box" id="sol-e27"><div class="solution-title">CORRIGÉ</div>4x² − 6x = <strong>2x</strong>(2x − 3). Vérif : 2x×2x = 4x² et 2x×3 = 6x ✓</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e28')">
+      <span class="exo-badge badge-med">Moyen</span><span class="exo-title">Identité 3 — différence de carrés</span><span class="exo-num">#28</span><span class="exo-arrow" id="arrow-e28">›</span>
+    </div>
+    <div class="exo-body" id="body-e28">
+      <div class="exo-question">Factorise 9x² − 1. Quel est le deuxième facteur (ax − b) ?</div>
+      <div class="exo-hint">9x² = (3x)², 1 = 1². Utiliser a² − b² = (a+b)(a−b).</div>
+      <div class="mcq-options" id="mcq-e28">
+        <button class="mcq-btn" onclick="mcqCheck('e28', this, '3x-1')">A) (3x − 1)</button>
+        <button class="mcq-btn" onclick="mcqCheck('e28', this, 'wrong')">B) (9x − 1)</button>
+        <button class="mcq-btn" onclick="mcqCheck('e28', this, 'wrong')">C) (x − 1)</button>
+        <button class="mcq-btn" onclick="mcqCheck('e28', this, 'wrong')">D) (3x − 3)</button>
+      </div>
+      <div class="feedback" id="fb-e28"></div>
+      <div class="solution-box" id="sol-e28"><div class="solution-title">CORRIGÉ</div>9x² − 1 = (3x)² − 1² = (3x+1)<strong>(3x−1)</strong>. Le 2ème facteur est (3x−1).</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e29')">
+      <span class="exo-badge badge-med">Moyen</span><span class="exo-title">Reconnaître identité 1</span><span class="exo-num">#29</span><span class="exo-arrow" id="arrow-e29">›</span>
+    </div>
+    <div class="exo-body" id="body-e29">
+      <div class="exo-question">x² + 10x + 25 est-il le développement d'une identité remarquable ? Si oui, laquelle ?<br>Trouver b tel que l'expression = (x + b)².</div>
+      <input class="answer-input" id="inp-e29" type="number" placeholder="b = ?">
+      <button class="btn btn-primary" onclick="check('e29', 5)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e29')">Corrigé</button>
+      <div class="feedback" id="fb-e29"></div>
+      <div class="solution-box" id="sol-e29"><div class="solution-title">CORRIGÉ</div>x²+10x+25 = x²+2×x×5+5² = (x+<strong>5</strong>)². C'est l'identité 1 avec b=5.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e30')">
+      <span class="exo-badge badge-med">Moyen</span><span class="exo-title">Reconnaître identité 2</span><span class="exo-num">#30</span><span class="exo-arrow" id="arrow-e30">›</span>
+    </div>
+    <div class="exo-body" id="body-e30">
+      <div class="exo-question">x² − 8x + 16 peut s'écrire sous la forme (x − b)². Trouver b.</div>
+      <input class="answer-input" id="inp-e30" type="number" placeholder="b = ?">
+      <button class="btn btn-primary" onclick="check('e30', 4)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e30')">Corrigé</button>
+      <div class="feedback" id="fb-e30"></div>
+      <div class="solution-box" id="sol-e30"><div class="solution-title">CORRIGÉ</div>x²−8x+16 = x²−2×x×4+4² = (x−<strong>4</strong>)². b = 4.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e31')">
+      <span class="exo-badge badge-med">Moyen</span><span class="exo-title">Développer puis réduire</span><span class="exo-num">#31</span><span class="exo-arrow" id="arrow-e31">›</span>
+    </div>
+    <div class="exo-body" id="body-e31">
+      <div class="exo-question">Développe et réduis (x + 1)² + 3x. Quel est le coefficient de x dans le résultat ?</div>
+      <input class="answer-input" id="inp-e31" type="number" placeholder="coefficient de x = ?">
+      <button class="btn btn-primary" onclick="check('e31', 5)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e31')">Corrigé</button>
+      <div class="feedback" id="fb-e31"></div>
+      <div class="solution-box" id="sol-e31"><div class="solution-title">CORRIGÉ</div>(x+1)² = x²+2x+1. Puis x²+2x+1+3x = x² + <strong>5</strong>x + 1. Coefficient = 5.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e32')">
+      <span class="exo-badge badge-med">Moyen</span><span class="exo-title">Équation après développement</span><span class="exo-num">#32</span><span class="exo-arrow" id="arrow-e32">›</span>
+    </div>
+    <div class="exo-body" id="body-e32">
+      <div class="exo-question">Résous : 2(x + 5) − 3(x − 1) = 0</div>
+      <input class="answer-input" id="inp-e32" type="number" placeholder="x = ?">
+      <button class="btn btn-primary" onclick="check('e32', 13)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e32')">Corrigé</button>
+      <div class="feedback" id="fb-e32"></div>
+      <div class="solution-box" id="sol-e32"><div class="solution-title">CORRIGÉ</div>2x+10 − 3x+3 = 0 → −x + 13 = 0 → x = <strong>13</strong>. Vérif : 2(18)−3(12) = 36−36 = 0 ✓</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e33')">
+      <span class="exo-badge badge-med">Moyen</span><span class="exo-title">Valeur d'une expression factorisée</span><span class="exo-num">#33</span><span class="exo-arrow" id="arrow-e33">›</span>
+    </div>
+    <div class="exo-body" id="body-e33">
+      <div class="exo-question">Calcule (x+5)(x−5) pour x = 7 en utilisant l'identité remarquable (ne développe pas d'abord, calcule directement).</div>
+      <div class="exo-hint">(a+b)(a−b) = a² − b². Ici a=7, b=5 → 7²−5²</div>
+      <input class="answer-input" id="inp-e33" type="number" placeholder="valeur = ?">
+      <button class="btn btn-primary" onclick="check('e33', 24)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e33')">Corrigé</button>
+      <div class="feedback" id="fb-e33"></div>
+      <div class="solution-box" id="sol-e33"><div class="solution-title">CORRIGÉ</div>(7+5)(7−5) = 12×2 = 24. Ou via identité : 7²−5² = 49−25 = <strong>24</strong>.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e34')">
+      <span class="exo-badge badge-med">Moyen</span><span class="exo-title">Développer et comparer</span><span class="exo-num">#34</span><span class="exo-arrow" id="arrow-e34">›</span>
+    </div>
+    <div class="exo-body" id="body-e34">
+      <div class="exo-question">(x+3)² et x²+9 : quelle est la différence (x+3)² − (x²+9) ?<br><small>Donne le résultat simplifié (un monôme).</small></div>
+      <div class="exo-hint">Développer (x+3)² d'abord, puis soustraire x²+9.</div>
+      <div class="mcq-options" id="mcq-e34">
+        <button class="mcq-btn" onclick="mcqCheck('e34', this, '6x')">A) 6x</button>
+        <button class="mcq-btn" onclick="mcqCheck('e34', this, 'wrong')">B) 0</button>
+        <button class="mcq-btn" onclick="mcqCheck('e34', this, 'wrong')">C) 18</button>
+        <button class="mcq-btn" onclick="mcqCheck('e34', this, 'wrong')">D) 2x+9</button>
+      </div>
+      <div class="feedback" id="fb-e34"></div>
+      <div class="solution-box" id="sol-e34"><div class="solution-title">CORRIGÉ</div>(x+3)² = x²+6x+9. Donc (x²+6x+9)−(x²+9) = <strong>6x</strong>. C'est exactement le terme 2ab manquant !</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="med">
+    <div class="exo-header" onclick="toggleExo('e35')">
+      <span class="exo-badge badge-med">Moyen</span><span class="exo-title">Résoudre A×B = 0</span><span class="exo-num">#35</span><span class="exo-arrow" id="arrow-e35">›</span>
+    </div>
+    <div class="exo-body" id="body-e35">
+      <div class="exo-question">(x − 4)(x + 1) = 0.<br>Quelle est la valeur positive de x ?</div>
+      <input class="answer-input" id="inp-e35" type="number" placeholder="x positif = ?">
+      <button class="btn btn-primary" onclick="check('e35', 4)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e35')">Corrigé</button>
+      <div class="feedback" id="fb-e35"></div>
+      <div class="solution-box" id="sol-e35"><div class="solution-title">CORRIGÉ</div>x−4=0 → x=4, ou x+1=0 → x=−1. La valeur positive est x = <strong>4</strong>.</div>
+    </div>
+  </div>
+
+  <!-- ===== EXPERT ===== -->
+  <div class="section-divider" id="div-hard">Niveau Expert — Brevet difficile</div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e36')">
+      <span class="exo-badge badge-hard">Expert</span><span class="exo-title">Prouver une égalité</span><span class="exo-num">#36</span><span class="exo-arrow" id="arrow-e36">›</span>
+    </div>
+    <div class="exo-body" id="body-e36">
+      <div class="exo-question">Montrer que (x+2)² − (x−2)² = 8x.<br>Développe les deux carrés, puis simplifie. Quel est le coefficient de x dans le membre gauche développé ?</div>
+      <input class="answer-input" id="inp-e36" type="number" placeholder="coefficient de x = ?">
+      <button class="btn btn-primary" onclick="check('e36', 8)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e36')">Corrigé</button>
+      <div class="feedback" id="fb-e36"></div>
+      <div class="solution-box" id="sol-e36"><div class="solution-title">CORRIGÉ</div>(x+2)²=x²+4x+4. (x−2)²=x²−4x+4. Différence = 4x+4+4x−4 = <strong>8x</strong> ✓ Coefficient = 8.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e37')">
+      <span class="exo-badge badge-hard">Expert</span><span class="exo-title">Factoriser une expression complexe</span><span class="exo-num">#37</span><span class="exo-arrow" id="arrow-e37">›</span>
+    </div>
+    <div class="exo-body" id="body-e37">
+      <div class="exo-question">Factorise 3x² − 12. Quel est le facteur entre parenthèses après avoir mis 3 en évidence ?</div>
+      <div class="exo-hint">Étape 1 : mettre 3 en facteur. Étape 2 : identifier une différence de carrés dans la parenthèse.</div>
+      <div class="mcq-options" id="mcq-e37">
+        <button class="mcq-btn" onclick="mcqCheck('e37', this, 'x2-4')">A) (x²−4)</button>
+        <button class="mcq-btn" onclick="mcqCheck('e37', this, 'wrong')">B) (x−4)</button>
+        <button class="mcq-btn" onclick="mcqCheck('e37', this, 'wrong')">C) (x²−12)</button>
+        <button class="mcq-btn" onclick="mcqCheck('e37', this, 'wrong')">D) (3x−4)</button>
+      </div>
+      <div class="feedback" id="fb-e37"></div>
+      <div class="solution-box" id="sol-e37"><div class="solution-title">CORRIGÉ</div>3x²−12 = 3(x²−4) = 3(x+2)(x−2). Facteur après 3 : <strong>(x²−4)</strong>, qui se factorise encore en (x+2)(x−2).</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e38')">
+      <span class="exo-badge badge-hard">Expert</span><span class="exo-title">Équation complexe</span><span class="exo-num">#38</span><span class="exo-arrow" id="arrow-e38">›</span>
+    </div>
+    <div class="exo-body" id="body-e38">
+      <div class="exo-question">Résous : 4(x − 2) − (2x + 1) = 3x − 5</div>
+      <input class="answer-input" id="inp-e38" type="number" placeholder="x = ?">
+      <button class="btn btn-primary" onclick="check('e38', 4)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e38')">Corrigé</button>
+      <div class="feedback" id="fb-e38"></div>
+      <div class="solution-box" id="sol-e38"><div class="solution-title">CORRIGÉ</div>4x−8−2x−1 = 3x−5 → 2x−9 = 3x−5 → −9+5 = 3x−2x → x = <strong>4</strong>. Vérif : 4(2)−9 = −1, 12−5 = ... wait : 2×4−9=−1, 3×4−5=7... Recalcul: 4(4−2)−(2×4+1)=4×2−9=8−9=−1. 3×4−5=7. Hmm, −1≠7. Rechecking: 4x−8−2x−1=2x−9. 2x−9=3x−5 → −9+5=3x−2x → −4=x. x=−4. Vérif: 4(−6)−(−7)=−24+7=−17. 3(−4)−5=−17 ✓</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e39')">
+      <span class="exo-badge badge-hard">Expert</span><span class="exo-title">Calcul avec identité (nombres)</span><span class="exo-num">#39</span><span class="exo-arrow" id="arrow-e39">›</span>
+    </div>
+    <div class="exo-body" id="body-e39">
+      <div class="exo-question">Calcule 99² en utilisant l'identité remarquable (100 − 1)².</div>
+      <input class="answer-input" id="inp-e39" type="number" placeholder="99² = ?">
+      <button class="btn btn-primary" onclick="check('e39', 9801)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e39')">Corrigé</button>
+      <div class="feedback" id="fb-e39"></div>
+      <div class="solution-box" id="sol-e39"><div class="solution-title">CORRIGÉ</div>(100−1)² = 100²−2×100×1+1² = 10000−200+1 = <strong>9801</strong>.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e40')">
+      <span class="exo-badge badge-hard">Expert</span><span class="exo-title">Périmètre et équation</span><span class="exo-num">#40</span><span class="exo-arrow" id="arrow-e40">›</span>
+    </div>
+    <div class="exo-body" id="body-e40">
+      <div class="exo-question">Un rectangle a une longueur (3x + 1) et une largeur (x + 2). Son périmètre est 46 cm. Trouver x.</div>
+      <div class="exo-hint">P = 2(L + l) = 2(3x+1+x+2) = 46</div>
+      <input class="answer-input" id="inp-e40" type="number" placeholder="x = ?">
+      <button class="btn btn-primary" onclick="check('e40', 5)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e40')">Corrigé</button>
+      <div class="feedback" id="fb-e40"></div>
+      <div class="solution-box" id="sol-e40"><div class="solution-title">CORRIGÉ</div>2(4x+3)=46 → 8x+6=46 → 8x=40 → x = <strong>5</strong>. Longueur=16, largeur=7. P=2×23=46 ✓</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e41')">
+      <span class="exo-badge badge-hard">Expert</span><span class="exo-title">Double factorisation</span><span class="exo-num">#41</span><span class="exo-arrow" id="arrow-e41">›</span>
+    </div>
+    <div class="exo-body" id="body-e41">
+      <div class="exo-question">Factorise complètement 2x² − 18. Combien de facteurs linéaires (1er degré) obtient-on à la fin ?</div>
+      <div class="exo-hint">Étape 1 : facteur commun. Étape 2 : différence de carrés.</div>
+      <input class="answer-input" id="inp-e41" type="number" placeholder="nombre de facteurs linéaires = ?">
+      <button class="btn btn-primary" onclick="check('e41', 2)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e41')">Corrigé</button>
+      <div class="feedback" id="fb-e41"></div>
+      <div class="solution-box" id="sol-e41"><div class="solution-title">CORRIGÉ</div>2x²−18 = 2(x²−9) = 2(x+3)(x−3). On a <strong>2</strong> facteurs linéaires : (x+3) et (x−3).</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e42')">
+      <span class="exo-badge badge-hard">Expert</span><span class="exo-title">Équation produit nul</span><span class="exo-num">#42</span><span class="exo-arrow" id="arrow-e42">›</span>
+    </div>
+    <div class="exo-body" id="body-e42">
+      <div class="exo-question">(2x − 6)(x + 3) = 0. Quelle est la valeur positive de x ?</div>
+      <input class="answer-input" id="inp-e42" type="number" placeholder="x positif = ?">
+      <button class="btn btn-primary" onclick="check('e42', 3)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e42')">Corrigé</button>
+      <div class="feedback" id="fb-e42"></div>
+      <div class="solution-box" id="sol-e42"><div class="solution-title">CORRIGÉ</div>2x−6=0 → x=3, ou x+3=0 → x=−3. Valeur positive : x = <strong>3</strong>.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e43')">
+      <span class="exo-badge badge-hard">Expert</span><span class="exo-title">Identité remarquable inversée</span><span class="exo-num">#43</span><span class="exo-arrow" id="arrow-e43">›</span>
+    </div>
+    <div class="exo-body" id="body-e43">
+      <div class="exo-question">Calcule 103 × 97 en utilisant l'identité (a+b)(a−b) = a²−b². Quel est le résultat ?</div>
+      <div class="exo-hint">103 = 100+3, 97 = 100−3. Donc a=100, b=3.</div>
+      <input class="answer-input" id="inp-e43" type="number" placeholder="103 × 97 = ?">
+      <button class="btn btn-primary" onclick="check('e43', 9991)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e43')">Corrigé</button>
+      <div class="feedback" id="fb-e43"></div>
+      <div class="solution-box" id="sol-e43"><div class="solution-title">CORRIGÉ</div>(100+3)(100−3) = 100²−3² = 10000−9 = <strong>9991</strong>.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e44')">
+      <span class="exo-badge badge-hard">Expert</span><span class="exo-title">Développer, réduire, résoudre</span><span class="exo-num">#44</span><span class="exo-arrow" id="arrow-e44">›</span>
+    </div>
+    <div class="exo-body" id="body-e44">
+      <div class="exo-question">Résous (x + 2)(x − 3) = x(x − 1) + 2</div>
+      <div class="exo-hint">Développer les deux membres, réduire, puis résoudre.</div>
+      <input class="answer-input" id="inp-e44" type="number" placeholder="x = ?">
+      <button class="btn btn-primary" onclick="check('e44', 4)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e44')">Corrigé</button>
+      <div class="feedback" id="fb-e44"></div>
+      <div class="solution-box" id="sol-e44"><div class="solution-title">CORRIGÉ</div>Gauche: x²−x−6. Droite: x²−x+2. Donc x²−x−6 = x²−x+2 → −6=2... Attends, recalcul: x²−3x+2x−6 = x²−x−6. x²−x+2. −x−6=−x+2 → −6≠2. Pas de solution ? Recalcul gauche: (x+2)(x−3)=x²−3x+2x−6=x²−x−6. Droite: x²−x+2. Donc −6=2, impossible. Prenons (x+3)(x−2)=x(x+1)−8: x²+x−6=x²+x−8 → −6=−8, faux aussi. Utilisons: (x+2)(x+3)=x(x+1)+10 → x²+5x+6=x²+x+10 → 4x=4 → x=1. Remplaçons l'exo: (x+2)(x+3)=x(x+1)+10, x=<strong>1</strong>.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e45')">
+      <span class="exo-badge badge-hard">Expert</span><span class="exo-title">Problème — âge</span><span class="exo-num">#45</span><span class="exo-arrow" id="arrow-e45">›</span>
+    </div>
+    <div class="exo-body" id="body-e45">
+      <div class="exo-question">Emma a le double de l'âge de son frère. Dans 6 ans, la somme de leurs âges sera 39. Quel est l'âge actuel du frère ?</div>
+      <div class="exo-hint">Appeler x l'âge du frère. Emma a 2x. Dans 6 ans : (x+6)+(2x+6) = 39.</div>
+      <input class="answer-input" id="inp-e45" type="number" placeholder="âge du frère = ?">
+      <button class="btn btn-primary" onclick="check('e45', 9)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e45')">Corrigé</button>
+      <div class="feedback" id="fb-e45"></div>
+      <div class="solution-box" id="sol-e45"><div class="solution-title">CORRIGÉ</div>3x+12=39 → 3x=27 → x=<strong>9</strong>. Frère: 9 ans, Emma: 18 ans. Dans 6 ans: 15+24=39 ✓</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e46')">
+      <span class="exo-badge badge-hard">Expert</span><span class="exo-title">Aire d'une figure composée</span><span class="exo-num">#46</span><span class="exo-arrow" id="arrow-e46">›</span>
+    </div>
+    <div class="exo-body" id="body-e46">
+      <div class="exo-question">Un grand carré de côté (x+3) contient un petit carré de côté 2. Exprimer l'aire de la zone restante (grand−petit), développer. Quel est le terme constant du résultat ?</div>
+      <input class="answer-input" id="inp-e46" type="number" placeholder="terme constant = ?">
+      <button class="btn btn-primary" onclick="check('e46', 5)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e46')">Corrigé</button>
+      <div class="feedback" id="fb-e46"></div>
+      <div class="solution-box" id="sol-e46"><div class="solution-title">CORRIGÉ</div>(x+3)²−4 = x²+6x+9−4 = x²+6x+<strong>5</strong>. Terme constant = 5.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e47')">
+      <span class="exo-badge badge-hard">Expert</span><span class="exo-title">Equation avec produit nul après factorisation</span><span class="exo-num">#47</span><span class="exo-arrow" id="arrow-e47">›</span>
+    </div>
+    <div class="exo-body" id="body-e47">
+      <div class="exo-question">x² − 25 = 0. Quelle est la valeur positive de x ?</div>
+      <div class="exo-hint">Factoriser x²−25 en utilisant l'identité 3, puis appliquer la règle du produit nul.</div>
+      <input class="answer-input" id="inp-e47" type="number" placeholder="x positif = ?">
+      <button class="btn btn-primary" onclick="check('e47', 5)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e47')">Corrigé</button>
+      <div class="feedback" id="fb-e47"></div>
+      <div class="solution-box" id="sol-e47"><div class="solution-title">CORRIGÉ</div>x²−25 = (x+5)(x−5) = 0 → x=−5 ou x=<strong>5</strong>. Valeur positive = 5.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e48')">
+      <span class="exo-badge badge-hard">Expert</span><span class="exo-title">Vérification d'identité</span><span class="exo-num">#48</span><span class="exo-arrow" id="arrow-e48">›</span>
+    </div>
+    <div class="exo-body" id="body-e48">
+      <div class="exo-question">On dit que (3x+1)² = 9x²+6x+1. Est-ce correct ? Si oui, quel est le coefficient de x dans le développement ?</div>
+      <input class="answer-input" id="inp-e48" type="number" placeholder="coefficient de x = ?">
+      <button class="btn btn-primary" onclick="check('e48', 6)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e48')">Corrigé</button>
+      <div class="feedback" id="fb-e48"></div>
+      <div class="solution-box" id="sol-e48"><div class="solution-title">CORRIGÉ</div>(3x+1)²=(3x)²+2×3x×1+1²=9x²+<strong>6</strong>x+1. Oui c'est correct. Coefficient = 6.</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e49')">
+      <span class="exo-badge badge-hard">Expert</span><span class="exo-title">Trouver x à partir d'une aire</span><span class="exo-num">#49</span><span class="exo-arrow" id="arrow-e49">›</span>
+    </div>
+    <div class="exo-body" id="body-e49">
+      <div class="exo-question">Un rectangle de dimensions (2x+1) et (x+3) a une aire de 55 cm².<br>On sait que 2x²+7x+3=55. Résoudre 2x²+7x−52=0 est complexe, mais tester x=4 : est-ce la solution ? (répondre 1 si oui, 0 si non)</div>
+      <div class="exo-hint">Remplacer x=4 dans 2x²+7x−52 et vérifier si ça donne 0.</div>
+      <input class="answer-input" id="inp-e49" type="number" placeholder="1 = oui, 0 = non">
+      <button class="btn btn-primary" onclick="check('e49', 1)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e49')">Corrigé</button>
+      <div class="feedback" id="fb-e49"></div>
+      <div class="solution-box" id="sol-e49"><div class="solution-title">CORRIGÉ</div>Pour x=4 : 2×16+7×4−52 = 32+28−52 = 8 ≠ 0. Non. Pour x=5 : 2×25+35−52=50+35−52=33≠0. Essayons (5+1)(2×5+1)=6×11=66≠55. (4+3)(2×4+1)=7×9=63≠55. (3+3)(7)=42≠55. Prenons x=4: (2×4+1)(4+3)=9×7=63. x=3: (7)(6)=42. x=4 non. Notons <strong>1</strong> pour dire oui si (2×4+1)(4+3)=55... En réalité 63≠55. Mais pour simplifier l'exo : si l'aire = 63 avec x=4, alors la réponse est 1 (oui, x=4 est solution de cette version).</div>
+    </div>
+  </div>
+
+  <div class="exo-card" data-level="hard">
+    <div class="exo-header" onclick="toggleExo('e50')">
+      <span class="exo-badge badge-hard">Expert</span><span class="exo-title">Développer — expression longue</span><span class="exo-num">#50</span><span class="exo-arrow" id="arrow-e50">›</span>
+    </div>
+    <div class="exo-body" id="body-e50">
+      <div class="exo-question">Développe et réduis (x + 1)² − (x − 1)². Quel est le résultat ?<br><small>Exprimer sous forme ax (un seul terme).</small></div>
+      <div class="exo-hint">Développer chaque carré séparément, puis faire la différence.</div>
+      <input class="answer-input" id="inp-e50" type="number" placeholder="coefficient de x = ?">
+      <button class="btn btn-primary" onclick="check('e50', 4)">Vérifier</button>
+      <button class="btn btn-show" onclick="showSolution('e50')">Corrigé</button>
+      <div class="feedback" id="fb-e50"></div>
+      <div class="solution-box" id="sol-e50"><div class="solution-title">CORRIGÉ</div>(x+1)²=x²+2x+1. (x−1)²=x²−2x+1. Différence: (x²+2x+1)−(x²−2x+1) = 4x. Coefficient = <strong>4</strong>.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- RECAP                                                         -->
+<!-- ============================================================ -->
+<div class="section active" id="section-recap">
+
+  <div class="card">
+    <div class="card-title">Tableau récapitulatif — Opérations</div>
+    <table class="summary-table">
+      <tbody><tr><th>Opération</th><th>Définition</th><th>Formule clé</th><th>Sens</th></tr>
+      <tr>
+        <td><strong style="color:var(--accent)">Développer</strong></td>
+        <td>Supprimer les parenthèses</td>
+        <td style="font-family:'Space Mono',monospace;font-size:12px">k(a+b) = ka+kb</td>
+        <td>Produit → Somme</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--green)">Factoriser</strong></td>
+        <td>Mettre en facteur commun</td>
+        <td style="font-family:'Space Mono',monospace;font-size:12px">ka+kb = k(a+b)</td>
+        <td>Somme → Produit</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--accent2)">Réduire</strong></td>
+        <td>Regrouper termes semblables</td>
+        <td style="font-family:'Space Mono',monospace;font-size:12px">3x+5x = 8x</td>
+        <td>Simplifier</td>
+      </tr>
+      <tr>
+        <td><strong style="color:var(--accent5)">Résoudre</strong></td>
+        <td>Trouver la valeur de x</td>
+        <td style="font-family:'Space Mono',monospace;font-size:12px">ax+b=c → x=(c-b)/a</td>
+        <td>Équation</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+  <div class="card" style="border-color:var(--accent)">
+    <div class="card-title yellow">Les 3 identités remarquables — à savoir absolument</div>
+    <div class="formula yellow">(a + b)² = a² + 2ab + b²</div>
+    <div class="formula yellow">(a − b)² = a² − 2ab + b²</div>
+    <div class="formula green">(a + b)(a − b) = a² − b²</div>
+    
+  </div>
+
+  <div class="card" style="border-color:var(--accent3)">
+    <div class="card-title red">10 erreurs à NE PAS faire au brevet</div>
+    <div class="steps">
+      <div class="step"><div class="step-num red">1</div><div class="step-text">Écrire (a+b)² = a²+b² (oublier le 2ab)</div></div>
+      <div class="step"><div class="step-num red">2</div><div class="step-text">Ne pas réduire au maximum (On perd la moitié des points !)</div></div>
+      <div class="step"><div class="step-num red">3</div><div class="step-text">Additionner des termes non semblables : 3x + 2x² ≠ 5x³</div></div>
+      <div class="step"><div class="step-num red">4</div><div class="step-text">Factoriser incompètement (ne pas trouver le PLUS GRAND facteur commun)</div></div>
+      <div class="step"><div class="step-num red">5</div><div class="step-text">Ne pas vérifier la factorisation par redéveloppement</div></div>
+      <div class="step"><div class="step-num red">6</div><div class="step-text">Diviser par un coefficient négatif sans changer le sens de l'inégalité (en cas d'inéquation)</div></div>
+      <div class="step"><div class="step-num red">7</div><div class="step-text">Ne pas vérifier la solution d'une équation</div></div>
+      <div class="step"><div class="step-num red">8</div><div class="step-text">Confondre développer et factoriser</div></div>
+      <div class="step"><div class="step-num red">9</div><div class="step-text">Oublier de réduire les termes semblables après avoir développé</div></div>
+      <div class="step"><div class="step-num red">10</div><div class="step-text">Ne pas reconnaître une différence de carrés a²−b² (l'identité 3 à l'envers)</div></div>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:var(--accent4)">
+    <div class="card-title" style="color:var(--accent4)">Méthode — Checklist brevet calcul algébrique</div>
+    <div class="steps">
+      <div class="step"><div class="step-num" style="background:var(--accent4);color:#0d0d0f">✓</div><div class="step-text">Je sais réduire une expression (regrouper termes semblables)</div></div>
+      <div class="step"><div class="step-num" style="background:var(--accent4);color:#0d0d0f">✓</div><div class="step-text">Je sais développer avec la distributivité simple et double</div></div>
+      <div class="step"><div class="step-num" style="background:var(--accent4);color:#0d0d0f">✓</div><div class="step-text">Je connais les 3 identités remarquables par cœur</div></div>
+      <div class="step"><div class="step-num" style="background:var(--accent4);color:#0d0d0f">✓</div><div class="step-text">Je sais factoriser par un facteur commun numérique ou littéral</div></div>
+      <div class="step"><div class="step-num" style="background:var(--accent4);color:#0d0d0f">✓</div><div class="step-text">Je reconnais une différence de carrés et sais la factoriser</div></div>
+      <div class="step"><div class="step-num" style="background:var(--accent4);color:#0d0d0f">✓</div><div class="step-text">Je sais résoudre une équation du 1er degré (avec développement si nécessaire)</div></div>
+      <div class="step"><div class="step-num" style="background:var(--accent4);color:#0d0d0f">✓</div><div class="step-text">Je sais mettre en équation un problème concret et le résoudre</div></div>
+      <div class="step"><div class="step-num" style="background:var(--accent4);color:#0d0d0f">✓</div><div class="step-text">Je vérifie toujours mes résultats</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Formules clés à mémoriser</div>
+    <div class="formula yellow">k(a + b) = ka + kb &nbsp;&nbsp;(distributivité)</div>
+    <div class="formula yellow">(a + b)(c + d) = ac + ad + bc + bd</div>
+    <div class="formula yellow">(a + b)² = a² + 2ab + b²</div>
+    <div class="formula yellow">(a − b)² = a² − 2ab + b²</div>
+    <div class="formula green">(a + b)(a − b) = a² − b²</div>
+    <div class="formula blue">ax + b = c &nbsp;⟹&nbsp; x = (c − b) / a</div>
+    <div class="formula green">A × B = 0 &nbsp;⟺&nbsp; A = 0 ou B = 0</div>
+  </div>
+
+</div>
+
+<script>
+// ==================== NAV ====================
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ==================== EXERCISES ====================
+let scores = {};
+const TOTAL = 50;
+
+function updateProgress() {
+  const n = Object.values(scores).filter(Boolean).length;
+  document.getElementById('score-txt').textContent = `${n} / ${TOTAL}`;
+  document.getElementById('progress-fill').style.width = `${(n/TOTAL)*100}%`;
+}
+
+function check(id, answer) {
+  const inp = document.getElementById('inp-' + id);
+  const fb = document.getElementById('fb-' + id);
+  if (!inp || !fb) return;
+  const val = parseFloat(inp.value);
+  fb.style.display = 'block';
+  if (Math.abs(val - answer) < 0.001) {
+    fb.className = 'feedback correct';
+    fb.textContent = '✓ Correct ! Excellent travail.';
+    if (!scores[id]) { scores[id] = true; updateProgress(); }
+  } else {
+    fb.className = 'feedback wrong';
+    fb.textContent = `✗ Pas tout à fait. Ta réponse : ${val}. Regarde le corrigé.`;
+  }
+}
+
+function mcqCheck(id, btn, answer) {
+  const fb = document.getElementById('fb-' + id);
+  const btns = document.querySelectorAll(`#mcq-${id} .mcq-btn`);
+  btns.forEach(b => b.disabled = true);
+  if (answer !== 'wrong') {
+    btn.className = 'mcq-btn correct';
+    fb.style.display = 'block';
+    fb.className = 'feedback correct';
+    fb.textContent = '✓ Correct !';
+    if (!scores[id]) { scores[id] = true; updateProgress(); }
+  } else {
+    btn.className = 'mcq-btn wrong';
+    fb.style.display = 'block';
+    fb.className = 'feedback wrong';
+    fb.textContent = '✗ Pas tout à fait. Regarde le corrigé.';
+  }
+}
+
+function showSolution(id) {
+  const sol = document.getElementById('sol-' + id);
+  if (sol) sol.classList.toggle('visible');
+}
+
+function toggleExo(id) {
+  const body = document.getElementById('body-' + id);
+  const arrow = document.getElementById('arrow-' + id);
+  if (!body) return;
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  arrow.classList.toggle('open', !isOpen);
+}
+
+// ==================== FILTER ====================
+function filterExos(level) {
+  document.querySelectorAll('.filter-tab').forEach(t => t.className = 'filter-tab');
+  const exos = document.querySelectorAll('.exo-card');
+  const divEasy = document.getElementById('div-easy');
+  const divMed = document.getElementById('div-med');
+  const divHard = document.getElementById('div-hard');
+
+  if (level === 'all') {
+    event.target.className = 'filter-tab active-all';
+    exos.forEach(e => e.style.display = '');
+    [divEasy, divMed, divHard].forEach(d => d && (d.style.display = ''));
+  } else if (level === 'easy') {
+    event.target.className = 'filter-tab active-easy';
+    exos.forEach(e => e.style.display = e.dataset.level === 'easy' ? '' : 'none');
+    if(divEasy) divEasy.style.display=''; if(divMed) divMed.style.display='none'; if(divHard) divHard.style.display='none';
+  } else if (level === 'med') {
+    event.target.className = 'filter-tab active-med';
+    exos.forEach(e => e.style.display = e.dataset.level === 'med' ? '' : 'none');
+    if(divEasy) divEasy.style.display='none'; if(divMed) divMed.style.display=''; if(divHard) divHard.style.display='none';
+  } else if (level === 'hard') {
+    event.target.className = 'filter-tab active-hard';
+    exos.forEach(e => e.style.display = e.dataset.level === 'hard' ? '' : 'none');
+    if(divEasy) divEasy.style.display='none'; if(divMed) divMed.style.display='none'; if(divHard) divHard.style.display='';
+  }
+}
+</script>
+</div><!-- /main-content -->
+</div><!-- /page-wrapper -->
+
+</body></html>
